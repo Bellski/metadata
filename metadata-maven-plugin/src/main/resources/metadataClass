@@ -1,0 +1,23 @@
+package {package};
+
+import ru.bellski.metadata.*;
+import ru.bellski.metadata.impl.AbstractMetadata;
+{import}
+
+public class {name}Metadata extends AbstractMetadata<{pojoType}> {
+    public static {name}Metadata {down(pojoType)} = new {name}Metadata();
+
+    {properties}
+
+    {
+        addProperties({propertyNames});
+    }
+
+    private {name}Metadata() {}
+
+    @Override
+    public {pojoType} createTYPE() {
+        return new {pojoType}();
+    }
+
+}

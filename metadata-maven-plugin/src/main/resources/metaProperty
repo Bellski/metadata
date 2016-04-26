@@ -1,0 +1,27 @@
+public final MetaProperty<{pojoType}, {propType}> {propName} = new MetaProperty<{pojoType}, {propType}>() {
+       @Override
+       public String getName() {
+           return "{pojoType}.{propName}";
+       }
+
+       @Override
+       public String getSimpleName() {
+           return "{propName}";
+       }
+
+       @Override
+       public Class<{propType}> getType() {
+           return {propType}.class;
+       }
+
+        @Override
+        public void setValue({pojoType} forType, {propType} value) {
+            forType.set{camel(propName)}(value);
+        }
+
+        @Override
+        public {propType} getValue({pojoType} forType) {
+             return forType.get{camel(propName)}();
+        }
+
+    };
