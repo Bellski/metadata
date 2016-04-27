@@ -1,11 +1,11 @@
 package ru.bellski.metadata.domain;
 
-import ru.bellski.metadata.annotaion.GenerateMetada;
+import ru.bellski.metadata.annotaion.GenerateMetadata;
 
 /**
  * Created by oem on 4/26/16.
  */
-@GenerateMetada
+@GenerateMetadata
 public class User {
 	private String name;
 	private Address address;

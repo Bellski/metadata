@@ -4,8 +4,8 @@ import ru.bellski.metadata.*;
 import ru.bellski.metadata.impl.AbstractMetadata;
 {import}
 
-public class {name}Metadata extends AbstractMetadata<{pojoType}> {
-    public static {name}Metadata {down(pojoType)} = new {name}Metadata();
+public class {metaClassName}Metadata extends AbstractMetadata<{metadataType}> {
+    public static {metaClassName}Metadata {down(metadataType)} = new {metaClassName}Metadata();
 
     {properties}
 
@@ -13,11 +13,11 @@ public class {name}Metadata extends AbstractMetadata<{pojoType}> {
         addProperties({propertyNames});
     }
 
-    private {name}Metadata() {}
+    private {metaClassName}Metadata() {}
 
-    @Override
-    public {pojoType} createTYPE() {
-        return new {pojoType}();
+
+    public {metadataType} createTYPE() {
+        return new {metadataType}();
     }
 
 }

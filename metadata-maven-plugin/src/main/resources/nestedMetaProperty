@@ -1,37 +1,37 @@
-    public final NestedMetaProperty<{pojoType}, {propType}> {propName} = new NestedMetaProperty<{pojoType}, {propType}>() {
-        @Override
+    public final NestedMetaProperty<{metadataType}, {propertyType}> {propertyName} = new NestedMetaProperty<{metadataType}, {propertyType}>() {
+
         public String getName() {
-            return "{pojoType}.{propName}";
+            return "{metadataType}.{propertyName}";
         }
 
-        @Override
+
         public String getSimpleName() {
-            return "{propName}";
+            return "{propertyName}";
         }
 
-        @Override
+
         public Class<{propType}> getType() {
-            return {propType}.class;
+            return {propertyType}.class;
         }
 
-        @Override
+
         public {propType} create() {
-            return new {propType}();
+            return new {propertyType}();
         }
 
-        @Override
+
         public Metadata getMetadata() {
-            return {propType}Metadata.{down(propType)};
+            return {propertyType}Metadata.{down(propertyType)};
         }
 
-        @Override
-        public {propType} getValue({pojoType} forType) {
-            return forType.get{camel(propName)}();
+
+        public {propertyType} getValue({metadataType} forType) {
+            return forType.get{camel(propertyName)}();
         }
 
-        @Override
-        public void setValue({pojoType} forType, {propType} value) {
-            forType.set{camel(propName)}(value);
+
+        public void setValue({metadataType} forType, {propertyType} value) {
+            forType.set{camel(propertyName)}(value);
         }
 
      };
