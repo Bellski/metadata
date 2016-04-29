@@ -1,27 +1,21 @@
-public final MetaProperty<{metadataType}, {propertyType}> {propertyName} = new MetaProperty<{metadataType}, {propertyType}>() {
+    public final MetaProperty<{metadataType}, {propertyType}> {propertyName} = new MetaProperty<{metadataType}, {propertyType}>() {
+        public String getName() {
+            return "{metadataType}.{propertyName}";
+        }
 
-       public String getName() {
-           return "{metadataType}.{propertyName}";
-       }
+        public String getSimpleName() {
+            return "{propertyName}";
+        }
 
-
-       public String getSimpleName() {
-           return "{propertyName}";
-       }
-
-
-       public Class<{propType}> getType() {
-           return {propertyType}.class;
-       }
-
+        public Class<{propertyType}> getType() {
+            return {propertyType}.class;
+        }
 
         public void setValue({metadataType} forType, {propertyType} value) {
             forType.set{camel(propertyName)}(value);
         }
 
-
         public {propertyType} getValue({metadataType} forType) {
-             return forType.get{camel(propertyName)}();
+            return forType.get{camel(propertyName)}();
         }
-
     };

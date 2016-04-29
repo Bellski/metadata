@@ -1,6 +1,8 @@
 package ru.bellski.metadata.maven;
 
 import org.apache.maven.plugin.logging.Log;
+import org.jboss.forge.roaster.Roaster;
+import org.jboss.forge.roaster.model.source.JavaClassSource;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,21 +58,19 @@ public class MetadataGenerator {
 		}
 
 
-		byte[] metaClassTemplate = Templates.META_CLASS.template
+		String metaClassTemplate = Templates.META_CLASS.template
 			.replaceAll(PACKAGE_REG_EXP, generateMetadata.getPackage().getName())
 			.replaceAll(IMPORT_REG_EXP, importBuilder.toString())
 			.replaceAll(META_CLASS_NAME_REG_EXP, generateMetadataTypeName)
 			.replaceAll(METADATA_TYPE_REG_EXP, generateMetadataTypeName)
 			.replaceAll(DOWN_METADATA_TYPE_REG_EXP, down(generateMetadataTypeName))
 			.replaceAll(PROPERTY_NAMES_REG_EXP, propertyNamesBuilder.toString())
-			.replaceAll(PROPERTIES_REG_EXP, propertiesBuilder.toString())
-			.getBytes();
+			.replaceAll(PROPERTIES_REG_EXP, propertiesBuilder.toString());
 
+		metaClassTemplate = Roaster.format(metaClassTemplate);
 
-		new File(src + "/" + generateMetadata.getPackage().getName().replaceAll("\\.", "/")).mkdirs();
-
-		Files.write(Paths.get(src + "/" + generateMetadata.getName().replaceAll("\\.", "/") + "Metadata.java"), metaClassTemplate);
-
+		Files.createDirectories(Paths.get(src + "/" + generateMetadata.getPackage().getName().replaceAll("\\.", "/")));
+		Files.write(Paths.get(src + "/" + generateMetadata.getName().replaceAll("\\.", "/") + "Metadata.java"), metaClassTemplate.getBytes());
 	}
 
 	private static String buildProperties(String pojoTypeName, Field field, Set<Class<?>> pojos) {
@@ -103,4 +103,6 @@ public class MetadataGenerator {
 	private static String down(String value) {
 		return Character.toLowerCase(value.charAt(0)) + value.substring(1);
 	}
+
+
 }
