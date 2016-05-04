@@ -1,4 +1,4 @@
-    public final MetaProperty<{metadataType}, {propertyType}> {propertyName} = new MetaProperty<{metadataType}, {propertyType}>() {
+new MetaProperty<{metadataType}, {propertyType}>() {
         public String getName() {
             return "{metadataType}.{propertyName}";
         }
@@ -17,5 +17,9 @@
 
         public {propertyType} getValue({metadataType} forType) {
             return forType.get{camel(propertyName)}();
+        }
+
+        public String toString() {
+            return getName();
         }
     };

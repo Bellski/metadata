@@ -1,37 +1,40 @@
-    public final NestedMetaProperty<{metadataType}, {propertyType}> {propertyName} = new NestedMetaProperty<{metadataType}, {propertyType}>() {
+     new NestedMetaProperty<{metadataType}, {propertyType}>() {
 
-        public String getName() {
-            return "{metadataType}.{propertyName}";
-        }
-
-
-        public String getSimpleName() {
-            return "{propertyName}";
-        }
+            public String getName() {
+                return "{metadataType}.{propertyName}";
+            }
 
 
-        public Class<{propType}> getType() {
-            return {propertyType}.class;
-        }
+            public String getSimpleName() {
+                return "{propertyName}";
+            }
 
 
-        public {propType} create() {
-            return new {propertyType}();
-        }
+            public Class<{propertyType}> getType() {
+                return {propertyType}.class;
+            }
 
 
-        public Metadata getMetadata() {
-            return {propertyType}Metadata.{down(propertyType)};
-        }
+            public {propertyType} create() {
+                return new {propertyType}();
+            }
 
 
-        public {propertyType} getValue({metadataType} forType) {
-            return forType.get{camel(propertyName)}();
-        }
+            public Metadata getMetadata() {
+                return {propertyType}Metadata.{down(propertyType)};
+            }
 
 
-        public void setValue({metadataType} forType, {propertyType} value) {
-            forType.set{camel(propertyName)}(value);
-        }
+            public {propertyType} getValue({metadataType} forType) {
+                return forType.get{camel(propertyName)}();
+            }
 
-     };
+
+            public void setValue({metadataType} forType, {propertyType} value) {
+                forType.set{camel(propertyName)}(value);
+            }
+
+            public String toString() {
+                return getName();
+            }
+         };

@@ -8,12 +8,17 @@ import org.junit.Test;
 import ru.bellski.metadata.maven.GenerateMetadataCompiler;
 import ru.bellski.metadata.maven.MetadataGenerator;
 import ru.bellski.metadata.maven.MetadataGenerator2;
-import ru.bellski.metadata.maven.test.domain.Address;
-import ru.bellski.metadata.maven.test.domain.User;
+import ru.bellski.metadata.maven.test.domain.*;
+import ru.bellski.metadata.unmarshaller.SQLUnmarshaler;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -21,8 +26,25 @@ import java.util.function.Consumer;
  */
 public class MetadataGeneratorTests {
 	private static final String PACKAGE = "ru.bellski.metadata.maven.test.domain";
-	private static final Path JAVA_SOURCE = Paths.get("/home/oem/My/programming/projects/metadata/metadata-maven-plugin/src/test/java");
+	private static Path JAVA_SOURCE;
 	private static final Path CLASSES_PATH = Paths.get("/home/oem/My/programming/projects/metadata/metadata-maven-plugin/target/classes");
+	private static Path GENERATED_SOURCES;
+
+	{
+
+
+        try {
+
+            Path root = Paths.get(MetadataGeneratorTests.class.getClassLoader().getResource(".").toURI());
+            GENERATED_SOURCES = Paths.get(root.getParent() + "/generated-test-sources/meta");
+
+            JAVA_SOURCE = Paths.get(root.getParent().getParent() + "/src/test/java");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+
+	}
 
 //	@Test
 	public void metadataGenerationTest() throws Exception {
@@ -38,7 +60,7 @@ public class MetadataGeneratorTests {
 		GenerateMetadataCompiler.compile(JAVA_SOURCE, PACKAGE, CLASSES_PATH, null);
 	}
 
-	@Test
+//	@Test
 	public void name() throws Exception {
 		JavaClassSource user = Roaster.parse(JavaClassSource.class, new File("/home/oem/My/programming/projects/metadata/metadata-examples/src/main/java/ru/bellski/metadata/examples/User.java"));
 
@@ -52,7 +74,26 @@ public class MetadataGeneratorTests {
 
 	@Test
 	public void buildMetadataClassTest() throws Exception {
-		MetadataGenerator2.generate(JAVA_SOURCE.toFile(), Sets.newHashSet(User.class));
+        new MetadataGenerator2(JAVA_SOURCE.toFile(), Sets.newHashSet(User.class, Address.class, Person.class))
+				.generate();
 	}
+
+    @Test
+    public void testCl() throws Exception {
+
+        List<Map<String, Object>> datas = new ArrayList<>();
+
+        Map<String, Object> person = new HashMap<>();
+        person.put(PersonMetadata.person.name.getName(), "A");
+
+        datas.add(person);
+
+        Map<String, Object> person1 = new HashMap<>();
+        person1.put(PersonMetadata.person.name.getName(), "B");
+        person1.put(PersonMetadata.person.parentPerson.getName(), "A");
+        datas.add(person1);
+
+        System.out.println(SQLUnmarshaler.unmarshallTree(datas, PersonMetadata.person, PersonMetadata.person.name));
+    }
 }
 

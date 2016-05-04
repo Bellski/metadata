@@ -65,28 +65,26 @@ public class GenerateMetadataMojo extends AbstractMojo {
 
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
-		try {
-			creatingDirectories();
+        if (!generatedSources.exists()) {
+            try {
+                creatingDirectories();
 
-			GenerateMetadataCompiler.
-				compile(
-					source.toPath(),
-					domain,
-					classes.toPath(),
-					collectCompileClassPath()
-				);
+                GenerateMetadataCompiler.
+                        compile(
+                                source.toPath(),
+                                domain,
+                                classes.toPath(),
+                                collectCompileClassPath()
+                        );
 
-			MetadataGenerator
-				.generate(
-					getLog(),
-					generatedSources,
-					GenerateMetadataFinder.find(domain, buildingClassLoader())
-				);
+                new MetadataGenerator2(generatedSources, GenerateMetadataFinder.find(domain, buildingClassLoader()))
+                        .generate();
+            } catch (Exception e) {
+                throw new MojoFailureException(e.getMessage(), e);
+            }
+        }
 
-		} catch (Exception e) {
-			throw new MojoFailureException(e.getMessage(), e);
-		}
-
+		project.addCompileSourceRoot(generatedSources.getAbsolutePath());
 	}
 
 	private void creatingDirectories() throws IOException {

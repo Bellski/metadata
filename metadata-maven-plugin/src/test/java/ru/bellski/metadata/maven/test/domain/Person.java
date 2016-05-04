@@ -5,6 +5,7 @@ package ru.bellski.metadata.maven.test.domain;
  */
 public class Person {
 	protected String name;
+	private Person parentPerson;
 
 	public String getName() {
 		return name;
@@ -12,5 +13,21 @@ public class Person {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Person getParentPerson() {
+		return parentPerson;
+	}
+
+	public void setParentPerson(Person parentPerson) {
+		this.parentPerson = parentPerson;
+	}
+
+	@Override
+	public String toString() {
+		return "Person{" +
+				"name='" + name + '\'' +
+				", parentPerson=" + parentPerson +
+				'}';
 	}
 }
