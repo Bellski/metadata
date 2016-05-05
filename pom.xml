@@ -8,6 +8,7 @@
   <modules>
     <module>metadata-core</module>
     <module>metadata-maven-plugin</module>
+    <module>metadata-examples</module>
   </modules>
   <packaging>pom</packaging>
 

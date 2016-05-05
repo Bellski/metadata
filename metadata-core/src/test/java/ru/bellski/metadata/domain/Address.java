@@ -10,6 +10,7 @@ public class Address {
 	private String country;
 	private String street;
 	private String apartments;
+	private PermanentAddress permanentAddress;
 
 	public String getCountry() {
 		return country;
@@ -35,12 +36,12 @@ public class Address {
 		this.apartments = apartments;
 	}
 
-	@Override
-	public String toString() {
-		return "Address{" +
-			"country='" + country + '\'' +
-			", street='" + street + '\'' +
-			", apartments='" + apartments + '\'' +
-			'}';
+	public PermanentAddress getPermanentAddress() {
+		return permanentAddress;
 	}
+
+	public void setPermanentAddress(PermanentAddress permanentAddress) {
+		this.permanentAddress = permanentAddress;
+	}
+
 }

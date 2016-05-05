@@ -36,7 +36,7 @@ public class MetadataGeneratorTests {
         try {
 
             Path root = Paths.get(MetadataGeneratorTests.class.getClassLoader().getResource(".").toURI());
-            GENERATED_SOURCES = Paths.get(root.getParent() + "/generated-test-sources/meta");
+            GENERATED_SOURCES = Paths.get(root.getParent() + "/generated-test-sources/address");
 
             JAVA_SOURCE = Paths.get(root.getParent().getParent() + "/src/test/java");
         } catch (URISyntaxException e) {
