@@ -74,32 +74,11 @@ public class MetadataTests {
 		data.put("address.permanentAddress.street", "Cool street");
 		data.put("address.permanentAddress.apartments", "1");
 
-		System.out.println(convertSQLToJSON(data));
+//		System.out.println(convertSQLToJSON(data));
 	}
 
-	public Map<String, Object> convertSQLToJSON(HashMap<String, Object> data) {
-		Map<String, Object> json = new HashMap<>();
-
-		for (String pName : data.keySet()) {
-			if (pName.contains(".")) {
-				String[] pNameParts = pName.split("\\.");
-
-				Map<String, Object> nestedValue = (Map) json.get(pNameParts[0]);
-
-				if (nestedValue == null) {
-					nestedValue = new HashMap<>();
-					json.put(pNameParts[0], nestedValue);
-
-					for (int i = 1; i < pNameParts.length; i++) {
-
-					}
-				}
-
-			} else {
-				json.put(pName, data.get(pName));
-			}
-		}
-
-		return json;
-	}
+//	public Map<String, Object> convertSQLToJSON(HashMap<String, Object> data) {
+//		User user = new User();
+//		user.setName((String) data.get("name"));
+//	}
 }

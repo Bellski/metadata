@@ -8,7 +8,12 @@ import org.junit.Test;
 import ru.bellski.metadata.maven.GenerateMetadataCompiler;
 import ru.bellski.metadata.maven.MetadataGenerator;
 import ru.bellski.metadata.maven.MetadataGenerator2;
-import ru.bellski.metadata.maven.test.domain.*;
+import ru.bellski.metadata.maven.anewone.SQLMetadataGenerator;
+import ru.bellski.metadata.maven.test.domain.Address;
+import ru.bellski.metadata.maven.test.domain.Person;
+import ru.bellski.metadata.maven.test.domain.PersonMetadata;
+import ru.bellski.metadata.maven.test.domain.User;
+import ru.bellski.metadata.maven.test.domain2.UserMetadata;
 import ru.bellski.metadata.unmarshaller.SQLUnmarshaler;
 
 import java.io.File;
@@ -95,5 +100,10 @@ public class MetadataGeneratorTests {
 
         System.out.println(SQLUnmarshaler.unmarshallTree(datas, PersonMetadata.person, PersonMetadata.person.name));
     }
+
+	@Test
+	public void sqlMetageneratorTest() throws Exception {
+		new SQLMetadataGenerator(null, Sets.newHashSet(UserMetadata.user)).generaate();
+	}
 }
 

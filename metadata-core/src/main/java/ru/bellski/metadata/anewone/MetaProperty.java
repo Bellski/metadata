@@ -1,4 +1,4 @@
-package ru.bellski.metadata.yet;
+package ru.bellski.metadata.anewone;
 
 /**
  * @author bellski
@@ -9,5 +9,5 @@ public interface MetaProperty<METADATA_TYPE, PROPERTY_TYPE> {
 	void setValue(METADATA_TYPE metadataType, PROPERTY_TYPE value);
 	PROPERTY_TYPE getValue(METADATA_TYPE metadataType);
 	boolean isNested();
-	Metadata getMetadata();
+	Metadata<METADATA_TYPE> getMetadata();
 }

@@ -1,11 +1,9 @@
-package ru.bellski.metadata;
+package ru.bellski.metadata.maven.test.domain2;
 
-import ru.bellski.metadata.anewone.*;
+import ru.bellski.metadata.anewone.AbstractMetadata;
 import ru.bellski.metadata.anewone.MetaProperty;
 import ru.bellski.metadata.anewone.Metadata;
 import ru.bellski.metadata.anewone.NestedMetaProperty;
-import ru.bellski.metadata.domain.Address;
-import ru.bellski.metadata.domain.PermanentAddress;
 
 import java.util.Collection;
 
@@ -130,7 +128,7 @@ public class AddressMetadata extends AbstractMetadata<Address> implements Addres
 		}
 	};
 
-	ru.bellski.metadata.anewone.NestedMetaProperty<Address, PermanentAddress, PermanentAddressProperties<String>> permanentAddress = new NestedMetaProperty<Address, PermanentAddress, PermanentAddressProperties<String>>() {
+	NestedMetaProperty<Address, PermanentAddress, PermanentAddressProperties<String>> permanentAddress = new NestedMetaProperty<Address, PermanentAddress, PermanentAddressProperties<String>>() {
 
 		@Override
 		public String getName() {

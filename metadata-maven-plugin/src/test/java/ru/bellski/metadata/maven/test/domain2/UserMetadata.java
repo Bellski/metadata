@@ -1,8 +1,6 @@
-package ru.bellski.metadata;
+package ru.bellski.metadata.maven.test.domain2;
 
 import ru.bellski.metadata.anewone.AbstractMetadata;
-import ru.bellski.metadata.domain.Address;
-import ru.bellski.metadata.domain.User;
 import ru.bellski.metadata.anewone.MetaProperty;
 import ru.bellski.metadata.anewone.Metadata;
 import ru.bellski.metadata.anewone.NestedMetaProperty;

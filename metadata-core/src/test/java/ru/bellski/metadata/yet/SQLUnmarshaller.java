@@ -1,5 +1,8 @@
 package ru.bellski.metadata.yet;
 
+import ru.bellski.metadata.anewone.MetaProperty;
+import ru.bellski.metadata.anewone.Metadata;
+
 import java.util.Map;
 
 /**

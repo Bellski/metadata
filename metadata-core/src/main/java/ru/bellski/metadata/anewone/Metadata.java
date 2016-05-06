@@ -1,4 +1,4 @@
-package ru.bellski.metadata.yet;
+package ru.bellski.metadata.anewone;
 
 import java.util.Collection;
 
