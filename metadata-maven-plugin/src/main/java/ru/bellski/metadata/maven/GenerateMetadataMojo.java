@@ -76,9 +76,6 @@ public class GenerateMetadataMojo extends AbstractMojo {
                                 classes.toPath(),
                                 collectCompileClassPath()
                         );
-
-                new MetadataGenerator2(generatedSources, GenerateMetadataFinder.find(domain, buildingClassLoader()))
-                        .generate();
             } catch (Exception e) {
                 throw new MojoFailureException(e.getMessage(), e);
             }

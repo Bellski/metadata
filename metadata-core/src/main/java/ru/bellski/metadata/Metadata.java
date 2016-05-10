@@ -1,20 +1,14 @@
 package ru.bellski.metadata;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
- * Created by oem on 4/26/16.
+ * Created by oem on 5/4/16.
  */
 public interface Metadata<TYPE> {
+	TYPE create();
 	Collection<MetaProperty> getProperties();
-
-	boolean isPropertyExists(String name);
-
+	boolean containsProperty(String name);
 	MetaProperty getProperty(String name);
-	TYPE createTYPE();
-
-	Metadata getMetadataByProperty(MetaProperty metaProperty);
-
-	boolean isNestedProperty(MetaProperty property);
+	Class<TYPE> getType();
 }

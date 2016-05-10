@@ -1,61 +1,125 @@
 package ru.bellski.metadata.maven.anewone;
 
-import ru.bellski.metadata.anewone.MetaProperty;
-import ru.bellski.metadata.anewone.Metadata;
+import org.jboss.forge.roaster.Roaster;
+import org.jboss.forge.roaster.model.source.JavaClassSource;
+import ru.bellski.metadata.MetaProperty;
+import ru.bellski.metadata.Metadata;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Created by oem on 5/6/16.
  */
 public class SQLMetadataGenerator {
-	private final File src;
-	private final Set<Metadata<?>> metadatas;
 
-	public SQLMetadataGenerator(File src, Set<Metadata<?>> metadatas) {
-		this.src = src;
-		this.metadatas= metadatas;
+	public static String generate(Metadata<?> metadata) {
+		final JavaClassSource sqlMetadataClass =
+			Roaster
+				.create(JavaClassSource.class)
+				.setName("Sql" + metadata.getClass().getSimpleName());
+
+		sqlMetadataClass.addImport(Map.class);
+
+		StringBuilder body = new StringBuilder();
+
+		generateSqlMetadataClass(metadata, new StringBuilder(), sqlMetadataClass, body)
+			.addMethod()
+			.setPublic()
+			.setStatic(true)
+			.setName("unmarshal")
+			.setParameters("Map<String, Object> data")
+			.setBody(body.toString());
+
+		return sqlMetadataClass.toString();
 	}
 
-	public void generaate() throws IOException {
-		for (Metadata<?> metadata : metadatas) {
-			final Set<String> paths = new HashSet<>();
-			for (MetaProperty<?,?> metaProperty : metadata.getProperties()) {
-				if (metaProperty.isNested()) {
-					for (MetaProperty property : metaProperty.getMetadata().getProperties()) {
-						paths.add(
-							walkNestedProperties(
-								metaProperty,
-								new StringBuilder().append(metaProperty.getName()).append(".").append(property.getName())
-							)
-						);
-					}
-				} else {
-					paths.add(metaProperty.getName());
-				}
+	private static JavaClassSource generateSqlMetadataClass(Metadata<?> metadata, StringBuilder prefix, JavaClassSource sqlMetadataClass, StringBuilder body){
+		final String typeName = metadata.getType().getSimpleName();
+
+		sqlMetadataClass.addImport(metadata.getType());
+
+		appendNestedPropertyInstance(metadata.getType().getSimpleName(), body);
+
+		final StringBuilder name = new StringBuilder();
+
+		for (MetaProperty metaProperty : metadata.getProperties()) {
+			final String pName = metaProperty.getName();
+			final String pTypeName = metaProperty.getType().getSimpleName();
+
+			sqlMetadataClass.addImport(metaProperty.getType());
+
+			name.setLength(0);
+			name
+				.append(prefix)
+				.append(pName)
+			;
+			if(metaProperty.isNested()){
+				generateSqlMetadataClass(metaProperty.getMetadata(), name.append('.'), sqlMetadataClass, body);
+				appendNestedPropertySetValue(typeName, metaProperty.getMetadata().getType().getSimpleName(), body);
+			} else {
+				final String selectParamName = name.toString().replaceAll("\\.", "_");
+
+				appendSelectParamField(sqlMetadataClass, selectParamName, name.toString());
+				appendSetValue(typeName, pName, pTypeName, selectParamName, body);
 			}
-
-			System.out.println(paths);
-		}
-	}
-
-	String walkNestedProperties(MetaProperty<?,?> nProperty, StringBuilder paths) {
-		if (nProperty.isNested()) {
-			for (MetaProperty metaProperty : nProperty.getMetadata().getProperties()) {
-				walkNestedProperties(
-					metaProperty,
-					new StringBuilder().append(metaProperty.getName()).append(".").append(metaProperty.getName())
-				);
-			}
 		}
 
-		return paths.toString();
+		return sqlMetadataClass;
 	}
 
 
+	private static void appendNestedPropertyInstance(String pName, StringBuilder body) {
+		body
+			.append("final ")
+			.append(pName)
+			.append(" ")
+			.append(down(pName))
+			.append(" = ")
+			.append("new ")
+			.append(pName)
+			.append("();\n");
+	}
+
+	private static void appendNestedPropertySetValue(String nestedPropertyParamName, String nestedPropertyTypeName, StringBuilder body) {
+		body
+			.append(down(nestedPropertyParamName))
+			.append(".set")
+			.append(nestedPropertyTypeName)
+			.append("(")
+			.append(down(nestedPropertyTypeName))
+			.append(");\n");
+	}
+
+	private static void appendSelectParamField(JavaClassSource sqlMetadataClass, String selectParamName, String pathValue) {
+		sqlMetadataClass
+			.addField()
+			.setPublic()
+			.setStatic(true)
+			.setFinal(true)
+			.setType(String.class)
+			.setName(selectParamName)
+			.setStringInitializer(pathValue);
+	}
+
+	private static void appendSetValue(String typeName, String pName, String pTypeName, String selectParamName, StringBuilder body) {
+		body
+			.append(down(typeName))
+			.append(".set")
+			.append(up(pName))
+			.append("((")
+			.append(pTypeName)
+			.append(")")
+			.append("data.get(")
+			.append(selectParamName)
+			.append("));")
+			.append("\n");
+	}
+
+	private static String up(String value) {
+		return Character.toUpperCase(value.charAt(0)) + value.substring(1);
+	}
+
+	private static String down(String value) {
+		return Character.toLowerCase(value.charAt(0)) + value.substring(1);
+	}
 }

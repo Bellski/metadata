@@ -1,4 +1,4 @@
-package ru.bellski.metadata.anewone;
+package ru.bellski.metadata;
 
 /**
  * Created by oem on 5/4/16.

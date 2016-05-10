@@ -1,9 +1,8 @@
 package ru.bellski.metadata;
 
 /**
- * Created by oem on 4/26/16.
+ * Created by oem on 5/4/16.
  */
-public interface NestedMetaProperty<METADATA_TYPE, PROPERTY_TYPE> extends MetaProperty<METADATA_TYPE, PROPERTY_TYPE> {
-	PROPERTY_TYPE create();
-	Metadata getMetadata();
+public interface NestedMetaProperty<METADATA_TYPE, PROPERTY_TYPE, NESTED_PROPERTIES> extends MetaProperty<METADATA_TYPE, PROPERTY_TYPE> {
+	NESTED_PROPERTIES nested();
 }

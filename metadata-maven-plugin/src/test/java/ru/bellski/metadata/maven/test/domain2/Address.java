@@ -1,11 +1,6 @@
 package ru.bellski.metadata.maven.test.domain2;
 
-import ru.bellski.metadata.annotaion.GenerateMetadata;
 
-/**
- * Created by oem on 4/26/16.
- */
-@GenerateMetadata
 public class Address {
 	private String country;
 	private String street;
