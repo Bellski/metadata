@@ -7,8 +7,8 @@ import java.util.Collection;
  */
 public interface Metadata<TYPE> {
 	TYPE create();
-	Collection<MetaProperty> getProperties();
+	Collection<MetaProperty<?, ?>> getProperties();
 	boolean containsProperty(String name);
-	MetaProperty getProperty(String name);
+	MetaProperty<?, ?> getProperty(String name);
 	Class<TYPE> getType();
 }

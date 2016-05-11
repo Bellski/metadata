@@ -39,11 +39,14 @@
             <plugin>
                 <groupId>ru.bellski</groupId>
                 <artifactId>metadata-maven-plugin</artifactId>
-                <version>1.0.1-SNAPSHOT</version>
+                <version>1.0.2-SNAPSHOT</version>
                 <configuration>
                     <domain>
-                        ru.bellski.metadata.examples
+                        ru.bellski.metadata.examples.domain
                     </domain>
+                    <generateSqlMetadata>
+                        true
+                    </generateSqlMetadata>
                 </configuration>
             </plugin>
         </plugins>

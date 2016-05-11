@@ -1,4 +1,4 @@
-package ru.bellski.metadata.maven.anewone;
+package ru.bellski.metadata.maven;
 
 import org.jboss.forge.roaster.Roaster;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
@@ -12,11 +12,12 @@ import java.util.Map;
  */
 public class SQLMetadataGenerator {
 
-	public static String generate(Metadata<?> metadata) {
+	public static JavaClassSource generate(Metadata<?> metadata) {
 		final JavaClassSource sqlMetadataClass =
 			Roaster
 				.create(JavaClassSource.class)
-				.setName("Sql" + metadata.getClass().getSimpleName());
+				.setPackage(metadata.getType().getPackage().getName())
+				.setName(metadata.getType().getSimpleName() + "SqlMetadata");
 
 		sqlMetadataClass.addImport(Map.class);
 
@@ -30,7 +31,7 @@ public class SQLMetadataGenerator {
 			.setParameters("Map<String, Object> data")
 			.setBody(body.toString());
 
-		return sqlMetadataClass.toString();
+		return sqlMetadataClass;
 	}
 
 	private static JavaClassSource generateSqlMetadataClass(Metadata<?> metadata, StringBuilder prefix, JavaClassSource sqlMetadataClass, StringBuilder body){

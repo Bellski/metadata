@@ -1,25 +1,26 @@
 package ru.bellski.metadata.maven.test;
 
 import com.google.common.collect.Sets;
-import org.jboss.forge.roaster.Roaster;
-import org.jboss.forge.roaster.model.source.FieldSource;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
 import org.junit.Test;
+import ru.bellski.metadata.MetaProperty;
 import ru.bellski.metadata.maven.GenerateMetadataCompiler;
-import ru.bellski.metadata.maven.anewone.MetadataGenerator;
-import ru.bellski.metadata.maven.anewone.MetadataGeneratorResult;
-import ru.bellski.metadata.maven.anewone.SQLMetadataGenerator;
+import ru.bellski.metadata.maven.MetadataGenerator;
+import ru.bellski.metadata.maven.MetadataGeneratorResult;
+import ru.bellski.metadata.maven.SQLMetadataGenerator;
+import ru.bellski.metadata.maven.forgeneration.GenerateMetaProperty;
+import ru.bellski.metadata.maven.forgeneration.GeneratedMetadata;
 import ru.bellski.metadata.maven.test.domain2.Address;
 import ru.bellski.metadata.maven.test.domain2.PermanentAddress;
 import ru.bellski.metadata.maven.test.domain2.User;
 
-import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.function.Consumer;
+import java.util.Map;
 
 /**
  * Created by oem on 4/26/16.
@@ -57,13 +58,34 @@ public class MetadataGeneratorTests {
 	public void sqlMetageneratorTest() throws Exception {
 		final HashSet<Class<?>> candidates = Sets.newHashSet(User.class, Address.class, PermanentAddress.class);
 
+		final Map<Class<?>, GeneratedMetadata<?>> metadataByType = new HashMap<>();
+
 		for (Class<?> candidate : candidates) {
 			MetadataGeneratorResult result = MetadataGenerator.generate(candidate, candidates);
 
 			Files.write(Paths.get(JAVA_SOURCE + "/" + result.getMetadataClass().getQualifiedName().replaceAll("\\.", "/") + ".java"), result.getMetadataClass().toString().getBytes());
 			Files.write(Paths.get(JAVA_SOURCE + "/" + result.getMetadataProperties().getQualifiedName().replaceAll("\\.", "/") + ".java"), result.getMetadataProperties().toString().getBytes());
+
+			metadataByType.put(candidate, result.getGeneratedMetadata());
 		}
 
+		for (GeneratedMetadata<?> generatedMetadata : metadataByType.values()) {
+			for (MetaProperty<?, ?> metaProperty : generatedMetadata.getProperties()) {
+				if (metaProperty.isNested()) {
+					((GenerateMetaProperty) metaProperty).setMetadata(metadataByType.get(metaProperty.getType()));
+				}
+			}
+		}
+
+		for (GeneratedMetadata<?> generatedMetadata : metadataByType.values()) {
+			JavaClassSource generated = SQLMetadataGenerator.generate(generatedMetadata);
+
+			Files
+				.write(
+					Paths.get(JAVA_SOURCE + "/" + generated.getQualifiedName().replaceAll("\\.", "/") + ".java"),
+					generated.toString().getBytes()
+				);
+		}
 	}
 }
 

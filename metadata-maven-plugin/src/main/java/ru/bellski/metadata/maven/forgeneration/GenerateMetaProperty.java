@@ -6,18 +6,19 @@ import ru.bellski.metadata.Metadata;
 /**
  * Created by oem on 5/10/16.
  */
-public class GenerateMetaProperty implements MetaProperty {
+public class GenerateMetaProperty<METADATA_TYPE, PROPERTY_TYPE> implements MetaProperty<METADATA_TYPE, PROPERTY_TYPE> {
 
 	private final String name;
-	private final Class type;
+	private final Class<PROPERTY_TYPE> type;
 	private final boolean isNested;
-	private final Metadata metadata;
+	private final Class<METADATA_TYPE> metadataType;
+	private Metadata<PROPERTY_TYPE> metadata;
 
-	public GenerateMetaProperty(String name, Class type, boolean isNested, Metadata metadata) {
+	public GenerateMetaProperty(String name, Class<PROPERTY_TYPE> type, Class<METADATA_TYPE> metadataType, boolean isNested) {
 		this.name = name;
 		this.type = type;
+		this.metadataType = metadataType;
 		this.isNested = isNested;
-		this.metadata = metadata;
 	}
 
 	@Override
@@ -26,7 +27,7 @@ public class GenerateMetaProperty implements MetaProperty {
 	}
 
 	@Override
-	public Class getType() {
+	public Class<PROPERTY_TYPE> getType() {
 		return type;
 	}
 
@@ -46,7 +47,11 @@ public class GenerateMetaProperty implements MetaProperty {
 	}
 
 	@Override
-	public Metadata getMetadata() {
+	public Metadata<PROPERTY_TYPE> getMetadata() {
 		return metadata;
+	}
+
+	public void setMetadata(Metadata<PROPERTY_TYPE> metadata) {
+		this.metadata = metadata;
 	}
 }

@@ -1,7 +1,8 @@
-package ru.bellski.metadata.maven.anewone;
+package ru.bellski.metadata.maven;
 
 import org.jboss.forge.roaster.model.source.JavaClassSource;
 import org.jboss.forge.roaster.model.source.JavaInterfaceSource;
+import ru.bellski.metadata.maven.forgeneration.GeneratedMetadata;
 
 /**
  * Created by oem on 5/10/16.
@@ -9,6 +10,7 @@ import org.jboss.forge.roaster.model.source.JavaInterfaceSource;
 public class MetadataGeneratorResult {
 	private JavaClassSource metadataClass;
 	private JavaInterfaceSource metadataProperties;
+	private GeneratedMetadata generatedMetadata;
 
 	public JavaClassSource getMetadataClass() {
 		return metadataClass;
@@ -32,5 +34,13 @@ public class MetadataGeneratorResult {
 			"metadataClass=" + metadataClass +
 			", metadataProperties=" + metadataProperties +
 			'}';
+	}
+
+	void setGeneratedMetadata(GeneratedMetadata generatedMetadata) {
+		this.generatedMetadata = generatedMetadata;
+	}
+
+	public GeneratedMetadata getGeneratedMetadata() {
+		return generatedMetadata;
 	}
 }

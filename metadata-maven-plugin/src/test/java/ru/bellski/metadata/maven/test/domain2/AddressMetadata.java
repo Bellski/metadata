@@ -3,9 +3,9 @@ package ru.bellski.metadata.maven.test.domain2;
 import ru.bellski.metadata.MetaProperty;
 import ru.bellski.metadata.Metadata;
 import ru.bellski.metadata.maven.test.domain2.Address;
-import java.lang.String;
 import ru.bellski.metadata.maven.test.domain2.PermanentAddress;
 import ru.bellski.metadata.maven.test.domain2.PermanentAddressMetadata;
+import java.lang.String;
 import ru.bellski.metadata.maven.test.domain2.AddressMetadataProperties;
 import ru.bellski.metadata.AbstractMetadata;
 
@@ -14,35 +14,35 @@ public class AddressMetadata extends AbstractMetadata<Address>
 			AddressMetadataProperties<MetaProperty> {
 
 	public static final AddressMetadata address = new AddressMetadata();
-	private final MetaProperty<Address, String> street = new MetaProperty<Address, String>() {
+	private final MetaProperty<Address, PermanentAddress> permanentAddress = new MetaProperty<Address, PermanentAddress>() {
 		@Override
 		public String getName() {
-			return "street";
+			return "permanentAddress";
 		}
 
 		@Override
-		public Class<String> getType() {
-			return String.class;
+		public Class<PermanentAddress> getType() {
+			return PermanentAddress.class;
 		}
 
 		@Override
-		public void setValue(Address address, String value) {
-			address.setStreet(value);
+		public void setValue(Address address, PermanentAddress value) {
+			address.setPermanentAddress(value);
 		}
 
 		@Override
-		public String getValue(Address address) {
-			return address.getStreet();
+		public PermanentAddress getValue(Address address) {
+			return address.getPermanentAddress();
 		}
 
 		@Override
 		public boolean isNested() {
-			return false;
+			return true;
 		}
 
 		@Override
-		public Metadata<String> getMetadata() {
-			return null;
+		public Metadata<PermanentAddress> getMetadata() {
+			return PermanentAddressMetadata.permanentAddress;
 		}
 	};
 	private final MetaProperty<Address, String> apartments = new MetaProperty<Address, String>() {
@@ -76,35 +76,35 @@ public class AddressMetadata extends AbstractMetadata<Address>
 			return null;
 		}
 	};
-	private final MetaProperty<Address, PermanentAddress> permanentAddress = new MetaProperty<Address, PermanentAddress>() {
+	private final MetaProperty<Address, String> street = new MetaProperty<Address, String>() {
 		@Override
 		public String getName() {
-			return "permanentAddress";
+			return "street";
 		}
 
 		@Override
-		public Class<PermanentAddress> getType() {
-			return PermanentAddress.class;
+		public Class<String> getType() {
+			return String.class;
 		}
 
 		@Override
-		public void setValue(Address address, PermanentAddress value) {
-			address.setPermanentAddress(value);
+		public void setValue(Address address, String value) {
+			address.setStreet(value);
 		}
 
 		@Override
-		public PermanentAddress getValue(Address address) {
-			return address.getPermanentAddress();
+		public String getValue(Address address) {
+			return address.getStreet();
 		}
 
 		@Override
 		public boolean isNested() {
-			return true;
+			return false;
 		}
 
 		@Override
-		public Metadata<PermanentAddress> getMetadata() {
-			return PermanentAddressMetadata.permanentAddress;
+		public Metadata<String> getMetadata() {
+			return null;
 		}
 	};
 	private final MetaProperty<Address, String> country = new MetaProperty<Address, String>() {
@@ -140,8 +140,8 @@ public class AddressMetadata extends AbstractMetadata<Address>
 	};
 
 	@Override
-	public MetaProperty<Address, String> street() {
-		return street;
+	public MetaProperty<Address, PermanentAddress> permanentAddress() {
+		return permanentAddress;
 	}
 
 	@Override
@@ -150,8 +150,8 @@ public class AddressMetadata extends AbstractMetadata<Address>
 	}
 
 	@Override
-	public MetaProperty<Address, PermanentAddress> permanentAddress() {
-		return permanentAddress;
+	public MetaProperty<Address, String> street() {
+		return street;
 	}
 
 	@Override

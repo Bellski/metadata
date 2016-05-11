@@ -14,37 +14,6 @@ public class PermanentAddressMetadata
 			PermanentAddressMetadataProperties<MetaProperty> {
 
 	public static final PermanentAddressMetadata permanentAddress = new PermanentAddressMetadata();
-	private final MetaProperty<PermanentAddress, String> street = new MetaProperty<PermanentAddress, String>() {
-		@Override
-		public String getName() {
-			return "street";
-		}
-
-		@Override
-		public Class<String> getType() {
-			return String.class;
-		}
-
-		@Override
-		public void setValue(PermanentAddress permanentAddress, String value) {
-			permanentAddress.setStreet(value);
-		}
-
-		@Override
-		public String getValue(PermanentAddress permanentAddress) {
-			return permanentAddress.getStreet();
-		}
-
-		@Override
-		public boolean isNested() {
-			return false;
-		}
-
-		@Override
-		public Metadata<String> getMetadata() {
-			return null;
-		}
-	};
 	private final MetaProperty<PermanentAddress, String> apartments = new MetaProperty<PermanentAddress, String>() {
 		@Override
 		public String getName() {
@@ -64,6 +33,37 @@ public class PermanentAddressMetadata
 		@Override
 		public String getValue(PermanentAddress permanentAddress) {
 			return permanentAddress.getApartments();
+		}
+
+		@Override
+		public boolean isNested() {
+			return false;
+		}
+
+		@Override
+		public Metadata<String> getMetadata() {
+			return null;
+		}
+	};
+	private final MetaProperty<PermanentAddress, String> street = new MetaProperty<PermanentAddress, String>() {
+		@Override
+		public String getName() {
+			return "street";
+		}
+
+		@Override
+		public Class<String> getType() {
+			return String.class;
+		}
+
+		@Override
+		public void setValue(PermanentAddress permanentAddress, String value) {
+			permanentAddress.setStreet(value);
+		}
+
+		@Override
+		public String getValue(PermanentAddress permanentAddress) {
+			return permanentAddress.getStreet();
 		}
 
 		@Override
@@ -109,13 +109,13 @@ public class PermanentAddressMetadata
 	};
 
 	@Override
-	public MetaProperty<PermanentAddress, String> street() {
-		return street;
+	public MetaProperty<PermanentAddress, String> apartments() {
+		return apartments;
 	}
 
 	@Override
-	public MetaProperty<PermanentAddress, String> apartments() {
-		return apartments;
+	public MetaProperty<PermanentAddress, String> street() {
+		return street;
 	}
 
 	@Override

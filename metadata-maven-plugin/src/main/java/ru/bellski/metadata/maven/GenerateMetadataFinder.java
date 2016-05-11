@@ -5,6 +5,7 @@ import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.util.FilterBuilder;
+import ru.bellski.metadata.Metadata;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
  * Created by oem on 4/27/16.
  */
 public class GenerateMetadataFinder {
-	public static Set<Class<?>> find(String inPackage, ClassLoader classLoader) {
+	public static Set<Class<?>> findCandidates(String inPackage, ClassLoader classLoader) {
         ConfigurationBuilder conf = new ConfigurationBuilder()
                 .setUrls(ClasspathHelper.forPackage(inPackage, classLoader))
                 .setScanners(new SubTypesScanner(false));

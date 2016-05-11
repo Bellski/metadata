@@ -1,4 +1,4 @@
-package ru.bellski.metadata.maven.anewone;
+package ru.bellski.metadata.maven;
 
 import org.jboss.forge.roaster.Roaster;
 import org.jboss.forge.roaster.model.source.FieldSource;
@@ -7,6 +7,7 @@ import org.jboss.forge.roaster.model.source.JavaInterfaceSource;
 import ru.bellski.metadata.AbstractMetadata;
 import ru.bellski.metadata.MetaProperty;
 import ru.bellski.metadata.Metadata;
+import ru.bellski.metadata.maven.forgeneration.GenerateMetaProperty;
 import ru.bellski.metadata.maven.forgeneration.GeneratedMetadata;
 
 import java.lang.reflect.Method;
@@ -28,9 +29,10 @@ public class MetadataGenerator {
 			.setPackage(candidateClass.getPackage().getName())
 			.setName(metadataName);
 
-		final GeneratedMetadata generatedMetadata = new GeneratedMetadata(candidateClass);
+		final GeneratedMetadata<?> generatedMetadata = new GeneratedMetadata<>(candidateClass);
 
 		result.setMetadataClass(metadataClass);
+		result.setGeneratedMetadata(generatedMetadata);
 
 		metadataClass.addImport(MetaProperty.class);
 		metadataClass.addImport(Metadata.class);
@@ -57,23 +59,24 @@ public class MetadataGenerator {
 			.setLiteralInitializer("new " + metadataClass.getName() + "();");
 	}
 
-	private static List<FieldSource> addProperties(Class<?> candidateClass, Set<Class<?>> candidates, JavaClassSource metadataClass, GeneratedMetadata generatedMetadata) {
+	private static List<FieldSource> addProperties(Class<?> candidateClass, Set<Class<?>> candidates, JavaClassSource metadataClass, GeneratedMetadata<?> generatedMetadata) {
 		final ArrayList<FieldSource> properties = new ArrayList<>();
 
 		for (Method getter : collectGetters(candidateClass, new ArrayList<>())) {
 			final String propertyName = down(getter.getName().substring(3, getter.getName().length()));
+			final boolean isNested = candidates.contains(getter.getReturnType());
 
 			metadataClass.addImport(getter.getReturnType());
 
-			if (candidates.contains(getter.getReturnType())) {
+			if (isNested) {
 				metadataClass.addImport(getter.getReturnType().getName() + "Metadata");
 			}
 
 			properties.add(
-				metadataClass.addField(buildProperty(candidateClass.getSimpleName(), propertyName, getter.getReturnType().getSimpleName(), candidates.contains(getter.getReturnType())))
+				metadataClass.addField(buildProperty(candidateClass.getSimpleName(), propertyName, getter.getReturnType().getSimpleName(), isNested))
 			);
 
-
+			generatedMetadata.addProperty(new GenerateMetaProperty<>(propertyName, getter.getReturnType(), candidateClass, isNested));
 		}
 
 		return properties;
