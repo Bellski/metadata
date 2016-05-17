@@ -1,5 +1,5 @@
 <idea-plugin version="2">
-    <id>com.your.company.unique.plugin.id</id>
+    <id>meta-sql-plugin</id>
     <name>Plugin display name here</name>
     <version>1.0</version>
     <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
@@ -30,8 +30,13 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <completion.contributor language="SQL" implementationClass="ru.bellski.lang.metasql.CustomModelCompletionContributor"/>
-        <annotator language="SQL" implementationClass="ru.bellski.lang.metasql.MetaSqlAnnotator"/>
+        <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.CustomModelCompletionContributor"/>
+        <annotator language="SQL" implementationClass="ru.bellski.metasql.MetaSqlAnnotator"/>
+
+        <projectService serviceImplementation="ru.bellski.metasql.MetaSqlFilesCache"/>
+        <projectService serviceImplementation="ru.bellski.metasql.SqlMetadataJavaClassCache"/>
+
+        <codeInsight.lineMarkerProvider language="SQL" implementationClass="ru.bellski.metasql.MetaSqlLineMarkerProvider"/>
     </extensions>
 
     <actions>

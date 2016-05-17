@@ -1,4 +1,4 @@
-package ru.bellski.lang.metasql;
+package ru.bellski.metasql;
 
 import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
@@ -18,6 +18,8 @@ public class MetaSqlAnnotator implements Annotator {
     @Override
     public void annotate(@NotNull PsiElement psiElement, @NotNull AnnotationHolder holder) {
         if (psiElement instanceof PsiComment) {
+            MetaSqlFilesCache.getInstance(psiElement.getProject());
+
             final PsiFile sqlFile = psiElement.getContainingFile();
 
             final PsiElement commentCandidate = sqlFile.getChildren()[0];
