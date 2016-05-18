@@ -30,11 +30,15 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.CustomModelCompletionContributor"/>
+
+        <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.contributor.MetaSqlMetadataCommentCompletionContributor"/>
+
         <annotator language="SQL" implementationClass="ru.bellski.metasql.MetaSqlAnnotator"/>
 
         <projectService serviceImplementation="ru.bellski.metasql.MetaSqlFilesCache"/>
         <projectService serviceImplementation="ru.bellski.metasql.SqlMetadataJavaClassCache"/>
+        
+        <psi.treeChangePreprocessor implementation="ru.bellski.metasql.SqlFilePsiTreeChangePreprocessor"/>
 
         <codeInsight.lineMarkerProvider language="SQL" implementationClass="ru.bellski.metasql.MetaSqlLineMarkerProvider"/>
     </extensions>

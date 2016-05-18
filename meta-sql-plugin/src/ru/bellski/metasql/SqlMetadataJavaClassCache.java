@@ -1,5 +1,6 @@
 package ru.bellski.metasql;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiAnnotation;
@@ -24,28 +25,34 @@ public class SqlMetadataJavaClassCache {
     private final Map<String, PsiClass> classByFqn = new HashMap<>();
 
     public SqlMetadataJavaClassCache(@NotNull Project project) {
-        final Set<String> names = new HashSet<>();
 
-        AllClassesSearchExecutor.processClassNames(project, GlobalSearchScope.allScope(project), name -> {
-            if (name.endsWith("SqlMetadata")) {
-                names.add(name);
-            }
-        });
+        ApplicationManager.getApplication().runReadAction(new Runnable() {
+            @Override
+            public void run() {
+                final Set<String> names = new HashSet<>();
 
-        names.forEach(name -> {
-            final PsiClass[] classes = PsiShortNamesCache.getInstance(project).getClassesByName(name, GlobalSearchScope.allScope(project));
-
-            for (PsiClass aClass : classes) {
-                final PsiModifierList ml = aClass.getModifierList();
-
-                if (ml != null) {
-                    final PsiAnnotation[] annotations = ml.getAnnotations();
-
-                    if (annotations.length == 1 && annotations[0].getQualifiedName().equals("ru.bellski.metadata.SqlMetadata")) {
-                        classByFqn.put(aClass.getQualifiedName(), aClass);
+                AllClassesSearchExecutor.processClassNames(project, GlobalSearchScope.allScope(project), name -> {
+                    if (name.endsWith("SqlMetadata")) {
+                        names.add(name);
                     }
-                }
+                });
 
+                names.forEach(name -> {
+                    final PsiClass[] classes = PsiShortNamesCache.getInstance(project).getClassesByName(name, GlobalSearchScope.allScope(project));
+
+                    for (PsiClass aClass : classes) {
+                        final PsiModifierList ml = aClass.getModifierList();
+
+                        if (ml != null) {
+                            final PsiAnnotation[] annotations = ml.getAnnotations();
+
+                            if (annotations.length == 1 && annotations[0].getQualifiedName().equals("ru.bellski.metadata.SqlMetadata")) {
+                                classByFqn.put(aClass.getQualifiedName(), aClass);
+                            }
+                        }
+
+                    }
+                });
             }
         });
     }

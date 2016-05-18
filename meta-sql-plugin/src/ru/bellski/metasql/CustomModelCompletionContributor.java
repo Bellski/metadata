@@ -38,14 +38,18 @@ public class CustomModelCompletionContributor extends CompletionContributor {
                                     .collect(Collectors.toList())
                     );
                 } else if (parameters.getPosition() instanceof SqlStringTokenElement) {
-                    result.addAllElements(
-                            metaSqlFilesCache
-                                    .findMetaSqlFile((SqlFile) parameters.getOriginalFile())
-                                    .getMetaValues()
-                                    .stream()
-                                    .map(LookupElementBuilder::create)
-                                    .collect(Collectors.toList())
-                    );
+                    final MetaSqlFile metaSqlFile = metaSqlFilesCache.findMetaSqlFile((SqlFile) parameters.getOriginalFile());
+
+                    if (metaSqlFile != null && metaSqlFile.hasMetadataClass()) {
+                        result.addAllElements(
+                                metaSqlFilesCache
+                                        .findMetaSqlFile((SqlFile) parameters.getOriginalFile())
+                                        .getMetaValues()
+                                        .stream()
+                                        .map(LookupElementBuilder::create)
+                                        .collect(Collectors.toList())
+                        );
+                    }
                 }
             }
         });

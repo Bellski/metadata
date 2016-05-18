@@ -22,41 +22,17 @@ public class MetaSqlFile {
 
     public MetaSqlFile(SqlFile sqlFile) {
         this.sqlFile = sqlFile;
+    }
 
-        metaClass = findMetaClass(sqlFile.getFirstChild());
-
-        PsiTreeUtil.findChildrenOfType(sqlFile, SqlParameter.class).forEach(new Consumer<SqlParameter>() {
-            @Override
-            public void accept(SqlParameter sqlParameter) {
-                System.out.println(sqlParameter.getText());
-            }
-        });
+    public void setMetaClass(PsiClass metaClass, PsiComment commentWithMetadata) {
+        this.metaClass = metaClass;
+        this.commentWithMetadata = commentWithMetadata;
 
         if (metaClass != null) {
             metaFieldByValue = collectMetaFields();
+        } else {
+            metaFieldByValue = null;
         }
-    }
-
-    private PsiClass findMetaClass(PsiElement possiblyCommentWithMetadata) {
-        PsiClass psiClass = null;
-
-        if (possiblyCommentWithMetadata instanceof PsiComment) {
-            this.commentWithMetadata = (PsiComment) possiblyCommentWithMetadata;
-
-            final String metadata =
-                    possiblyCommentWithMetadata
-                            .getText()
-                            .substring(2)
-                            .trim();
-
-            if (!metadata.isEmpty() && metadata.startsWith("metadata")) {
-                psiClass = SqlMetadataJavaClassCache
-                        .getInstance(sqlFile.getProject())
-                        .findPsiClassByFqn(metadata.substring(8).trim());
-            }
-        }
-
-        return psiClass;
     }
 
     private Map<String, PsiField> collectMetaFields() {
@@ -96,6 +72,13 @@ public class MetaSqlFile {
     }
 
     public boolean commentWithMetadataEquals(PsiElement psiElement) {
-        return psiElement.getText().substring(2).trim().startsWith("metadata");
+        if (commentWithMetadata == null) {
+            return false;
+        }
+        return commentWithMetadata.equals(psiElement);
+    }
+
+    public boolean hasMetadataClass() {
+        return metaClass != null;
     }
 }

@@ -24,6 +24,10 @@ public class MetaSqlLineMarkerProvider extends RelatedItemLineMarkerProvider {
                         .getInstance(element.getProject())
                         .findMetaSqlFile((SqlFile) element.getContainingFile());
 
+                if (metaSqlFile == null) {
+                    return;
+                }
+
                 final PsiField metaField = metaSqlFile.findMetaFieldByValue(((SqlStringTokenElement) element).getTokenText());
 
                 if (metaField != null) {
