@@ -4,9 +4,12 @@ import com.intellij.codeInsight.completion.*;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.PsiComment;
+import com.intellij.sql.psi.SqlAsExpression;
+import com.intellij.sql.psi.impl.SqlStringTokenElement;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.metasql.SqlMetadataJavaClassCache;
+import ru.bellski.metasql.lang.psi.MetaSqlMetadataElement;
 
 import java.util.stream.Collectors;
 
@@ -19,8 +22,7 @@ public class MetaSqlMetadataCommentCompletionContributor extends CompletionContr
         extend(
                 CompletionType.BASIC,
                 PlatformPatterns
-                        .psiComment()
-                        .withText(StandardPatterns.string().startsWith("-- metadata")),
+                        .psiElement(PsiComment.class),
                 new CompletionProvider<CompletionParameters>() {
                     @Override
                     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
@@ -35,5 +37,7 @@ public class MetaSqlMetadataCommentCompletionContributor extends CompletionContr
                     }
                 }
         );
+
+
     }
 }

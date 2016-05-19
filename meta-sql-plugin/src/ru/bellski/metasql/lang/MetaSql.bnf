@@ -1,0 +1,39 @@
+{
+    parserClass="ru.bellski.metasql.lang.parser.MetaSqlParser"
+  parserUtilClass="ru.bellski.metasql.lang.parser.MetaSqlParserUtil"
+    extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="MetaSql"
+
+    psiImplClassSuffix="Impl"
+
+    psiPackage="ru.bellski.metasql.lang.psi"
+
+    psiImplPackage="ru.bellski.metasql.lang.psi.impl"
+
+    elementTypeHolderClass="ru.bellski.metasql.lang.psi.MetaSqlTypes"
+    elementTypeClass="ru.bellski.metasql.lang.psi.MetaSqlElementType"
+    tokenTypeClass="ru.bellski.metasql.lang.psi.MetaSqlTokenType"
+
+    tokens= [
+        METADATA="Metadata"
+        RETURN_TYPE="ReturnType"
+    ]
+}
+
+metaSqlFile ::= metadataBody
+
+metadataBody ::= 'Metadata'  metadataIdentifier 'ReturnType' returnTypeIdentifier
+
+metadata
+
+metadataIdentifier ::= id
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataElement"}
+
+returnTypeIdentifier ::= id
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlReturnTypeElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlReturnTypeElement"}
+
+id ::= IDENTIFIER
+
+
+
