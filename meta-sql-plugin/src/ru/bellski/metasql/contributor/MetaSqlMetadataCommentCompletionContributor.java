@@ -5,6 +5,7 @@ import com.intellij.patterns.PlatformPatterns;
 import com.intellij.patterns.StandardPatterns;
 import com.intellij.psi.PsiComment;
 import com.intellij.sql.psi.SqlAsExpression;
+import com.intellij.sql.psi.SqlIdentifier;
 import com.intellij.sql.psi.impl.SqlStringTokenElement;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
@@ -22,7 +23,7 @@ public class MetaSqlMetadataCommentCompletionContributor extends CompletionContr
         extend(
                 CompletionType.BASIC,
                 PlatformPatterns
-                        .psiElement(PsiComment.class),
+                        .psiElement(),
                 new CompletionProvider<CompletionParameters>() {
                     @Override
                     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {

@@ -32,6 +32,7 @@
         <!-- Add your extensions here -->
 
         <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.contributor.MetaSqlMetadataCommentCompletionContributor"/>
+        <completion.contributor language="MetaSql" implementationClass="ru.bellski.metasql.contributor.MetaSqlCompletionContributor"/>
 
         <annotator language="SQL" implementationClass="ru.bellski.metasql.MetaSqlAnnotator"/>
 
@@ -41,6 +42,10 @@
         <psi.treeChangePreprocessor implementation="ru.bellski.metasql.SqlFilePsiTreeChangePreprocessor"/>
 
         <codeInsight.lineMarkerProvider language="SQL" implementationClass="ru.bellski.metasql.MetaSqlLineMarkerProvider"/>
+
+        <fileTypeFactory implementation="ru.bellski.metasql.lang.MetaSqlFileTypeFactory"/>
+        <lang.parserDefinition language="MetaSql" implementationClass="ru.bellski.metasql.lang.MetaSqlParserDefinition"/>
+
     </extensions>
 
     <actions>

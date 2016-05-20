@@ -21,14 +21,14 @@
     ]
 }
 
-metaSqlFile ::= metadataBody
+metaSqlFile ::= metadataExpression returnTypeExpression
 
-metadataBody ::= 'Metadata'  metadataIdentifier 'ReturnType' returnTypeIdentifier
+metadataExpression ::= 'Metadata'  metadataIdentifier
 
-metadata
+returnTypeExpression ::='ReturnType' returnTypeIdentifier
 
 metadataIdentifier ::= id
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataElement"}
+{pin=1 mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataElement"}
 
 returnTypeIdentifier ::= id
 {mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlReturnTypeElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlReturnTypeElement"}
