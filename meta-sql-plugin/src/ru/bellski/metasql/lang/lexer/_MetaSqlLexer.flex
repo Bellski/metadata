@@ -23,14 +23,17 @@ LINE_WS=[\ \t\f]
 WHITE_SPACE=({LINE_WS}|{EOL})+
 
 LETTER=[a-z]|[A-Z]
-IDENTIFIER={LETTER}*
+
+IDENTIFIER=([a-zA-Z_$][a-zA-Z\d_$]*\.)*[a-zA-Z_$][a-zA-Z\d_$]*
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
 
+  ";"                { return SEMI; }
+  "="                { return EQ; }
   "Metadata"         { return METADATA; }
-  "ReturnType"       { return RETURN_TYPE; }
+  "ReturnType"       { return RETURNTYPE; }
   {IDENTIFIER}       { return IDENTIFIER; }
 
 

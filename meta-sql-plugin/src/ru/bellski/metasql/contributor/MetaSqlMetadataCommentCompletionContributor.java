@@ -11,6 +11,7 @@ import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.metasql.SqlMetadataJavaClassCache;
 import ru.bellski.metasql.lang.psi.MetaSqlMetadataElement;
+import ru.bellski.metasql.lang.psi.MetaSqlMetadataTypeExpression;
 
 import java.util.stream.Collectors;
 
@@ -23,10 +24,12 @@ public class MetaSqlMetadataCommentCompletionContributor extends CompletionContr
         extend(
                 CompletionType.BASIC,
                 PlatformPatterns
-                        .psiElement(),
+                        .psiElement().withSuperParent(1, MetaSqlMetadataTypeExpression.class),
                 new CompletionProvider<CompletionParameters>() {
                     @Override
                     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+
+
                         result.addAllElements(
                                 SqlMetadataJavaClassCache
                                         .getInstance(parameters.getPosition().getProject())

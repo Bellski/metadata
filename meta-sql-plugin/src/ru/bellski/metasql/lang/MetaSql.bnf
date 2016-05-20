@@ -1,5 +1,6 @@
 {
-    parserClass="ru.bellski.metasql.lang.parser.MetaSqlParser"
+
+ parserClass="ru.bellski.metasql.lang.parser.MetaSqlParser"
   parserUtilClass="ru.bellski.metasql.lang.parser.MetaSqlParserUtil"
     extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -15,25 +16,22 @@
     elementTypeClass="ru.bellski.metasql.lang.psi.MetaSqlElementType"
     tokenTypeClass="ru.bellski.metasql.lang.psi.MetaSqlTokenType"
 
-    tokens= [
-        METADATA="Metadata"
-        RETURN_TYPE="ReturnType"
-    ]
+ tokens=[
+     SEMI=';'
+     EQ='='
+
+     METADATA="Metadata"
+     RETURNTYPE="ReturnType"
+   ]
+
 }
 
-metaSqlFile ::= metadataExpression returnTypeExpression
+root ::= metadataTypeExpression? returnTypeExpression?
 
-metadataExpression ::= 'Metadata'  metadataIdentifier
+metadataTypeExpression ::= 'Metadata' '=' typeReference ';' {pin=2}
+returnTypeExpression ::= 'ReturnType' '=' typeReference ';' {pin=2}
 
-returnTypeExpression ::='ReturnType' returnTypeIdentifier
-
-metadataIdentifier ::= id
-{pin=1 mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataElement"}
-
-returnTypeIdentifier ::= id
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlReturnTypeElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlReturnTypeElement"}
-
-id ::= IDENTIFIER
+typeReference ::= IDENTIFIER
 
 
 
