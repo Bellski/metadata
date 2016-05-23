@@ -1,3 +1,7 @@
+/*
+		Metadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
+ */
+
 -- Получение данных дела
 -- Параметры:
 WITH params AS ( SELECT
@@ -12,7 +16,7 @@ WITH params AS ( SELECT
 			,ins_risk.name                                 AS insuranceRisk
 			,claim_no_by_company.claim_no
 			,claim_no_by_company.accident_no
-			,car.znak
+			,car.znak AS "address.country"
 			,car.vipusk
 			,car.vin
 			,car.dvig_no
