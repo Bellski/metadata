@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Aleksandr on 21.05.2016.
  */
-public class MetadataReferenceImpl extends ASTWrapperPsiElement implements MetadataReference {
+public class MetadataReferenceImpl extends MetaSqlCompositeElementImpl implements MetadataReference {
 
     public MetadataReferenceImpl(@NotNull ASTNode node) {
         super(node);

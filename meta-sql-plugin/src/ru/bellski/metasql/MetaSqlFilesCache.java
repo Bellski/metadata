@@ -2,7 +2,7 @@ package ru.bellski.metasql;
 
 import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.sql.psi.SqlFile;
@@ -11,7 +11,6 @@ import com.intellij.util.containers.HashMap;
 import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.metasql.lang.MetaSqlFile;
-import ru.bellski.metasql.util.MetaSqlUtils;
 
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class MetaSqlFilesCache {
                 .forEach(virtualFile -> {
                     final SqlFile sqlFile = (SqlFile) PsiManager.getInstance(project).findFile(virtualFile);
 
-                    metaSqlFileBySqlFile.put(sqlFile, MetaSqlUtils.findInjectedMetaSql(sqlFile));
+
                 });
 
     }

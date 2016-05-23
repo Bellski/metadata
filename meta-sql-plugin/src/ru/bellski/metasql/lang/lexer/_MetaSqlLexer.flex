@@ -22,8 +22,6 @@ EOL="\r"|"\n"|"\r\n"
 LINE_WS=[\ \t\f]
 WHITE_SPACE=({LINE_WS}|{EOL})+
 
-LETTER=[a-z]|[A-Z]
-
 IDENTIFIER=([a-zA-Z_$][a-zA-Z\d_$]*\.)*[a-zA-Z_$][a-zA-Z\d_$]*
 
 %%
@@ -33,7 +31,11 @@ IDENTIFIER=([a-zA-Z_$][a-zA-Z\d_$]*\.)*[a-zA-Z_$][a-zA-Z\d_$]*
   ";"                { return SEMI; }
   "="                { return EQ; }
   "Metadata"         { return METADATA; }
-  "ReturnType"       { return RETURNTYPE; }
+  "ReturnRule"       { return RETURNRULE; }
+  "List"             { return LIST; }
+  "Boolean"          { return BOOLEAN; }
+  "Integer"          { return INTEGER; }
+  "Single"           { return SINGLE; }
   {IDENTIFIER}       { return IDENTIFIER; }
 
 

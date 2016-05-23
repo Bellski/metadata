@@ -24,7 +24,7 @@ public class MetaSqlInjector implements LanguageInjector {
             if (host instanceof PsiComment) {
                 if (SqlTokens.SQL_BLOCK_COMMENT == ((PsiComment) host).getTokenType()) {
                     if (host.equals(PsiTreeUtil.findChildOfType(host.getContainingFile(), PsiComment.class))) {
-                        injectionPlacesRegistrar.addPlace(MetaSqlLanguage.INSTANCE, new TextRange(1, host.getTextLength() -1), null, null);
+                        injectionPlacesRegistrar.addPlace(MetaSqlLanguage.INSTANCE, new TextRange(2, host.getTextLength() - 2), null, null);
                     }
                 }
             }

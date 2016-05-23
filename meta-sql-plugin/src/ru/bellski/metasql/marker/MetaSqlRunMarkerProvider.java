@@ -49,9 +49,9 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
     @Nullable
     @Override
     public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
-        if (element.getContainingFile().getFirstChild().equals(element)) {
-            return new RunLineMarkerInfo(element);
-        }
+//        if (element.getContainingFile().getFirstChild().equals(element)) {
+//            return new RunLineMarkerInfo(element);
+//        }
         return null;
     }
 
