@@ -31,20 +31,22 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
 
-        <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.contributor.MetaSqlMetadataCommentCompletionContributor"/>
+        <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.contributor.SqlMetaFieldCompletionContributor"/>
         <completion.contributor language="MetaSql" implementationClass="ru.bellski.metasql.contributor.MetaSqlCompletionContributor"/>
 
         <annotator language="SQL" implementationClass="ru.bellski.metasql.MetaSqlAnnotator"/>
 
         <projectService serviceImplementation="ru.bellski.metasql.MetaSqlFilesCache"/>
         <projectService serviceImplementation="ru.bellski.metasql.SqlMetadataJavaClassCache"/>
-        
-        <psi.treeChangePreprocessor implementation="ru.bellski.metasql.SqlFilePsiTreeChangePreprocessor"/>
 
         <codeInsight.lineMarkerProvider language="SQL" implementationClass="ru.bellski.metasql.MetaSqlLineMarkerProvider"/>
 
         <fileTypeFactory implementation="ru.bellski.metasql.lang.MetaSqlFileTypeFactory"/>
         <lang.parserDefinition language="MetaSql" implementationClass="ru.bellski.metasql.lang.MetaSqlParserDefinition"/>
+
+        <languageInjector implementation="ru.bellski.metasql.MetaSqlInjector"/>
+
+        <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.metasql.marker.MetaSqlRunMarkerProvider"/>
 
     </extensions>
 

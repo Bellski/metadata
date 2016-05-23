@@ -32,6 +32,7 @@ metadataTypeExpression ::= 'Metadata' '=' typeReference ';' {pin=2}
 returnTypeExpression ::= 'ReturnType' '=' typeReference ';' {pin=2}
 
 typeReference ::= IDENTIFIER
+{mixin="ru.bellski.metasql.lang.psi.impl.MetadataReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetadataReference"}
 
 
 
