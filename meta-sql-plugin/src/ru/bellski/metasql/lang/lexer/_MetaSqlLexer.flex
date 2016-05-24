@@ -36,8 +36,6 @@ IDENTIFIER=([a-zA-Z_$][a-zA-Z\d_$]*\.)*[a-zA-Z_$][a-zA-Z\d_$]*
   "Boolean"          { return BOOLEAN; }
   "Integer"          { return INTEGER; }
   "Single"           { return SINGLE; }
-  {IDENTIFIER}       { return IDENTIFIER; }
-
 
   [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 }

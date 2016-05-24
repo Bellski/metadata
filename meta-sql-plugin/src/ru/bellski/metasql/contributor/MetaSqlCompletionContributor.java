@@ -5,10 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-import ru.bellski.metasql.lang.MetaSqlFile;
-import ru.bellski.metasql.lang.psi.MetaSqlMetadataClause;
 import ru.bellski.metasql.lang.psi.MetaSqlReturnRuleClause;
-import ru.bellski.metasql.lang.psi.ReturnRuleClause;
 
 import java.util.Arrays;
 

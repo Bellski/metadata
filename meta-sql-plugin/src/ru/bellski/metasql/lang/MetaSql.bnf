@@ -34,28 +34,24 @@
 
 }
 
-root ::= metaSqlBody?
+root ::= metaSqlBody
 
-metaSqlBody ::= returnRuleClause metadataClause?
-{pin = 1 mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody" recoverWhile=metaSqlBody_recovery}
-private metaSqlBody_recovery ::= !(<<eof>> | 'Metadata')
+metaSqlBody ::= clause_group?
+{pin = 1 mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody"}
 
 
-metadataClause ::= 'Metadata' '=' metadataReference ';'
-{ pin=2 mixin="ru.bellski.metasql.lang.psi.impl.MetadataClauseImpl" implements="ru.bellski.metasql.lang.psi.MetadataClause" recoverWhile=metadataClause_recovery}
-
-private metadataClause_recovery ::= !(<<eof>> | metadataReference)
-
-metadataReference ::= IDENTIFIER
-{mixin="ru.bellski.metasql.lang.psi.impl.MetadataReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetadataReference"}
+private clause_group ::= returnRuleClause
 
 returnRuleClause ::= 'ReturnRule' '=' returnRuleValue ';'
 {pin=2 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause" recoverWhile=returnRuleClause_recovery}
 
-private returnRuleClause_recovery ::= !(<<eof>> | returnRuleValue | 'Metadata')
+private returnRuleClause_recovery ::= !(';' | 'ReturnRule' '=')
+
 
 returnRuleValue ::= 'List' | 'Boolean' | 'Integer' | 'Single'
-{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue"}
+{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue" recoverWhile=returnRuleValue_recovery}
+
+private returnRuleValue_recovery ::= !(';' | 'List')
 
 
 
