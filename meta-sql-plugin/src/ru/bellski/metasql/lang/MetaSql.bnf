@@ -5,7 +5,7 @@
 
 
     implements = "ru.bellski.metasql.lang.psi.MetaSqlElement"
-    extends = "ru.bellski"
+    extends = "ru.bellski.metasql.lang.psi.impl.MetaSqlCompositeElementImpl"
 
     psiClassPrefix="MetaSql"
 
@@ -20,6 +20,7 @@
     tokenTypeClass="ru.bellski.metasql.lang.psi.MetaSqlTokenType"
 
  tokens=[
+     ANY='any';
      SEMI=';'
      EQ='='
 
@@ -30,28 +31,33 @@
      BOOLEAN="Boolean"
      INTEGER="Integer"
      SINGLE="Single"
+
+     M_IDENTIFIER="m_identifier"
    ]
 
 }
 
 root ::= metaSqlBody
 
-metaSqlBody ::= clause_group?
-{pin = 1 mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody"}
+metaSqlBody ::= group?
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody"}
 
+private group ::= returnRuleClause  metadataClause? {recoverWhile=metaSqlBody_recovery}
+private metaSqlBody_recovery::= !('ReturnRule' | 'Metadata' | 'm_identifier')
 
-private clause_group ::= returnRuleClause
-
-returnRuleClause ::= 'ReturnRule' '=' returnRuleValue ';'
-{pin=2 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause" recoverWhile=returnRuleClause_recovery}
-
-private returnRuleClause_recovery ::= !(';' | 'ReturnRule' '=')
-
+returnRuleClause ::= 'ReturnRule' '=' returnRuleValue {pin=1 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause" recoverWhile=r}
+private r ::= !('ReturnRule' '=' | 'Metadata' | 'any' | 'm_identifier')
 
 returnRuleValue ::= 'List' | 'Boolean' | 'Integer' | 'Single'
-{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue" recoverWhile=returnRuleValue_recovery}
+{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue"}
 
-private returnRuleValue_recovery ::= !(';' | 'List')
+
+metadataClause ::= 'Metadata' '=' metadataReference
+{pin=1 mixin="ru.bellski.metasql.lang.psi.impl.MetadataClauseImpl" implements="ru.bellski.metasql.lang.psi.MetadataClause"}
+
+metadataReference ::= 'm_identifier'
+{mixin="ru.bellski.metasql.lang.psi.impl.MetadataReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetadataReference"}
+
 
 
 
