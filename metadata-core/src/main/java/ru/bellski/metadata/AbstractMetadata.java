@@ -1,8 +1,7 @@
 package ru.bellski.metadata;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by oem on 5/4/16.
@@ -29,4 +28,5 @@ public abstract class AbstractMetadata<TYPE> implements Metadata<TYPE> {
 	public MetaProperty<?, ?> getProperty(String name) {
 		return propertyMap.get(name);
 	}
+
 }
