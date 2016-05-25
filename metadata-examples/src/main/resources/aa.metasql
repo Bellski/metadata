@@ -1,0 +1,2 @@
+ReturnRule = List;
+Metadata = ru.bellski.metadata.examples.domain.AddressSqlMetadata;

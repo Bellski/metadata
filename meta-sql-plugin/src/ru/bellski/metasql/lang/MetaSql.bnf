@@ -19,6 +19,8 @@
     elementTypeClass="ru.bellski.metasql.lang.psi.MetaSqlElementType"
     tokenTypeClass="ru.bellski.metasql.lang.psi.MetaSqlTokenType"
 
+    psiImplUtilClass="ru.bellski.metasql.util.MetaSqlUtils"
+
  tokens=[
      ANY='any';
      SEMI=';'
@@ -39,26 +41,30 @@
 
 root ::= metaSqlBody
 
-metaSqlBody ::= group?
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody"}
+metaSqlBody ::= clauseList?
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody" recoverWhile=metaSqlBody_recovery}
+private metaSqlBody_recovery ::= !';'
 
-private group ::= returnRuleClause  metadataClause? {recoverWhile=metaSqlBody_recovery}
-private metaSqlBody_recovery::= !('ReturnRule' | 'Metadata' | 'm_identifier')
+private clauseList ::= returnRuleClause metadataClause? params?
 
-returnRuleClause ::= 'ReturnRule' '=' returnRuleValue {pin=1 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause" recoverWhile=r}
-private r ::= !('ReturnRule' '=' | 'Metadata' | 'any' | 'm_identifier')
-
-returnRuleValue ::= 'List' | 'Boolean' | 'Integer' | 'Single'
-{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue"}
-
-
-metadataClause ::= 'Metadata' '=' metadataReference
+returnRuleClause ::= 'ReturnRule' returnRuleInit ';'
+{pin=1 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause"}
+metadataClause ::= 'Metadata' metadataInit ';'
 {pin=1 mixin="ru.bellski.metasql.lang.psi.impl.MetadataClauseImpl" implements="ru.bellski.metasql.lang.psi.MetadataClause"}
 
+
+returnRuleInit ::= '=' returnRuleValue {pin=1 recoverWhile=returnResultInit_recovery}
+returnRuleValue ::= 'List' | 'Boolean' | 'Integer' | 'Single'
+{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue"}
+private returnResultInit_recovery ::= !(';' | 'Metadata' '=')
+
+metadataInit ::= '=' metadataReference {pin=1 recoverWhile=metadataInit_recovery}
 metadataReference ::= 'm_identifier'
 {mixin="ru.bellski.metasql.lang.psi.impl.MetadataReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetadataReference"}
+private metadataInit_recovery ::= !';'
 
-
+private params ::= param*
+param ::= 'm_identifier'
 
 
 

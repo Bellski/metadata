@@ -48,6 +48,8 @@
 
         <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.metasql.marker.MetaSqlRunMarkerProvider"/>
 
+        <lang.foldingBuilder language="SQL" implementationClass="ru.bellski.metasql.lang.SqlParamFolding"/>
+
     </extensions>
 
     <actions>

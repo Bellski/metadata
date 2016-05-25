@@ -39,7 +39,7 @@ public class SqlMetaFieldCompletionContributor extends CompletionContributor {
                             final PsiClass metadataClass = (PsiClass) metadataReference.resolve();
 
                             if (metadataClass != null) {
-                                for (PsiField psiField : metadataClass.getFields()) {
+                                 for (PsiField psiField : metadataClass.getFields()) {
                                     result.addElement(LookupElementBuilder.create(psiField.getInitializer().getText().replaceAll("\"", "")));
                                 }
                             }

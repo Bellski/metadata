@@ -10,7 +10,7 @@ import ru.bellski.metasql.lang.psi.MetaSqlVisitor;
 /**
  * Created by oem on 5/23/16.
  */
-public class MetaSqlBodyImpl extends MetaSqlCompositeElementImpl implements MetaSqlBody {
+public abstract class MetaSqlBodyImpl extends MetaSqlCompositeElementImpl implements MetaSqlBody {
     public MetaSqlBodyImpl(@NotNull ASTNode node) {
         super(node);
     }

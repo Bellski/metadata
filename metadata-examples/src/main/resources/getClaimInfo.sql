@@ -1,5 +1,5 @@
 /*
-		Metadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
+	ReturnRule = List
  */
 
 -- Получение данных дела

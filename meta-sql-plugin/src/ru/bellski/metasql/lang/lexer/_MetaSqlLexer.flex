@@ -40,7 +40,7 @@ IDENTIFIER=([a-zA-Z_$][a-zA-Z\d_$]*\.)*[a-zA-Z_$][a-zA-Z\d_$]*
   "Boolean"           { return BOOLEAN; }
   "Integer"           { return INTEGER; }
   "Single"            { return SINGLE; }
-  {IDENTIFIER}      { return M_IDENTIFIER; }
+  {IDENTIFIER}        { return M_IDENTIFIER; }
   {ANY}               { return ANY; }
 
 
