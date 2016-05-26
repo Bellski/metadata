@@ -22,19 +22,28 @@
     psiImplUtilClass="ru.bellski.metasql.util.MetaSqlUtils"
 
  tokens=[
-     ANY='any';
+     KEYWORD='keyword';
      SEMI=';'
      EQ='='
+     LBRACKET="["
+     RBRACKET="]"
+     COMMA=","
 
      METADATA="Metadata"
      RETURNRULE="ReturnRule"
+     PARAMETERS="Parameters"
 
      LIST="List"
      BOOLEAN="Boolean"
      INTEGER="Integer"
      SINGLE="Single"
 
+     STRING='String'
+     LONG='Long'
+     DATE='Date'
+
      M_IDENTIFIER="m_identifier"
+
    ]
 
 }
@@ -45,7 +54,7 @@ metaSqlBody ::= clauseList?
 {mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody" recoverWhile=metaSqlBody_recovery}
 private metaSqlBody_recovery ::= !';'
 
-private clauseList ::= returnRuleClause metadataClause? params?
+private clauseList ::= returnRuleClause metadataClause? parameterArray?
 
 returnRuleClause ::= 'ReturnRule' returnRuleInit ';'
 {pin=1 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause"}
@@ -63,8 +72,13 @@ metadataReference ::= 'm_identifier'
 {mixin="ru.bellski.metasql.lang.psi.impl.MetadataReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetadataReference"}
 private metadataInit_recovery ::= !';'
 
-private params ::= param*
-param ::= 'm_identifier'
+
+parameterArray ::= 'Parameters' '=' '[' (parameterList ','?)? ']' {pin=1}
+
+parameterList ::= (parameter (',' parameter)*) {recoverWhile=parameterList_recovery}
+private parameterList_recovery::= !']'
+
+parameter ::= ('String' | 'Long' | 'Date' | 'Boolean') param_keyword {pin=1}
 
 
 

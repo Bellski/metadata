@@ -10,12 +10,15 @@ import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiMethodCallExpression;
 import com.intellij.util.Function;
 import com.intellij.util.FunctionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.idea.maven.project.MavenProjectsManager;
+import ru.bellski.metasql.generate.SqlQueryGenerator;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -38,7 +41,12 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                     new GutterIconNavigationHandler<PsiElement>() {
                         @Override
                         public void navigate(MouseEvent e, PsiElement elt) {
-
+                            SqlQueryGenerator
+                                    .generate(
+                                            MavenProjectsManager
+                                                    .getInstance(elt.getProject())
+                                                    .findProject(elt.getProject().getBaseDir())
+                                    );
                         }
                     },
                     GutterIconRenderer.Alignment.RIGHT
@@ -49,9 +57,9 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
     @Nullable
     @Override
     public LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
-//        if (element.getContainingFile().getFirstChild().equals(element)) {
-//            return new RunLineMarkerInfo(element);
-//        }
+        if (element.getContainingFile().getFirstChild().equals(element)) {
+            return new RunLineMarkerInfo(element);
+        }
         return null;
     }
 
