@@ -4,13 +4,10 @@
 
     Parameters = [
         String param1,
-        String param3,
-        String param2,
-        Integer param1
+        String param3
     ]
 */
 
 SELECT *
 FROM a
-WHERE b = ? OR ?  OR ? OR ?
-
+WHERE b = ? OR ?

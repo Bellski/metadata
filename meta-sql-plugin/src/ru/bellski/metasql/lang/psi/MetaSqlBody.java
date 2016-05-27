@@ -10,6 +10,9 @@ public interface MetaSqlBody extends MetaSqlCompositeElement {
     @Nullable
     MetadataClause getMetadataClause();
 
+    @Nullable
+    MetaSqlParameterArray getParameterArray();
+
     @NotNull
     ReturnRuleClause getReturnRuleClause();
 }
