@@ -4,31 +4,21 @@ import com.intellij.codeHighlighting.Pass;
 import com.intellij.codeInsight.daemon.GutterIconNavigationHandler;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;
-import com.intellij.codeInsight.daemon.NavigateAction;
 import com.intellij.icons.AllIcons;
-import com.intellij.openapi.actionSystem.ActionGroup;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
 import com.intellij.openapi.module.ModuleUtil;
-import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiLanguageInjectionHost;
-import com.intellij.psi.PsiMethodCallExpression;
+import com.intellij.psi.*;
 import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 import com.intellij.psi.util.PsiTreeUtil;
-import com.intellij.psi.util.PsiUtil;
-import com.intellij.util.Function;
 import com.intellij.util.FunctionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.idea.maven.project.MavenProjectsManager;
+import ru.bellski.metasql.generate.BetterGenerator;
 import ru.bellski.metasql.generate.SqlQueryGenerator;
 import ru.bellski.metasql.lang.psi.MetaSqlBody;
 
-import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
@@ -63,10 +53,12 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                                 clone.deleteChildRange(clone.getFirstChild(), clone.getFirstChild());
                             });
 
+                            final PsiClass psiClass = (PsiClass) metaSqlBody.getMetadataClause().getMetadataInit().getMetadataReference().resolve();
 
-                            SqlQueryGenerator
+                            BetterGenerator
                                     .generate(
                                             queryName,
+                                            psiClass.getQualifiedName().substring(0, psiClass.getQualifiedName().lastIndexOf(".")),
                                             clone.getText(),
                                             metaSqlBody,
                                             MavenProjectsManager
@@ -74,6 +66,19 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                                                     .findProject(ModuleUtil.findModuleForPsiElement(elt)),
                                             elt.getProject()
                                     );
+
+//                            SqlQueryGenerator
+//                                    .generate(
+//                                            queryName,
+//                                            "queries",
+//                                            clone.getText(),
+//                                            metaSqlBody,
+//                                            MavenProjectsManager
+//                                                    .getInstance(elt.getProject())
+//                                                    .findProject(ModuleUtil.findModuleForPsiElement(elt)),
+//                                            elt.getProject()
+//                                    );
+
                         }
                     },
                     GutterIconRenderer.Alignment.RIGHT

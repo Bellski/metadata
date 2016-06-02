@@ -14,14 +14,4 @@ public class MetaSqlCompositeElementImpl extends ASTWrapperPsiElement implements
     public MetaSqlCompositeElementImpl(@NotNull ASTNode node) {
         super(node);
     }
-
-    @Override
-    public void accept(MetaSqlVisitor visitor) {
-
-    }
-
-    @Override
-    public void acceptChildren(MetaSqlVisitor visitor) {
-
-    }
 }

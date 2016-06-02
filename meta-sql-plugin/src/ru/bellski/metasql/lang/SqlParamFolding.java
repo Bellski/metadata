@@ -1,8 +1,6 @@
 package ru.bellski.metasql.lang;
 
 import com.google.common.collect.Sets;
-import com.intellij.codeInsight.folding.CodeFoldingManager;
-import com.intellij.codeInsight.folding.impl.FoldingUpdate;
 import com.intellij.lang.ASTNode;
 import com.intellij.lang.folding.FoldingBuilderEx;
 import com.intellij.lang.folding.FoldingDescriptor;
@@ -45,7 +43,7 @@ public class SqlParamFolding extends FoldingBuilderEx {
                             @Nullable
                             @Override
                             public String getPlaceholderText() {
-                                return metaSqlParam.getText();
+                                return metaSqlParam.getParameterKeyword().getText();
                             }
                         }
                 );

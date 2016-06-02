@@ -48,23 +48,20 @@
 
 }
 
-root ::= metaSqlBody
+root ::= body
 
-metaSqlBody ::= clauseList?
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlBodyImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlBody" recoverWhile=metaSqlBody_recovery}
+body ::= clauseList? {recoverWhile=metaSqlBody_recovery}
 private metaSqlBody_recovery ::= !';'
 
 private clauseList ::= returnRuleClause metadataClause? parameterArray?
 
-returnRuleClause ::= 'ReturnRule' returnRuleInit ';'
-{pin=1 mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleClauseImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleClause"}
-metadataClause ::= 'Metadata' metadataInit ';'
-{pin=1 mixin="ru.bellski.metasql.lang.psi.impl.MetadataClauseImpl" implements="ru.bellski.metasql.lang.psi.MetadataClause"}
+returnRuleClause ::= 'ReturnRule' returnRuleInit ';' {pin=1}
+metadataClause ::= 'Metadata' metadataInit ';' {pin=1}
 
 
 returnRuleInit ::= '=' returnRuleValue {pin=1 recoverWhile=returnResultInit_recovery}
 returnRuleValue ::= 'List' | 'Boolean' | 'Integer' | 'Single'
-{mixin="ru.bellski.metasql.lang.psi.impl.ReturnRuleValueImpl" implements="ru.bellski.metasql.lang.psi.ReturnRuleValue"}
+
 private returnResultInit_recovery ::= !(';' | 'Metadata' '=')
 
 metadataInit ::= '=' metadataReference {pin=1 recoverWhile=metadataInit_recovery}
@@ -78,8 +75,9 @@ parameterArray ::= 'Parameters' '=' '[' (parameterList ','?)? ']' {pin=1}
 parameterList ::= (parameter (',' parameter)*) {recoverWhile=parameterList_recovery}
 private parameterList_recovery::= !']'
 
-parameter ::= ('String' | 'Long' | 'Date' | 'Boolean') param_keyword {pin=1}
-
+parameter ::= parameterType parameterKeyword {pin=1}
+parameterKeyword ::= param_keyword
+parameterType ::= 'String' | 'Long' | 'Date' | 'Boolean'
 
 
 
