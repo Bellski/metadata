@@ -1,0 +1,74 @@
+{
+    parserClass="ru.bellski.metasql.lang.parser.MetaSqlParser"
+
+    implements = "ru.bellski.metasql.lang.psi.MetaSqlCompositeElement"
+    extends = "ru.bellski.metasql.lang.psi.impl.MetaSqlCompositeElementImpl"
+
+    psiClassPrefix="MetaSql"
+    psiImplClassSuffix="Impl"
+
+    psiPackage="ru.bellski.metasql.lang.psi"
+    psiImplPackage="ru.bellski.metasql.lang.psi.impl"
+
+    elementTypeHolderClass="ru.bellski.metasql.lang.psi.MetaSqlTokenTypes"
+    elementTypePrefix=""
+    elementTypeClass="ru.bellski.metasql.lang.psi.MetaSqlElementType"
+    tokenTypeClass="ru.bellski.metasql.lang.psi.MetaSqlTokenType"
+
+    tokens = [
+        LBRACE="{"
+        RBRACE="}"
+        LBRACKET="["
+        RBRACKET="]"
+        SEMICOLON=";"
+        LT="<"
+        RT=">"
+        EQ="="
+        COMMA=","
+        DOT="."
+
+        IMPORT_KEYWORD="import"
+        METADATA_KEYWORD="sqlMetadata"
+        PARAMETERS_KEYWORD="parameters"
+        RETURN_KEYWORD="return"
+
+        WHITE_SPACE='regexp:\s+'
+
+        PACKAGE_KEYWORD="package"
+
+        META_QUERY_KEYWORD="metaQuery"
+        IDENTIFIER='regexp:\w+'
+        STRING="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\\"|\\\'|\\)*\")"
+
+        LINE_COMMENT="regexp://.*"
+    ]
+
+}
+
+metaSql ::= packageDefinition? metaQueryDefinition {recoverWhile=metaSql_recovery}
+private metaSql_recovery ::= !('package')
+
+packageDefinition ::= 'package' (IDENTIFIER (('.' IDENTIFIER)*)?) ';' {pin=2}
+
+metaQueryDefinition ::= 'metaQuery' IDENTIFIER? queryBody {pin=2}
+
+queryBody ::= '{' queryMembers '}'
+queryMembers ::= metadataDefinition? parametersDefinition? returnStatement? {recoverWhile=queryMembers_recovery}
+private queryMembers_recovery ::= !'}'
+
+metadataDefinition ::= 'sqlMetadata' '=' metadata ';' {pin=2}
+
+parametersDefinition ::= 'parameters' '=' '[' (parameterDefinition  ((',' parameterDefinition)*)?) ']' ';' {pin=4}
+
+parameterDefinition ::= type  IDENTIFIER {pin=1}
+
+returnStatement ::= 'return' returnType ';' {pin=1}
+returnType ::= type ('<' type '>')? {pin=1}
+
+metadata ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataReferenceElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataReferenceElement"}
+
+type ::= IDENTIFIER
+
+
+
