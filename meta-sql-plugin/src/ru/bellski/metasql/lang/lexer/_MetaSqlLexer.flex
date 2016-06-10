@@ -22,13 +22,6 @@ EOL="\r"|"\n"|"\r\n"
 LINE_WS=[\ \t\f]
 WHITE_SPACE=({LINE_WS}|{EOL})+
 
-IDENTIFIER=([a-zA-Z_$][a-zA-Z\d_$]*\.)*[a-zA-Z_$][a-zA-Z\d_$]*
-
-mLETTER = [:letter:] | "_"
-mDIGIT = [:digit:]
-
-PARAM_KEYWORD={mLETTER} ({mDIGIT} | {mLETTER})*
-
 
 %%
 <YYINITIAL> {
@@ -50,8 +43,8 @@ PARAM_KEYWORD={mLETTER} ({mDIGIT} | {mLETTER})*
   "String"            { return STRING; }
   "Long"              { return LONG; }
   "Date"              { return DATE; }
-   {PARAM_KEYWORD}     { return PARAM_KEYWORD; }
-  {IDENTIFIER}      { return M_IDENTIFIER; }
+  "m_identifier"      { return M_IDENTIFIER; }
+  "param_keyword"     { return PARAM_KEYWORD; }
 
 
   [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }

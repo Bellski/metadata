@@ -1,5 +1,3 @@
 package ru.bellski.metadata.examples;
 
-public class CompanyTest {
-
-}
+public class A#

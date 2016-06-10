@@ -1,0 +1,5 @@
+package aaabellski.dwq;
+
+metaQuery aaa {
+    sqlMetadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
+}

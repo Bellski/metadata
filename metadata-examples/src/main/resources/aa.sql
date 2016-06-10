@@ -1,11 +1,15 @@
 /*
-    ReturnRule = List;
-    Metadata = ru.bellski.metadata.examples.domain.AddressSqlMetadata;
+    package aaabellski.dwq;
 
-    Parameters = [
-        String param1,
-        String param3
-    ]
+    metaQuery aaa {
+        sqlMetadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
+        parameters = [
+            String q,
+            AA f
+        ];
+        
+        return List<Boolean>;
+    }
 */
 
 SELECT *

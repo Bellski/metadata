@@ -19,7 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static kotlin.reflect.jvm.internal.impl.serialization.builtins.BuiltInsProtoBuf.className;
 
 /**
  * Created by Aleksandr on 30.05.2016.

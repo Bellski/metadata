@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.idea.maven.project.MavenProjectsManager;
 import ru.bellski.metasql.generate.BetterGenerator;
-import ru.bellski.metasql.generate.SqlQueryGenerator;
+
 import ru.bellski.metasql.lang.psi.MetaSqlBody;
 
 import java.awt.event.MouseEvent;
