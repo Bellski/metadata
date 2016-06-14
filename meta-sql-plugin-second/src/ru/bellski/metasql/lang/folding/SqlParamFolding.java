@@ -27,6 +27,9 @@ public class SqlParamFolding extends FoldingBuilderEx {
     @Override
     public FoldingDescriptor[] buildFoldRegions(@NotNull PsiElement root, @NotNull Document document, boolean quick) {
         Collection<SqlParameter> params = PsiTreeUtil.findChildrenOfType(root, SqlParameter.class);
+
+        InjectedLanguageUtil.findInjectedFile(root.getChildren()[0], MetaSqlFile.class);
+
         Collection<MetaSqlParameterDefinition> metaParams = PsiTreeUtil.findChildrenOfType(InjectedLanguageUtil.findInjectedFile(root.getChildren()[0], MetaSqlFile.class), MetaSqlParameterDefinition.class);
 
         List<FoldingDescriptor> foldingDescriptors = new ArrayList<>();

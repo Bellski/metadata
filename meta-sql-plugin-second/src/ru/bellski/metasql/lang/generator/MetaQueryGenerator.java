@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -18,10 +20,12 @@ import java.util.stream.Collectors;
  */
 public class MetaQueryGenerator {
     private static String metaClassTemplate;
+    private static String implementedStepTemplate;
 
     static {
         try {
             metaClassTemplate = readTemplate("/templates/MetaQueryClass.template");
+            implementedStepTemplate = readTemplate("/templates/ImplementedStep.template");
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }
@@ -31,13 +35,12 @@ public class MetaQueryGenerator {
         final MetaQuery metaQuery = new MetaQuery(className, paramNames);
         metaQuery.setQuery(query);
 
-
         String classTemplate = writeClassName(metaQuery.getName(), metaClassTemplate);
         classTemplate = writeSteps(metaQuery.getSteps(), classTemplate);
         classTemplate = writeQueryString(metaQuery.getQuery(), classTemplate);
         classTemplate = writeParamsCount(paramNames.size(), classTemplate);
-
-
+        classTemplate = writeFirstStep(metaQuery.getFirstStep().getName(), classTemplate);
+        classTemplate = writeImplementSteps(metaQuery.getSteps(), classTemplate);
 
         return classTemplate;
     }
@@ -50,11 +53,11 @@ public class MetaQueryGenerator {
         return metaClassTemplate.replaceAll("\\{metaQueryClassName\\}", className);
     }
 
-    private static String writeSteps(List<SetParameterStep> paramNames, String classTemplate) {
+    private static String writeSteps(List<SetParameterStep> steps, String classTemplate) {
         return classTemplate
                 .replaceAll(
                         "\\{steps\\}",
-                        paramNames
+                        steps
                                 .stream()
                                 .map(step -> StringUtil.capitalize(step.getName()))
                                 .collect(Collectors.joining(", "))
@@ -67,5 +70,37 @@ public class MetaQueryGenerator {
 
     private static String writeParamsCount(int count, String classTemplate) {
         return classTemplate.replaceAll("\\{paramsCount\\}", String.valueOf(count));
+    }
+
+    private static String writeFirstStep(String firstStep, String classTemplate) {
+        return classTemplate.replaceAll("\\{firstStep\\}", firstStep);
+    }
+
+    private static String writeImplementSteps(List<SetParameterStep> steps, String classTemplate) {
+        final StringJoiner stringJoiner = new StringJoiner("\n\n");
+
+
+
+        steps.forEach(new Consumer<SetParameterStep>() {
+            int paramIndex = 0;
+
+            @Override
+            public void accept(SetParameterStep setParameterStep) {
+                String setterTemplate = writeParamName(setParameterStep.getName(), implementedStepTemplate);
+                setterTemplate = writeParamIndex(String.valueOf(paramIndex++), setterTemplate);
+                stringJoiner.add(setterTemplate);
+            }
+
+            private String writeParamName(String paramName, String setterTemplate) {
+                return setterTemplate.replace("{paramName}", StringUtil.capitalize(paramName));
+            }
+
+            private String writeParamIndex(String paramIndex, String setterTemplate) {
+                return setterTemplate.replace("{paramIndex}", paramIndex);
+            }
+
+        });
+
+        return classTemplate.replace("{implementSteps}", stringJoiner.toString());
     }
 }

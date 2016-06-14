@@ -4,7 +4,10 @@ import org.jboss.forge.roaster.Roaster;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
 import ru.bellski.metadata.MetaProperty;
 import ru.bellski.metadata.Metadata;
+import ru.bellski.metadata.SqlMetadata;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Map;
 
 /**
@@ -12,115 +15,129 @@ import java.util.Map;
  */
 public class SQLMetadataGenerator {
 
-	public static JavaClassSource generate(Metadata<?> metadata) {
-		final JavaClassSource sqlMetadataClass =
-			Roaster
-				.create(JavaClassSource.class)
-				.setPackage(metadata.getType().getPackage().getName())
-				.setName(metadata.getType().getSimpleName() + "SqlMetadata");
+    public static JavaClassSource generate(Metadata<?> metadata) {
+        final JavaClassSource sqlMetadataClass =
+                Roaster
+                        .create(JavaClassSource.class)
+                        .setPackage(metadata.getType().getPackage().getName())
+                        .setName(metadata.getType().getSimpleName() + "SqlMetadata");
 
-		sqlMetadataClass.addImport(Map.class);
+        sqlMetadataClass.addAnnotation(SqlMetadata.class);
 
-		StringBuilder body = new StringBuilder();
+        sqlMetadataClass.addImport(Map.class);
 
-		generateSqlMetadataClass(metadata, new StringBuilder(), sqlMetadataClass, body)
-			.addMethod()
-			.setPublic()
-			.setStatic(true)
-			.setName("unmarshal")
-			.setParameters("Map<String, Object> data")
-			.setBody(body.toString());
+        StringBuilder body = new StringBuilder();
+        appendNestedPropertyInstance(metadata.getType().getSimpleName(), body);
+        body
+                .append("while (resultSet.next()) {");
 
-		return sqlMetadataClass;
-	}
+        generateSqlMetadataClass(metadata, new StringBuilder(), sqlMetadataClass, body)
+                .addMethod()
+                .setPublic()
+                .setStatic(true)
+                .setReturnType(metadata.getType())
+                .setName("unmarshal")
+                .setBody(
+                        body
+                                .append("} \n")
+                                .append("return ")
+                                .append(down(metadata.getType().getSimpleName()))
+                                .append(";")
+                                .toString()
+                )
+                .addThrows(SQLException.class)
+                .addParameter(ResultSet.class, "resultSet");
+        return sqlMetadataClass;
+    }
 
-	private static JavaClassSource generateSqlMetadataClass(Metadata<?> metadata, StringBuilder prefix, JavaClassSource sqlMetadataClass, StringBuilder body){
-		final String typeName = metadata.getType().getSimpleName();
+    private static JavaClassSource generateSqlMetadataClass(Metadata<?> metadata, StringBuilder prefix, JavaClassSource sqlMetadataClass, StringBuilder body) {
+        final String typeName = metadata.getType().getSimpleName();
 
-		sqlMetadataClass.addImport(metadata.getType());
-
-		appendNestedPropertyInstance(metadata.getType().getSimpleName(), body);
-
-		final StringBuilder name = new StringBuilder();
-
-		for (MetaProperty metaProperty : metadata.getProperties()) {
-			final String pName = metaProperty.getName();
-			final String pTypeName = metaProperty.getType().getSimpleName();
-
-			sqlMetadataClass.addImport(metaProperty.getType());
-
-			name.setLength(0);
-			name
-				.append(prefix)
-				.append(pName)
-			;
-			if(metaProperty.isNested()){
-				generateSqlMetadataClass(metaProperty.getMetadata(), name.append('.'), sqlMetadataClass, body);
-				appendNestedPropertySetValue(typeName, metaProperty.getMetadata().getType().getSimpleName(), body);
-			} else {
-				final String selectParamName = name.toString().replaceAll("\\.", "_");
-
-				appendSelectParamField(sqlMetadataClass, selectParamName, name.toString());
-				appendSetValue(typeName, pName, pTypeName, selectParamName, body);
-			}
-		}
-
-		return sqlMetadataClass;
-	}
+        sqlMetadataClass.addImport(metadata.getType());
 
 
-	private static void appendNestedPropertyInstance(String pName, StringBuilder body) {
-		body
-			.append("final ")
-			.append(pName)
-			.append(" ")
-			.append(down(pName))
-			.append(" = ")
-			.append("new ")
-			.append(pName)
-			.append("();\n");
-	}
 
-	private static void appendNestedPropertySetValue(String nestedPropertyParamName, String nestedPropertyTypeName, StringBuilder body) {
-		body
-			.append(down(nestedPropertyParamName))
-			.append(".set")
-			.append(nestedPropertyTypeName)
-			.append("(")
-			.append(down(nestedPropertyTypeName))
-			.append(");\n");
-	}
+        final StringBuilder name = new StringBuilder();
 
-	private static void appendSelectParamField(JavaClassSource sqlMetadataClass, String selectParamName, String pathValue) {
-		sqlMetadataClass
-			.addField()
-			.setPublic()
-			.setStatic(true)
-			.setFinal(true)
-			.setType(String.class)
-			.setName(selectParamName)
-			.setStringInitializer(pathValue);
-	}
+        for (MetaProperty metaProperty : metadata.getProperties()) {
+            final String pName = metaProperty.getName();
+            final String pTypeName = metaProperty.getType().getSimpleName();
 
-	private static void appendSetValue(String typeName, String pName, String pTypeName, String selectParamName, StringBuilder body) {
-		body
-			.append(down(typeName))
-			.append(".set")
-			.append(up(pName))
-			.append("((")
-			.append(pTypeName)
-			.append(")")
-			.append("data.get(")
-			.append(selectParamName)
-			.append("));")
-			.append("\n");
-	}
+            sqlMetadataClass.addImport(metaProperty.getType());
 
-	private static String up(String value) {
-		return Character.toUpperCase(value.charAt(0)) + value.substring(1);
-	}
+            name.setLength(0);
+            name
+                    .append(prefix)
+                    .append(pName)
+            ;
+            if (metaProperty.isNested()) {
+                appendNestedPropertyInstance(metaProperty.getMetadata().getType().getSimpleName(), body);
+                generateSqlMetadataClass(metaProperty.getMetadata(), name.append('.'), sqlMetadataClass, body);
+                appendNestedPropertySetValue(typeName, metaProperty.getMetadata().getType().getSimpleName(), body);
+            } else {
+                final String selectParamName = name.toString().replaceAll("\\.", "_");
 
-	private static String down(String value) {
-		return Character.toLowerCase(value.charAt(0)) + value.substring(1);
-	}
+                appendSelectParamField(sqlMetadataClass, selectParamName, name.toString());
+                appendSetValue(typeName, pName, pTypeName, selectParamName, body);
+            }
+        }
+
+        return sqlMetadataClass;
+    }
+
+
+    private static void appendNestedPropertyInstance(String pName, StringBuilder body) {
+        body
+                .append("final ")
+                .append(pName)
+                .append(" ")
+                .append(down(pName))
+                .append(" = ")
+                .append("new ")
+                .append(pName)
+                .append("();\n");
+    }
+
+    private static void appendNestedPropertySetValue(String nestedPropertyParamName, String nestedPropertyTypeName, StringBuilder body) {
+        body
+                .append(down(nestedPropertyParamName))
+                .append(".set")
+                .append(nestedPropertyTypeName)
+                .append("(")
+                .append(down(nestedPropertyTypeName))
+                .append(");\n");
+    }
+
+    private static void appendSelectParamField(JavaClassSource sqlMetadataClass, String selectParamName, String pathValue) {
+        sqlMetadataClass
+                .addField()
+                .setPublic()
+                .setStatic(true)
+                .setFinal(true)
+                .setType(String.class)
+                .setName(selectParamName)
+                .setStringInitializer(pathValue);
+    }
+
+    private static void appendSetValue(String typeName, String pName, String pTypeName, String selectParamName, StringBuilder body) {
+        body
+                .append(down(typeName))
+                .append(".set")
+                .append(up(pName))
+                .append("((")
+                .append(pTypeName)
+                .append(")")
+                .append("resultSet.getObject(")
+                .append(selectParamName)
+                .append("));")
+                .append("\n");
+    }
+
+    private static String up(String value) {
+        return Character.toUpperCase(value.charAt(0)) + value.substring(1);
+    }
+
+    private static String down(String value) {
+        return Character.toLowerCase(value.charAt(0)) + value.substring(1);
+    }
 }

@@ -17,11 +17,8 @@ public class MetaQuery {
 
         steps = new ArrayList<>();
 
-        if (!paramNames.isEmpty()) {
-            steps.add(new SetParameterStep(this.name.concat("Executor")));
-        } else {
-            paramNames.forEach(paramName -> steps.add(new SetParameterStep(paramName)));
-        }
+        paramNames.forEach(paramName -> steps.add(new SetParameterStep(paramName)));
+        steps.add(new SetParameterStep(this.name.concat("Executor")));
     }
 
     public String getName() {
@@ -32,7 +29,7 @@ public class MetaQuery {
         return query;
     }
 
-    public void setQuery(String query) {
+    public  void setQuery(String query) {
         this.query = query;
     }
 
