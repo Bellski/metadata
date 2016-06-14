@@ -1,0 +1,37 @@
+public class {metaQueryClassName} implements {steps}, {metaQueryClassName} {
+    private DataSource ds;
+    private final String query = {queryString};
+    private final Object[] params = new Object[{paramsCount}];
+
+    private {metaQueryClassName}() {
+
+    }
+
+    private {metaQueryClassName}(DataSource ds) {
+        this.ds = ds;
+    }
+
+    public static {firstStep} create(DataSource ds) {
+        return new {metaQueryClassName}Query(ds);
+    }
+
+    public static {firstStep} create() {
+        return new {metaQueryClassName}();
+    }
+
+    {implementSteps}
+
+    @Override
+    public {executionStep} execute(Connection connection) throws SQLException {
+        final PreparedStatement stmt = connection.prepareStatement(query);
+
+        return null;
+    }
+
+    @Override
+    public {executionStep} {metaQueryClassName} execute() throws SQLException {
+        final PreparedStatement stmt = connection.prepareStatement(query);
+
+        return null;
+    }
+}

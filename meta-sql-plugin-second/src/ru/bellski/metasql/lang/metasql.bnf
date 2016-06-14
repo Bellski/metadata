@@ -77,7 +77,6 @@ primitives ::= 'String' | 'Boolean' | 'Long'
 metadata ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
 {mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataReferenceElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataReferenceElement"}
 
-type ::= IDENTIFIER
 
 
 

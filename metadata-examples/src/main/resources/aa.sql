@@ -4,8 +4,8 @@
     metaQuery aaa {
         sqlMetadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
         parameters = [
-            String q,
-            AA f
+            String q    ,
+            Boolean f
         ];
         
         return List<Boolean>;

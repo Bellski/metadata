@@ -10,9 +10,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.util.FunctionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.bellski.metasql.lang.generator.MetaSqlGenerator;
+import ru.bellski.metasql.lang.generator.MetaQueryGenerator;
 
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                     new GutterIconNavigationHandler<PsiElement>() {
                         @Override
                         public void navigate(MouseEvent e, PsiElement elt) {
-                            System.out.println(MetaSqlGenerator.generate());
+                            System.out.println(MetaQueryGenerator.generate("TestClass", "Query", Arrays.asList("param1", "param2")));
                         }
                     },
                     GutterIconRenderer.Alignment.RIGHT

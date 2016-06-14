@@ -43,6 +43,8 @@
     <highlightVisitor implementation="ru.bellski.metasql.lang.editor.MetaSqlHighLightVisitor"/>
 
     <lang.foldingBuilder language="SQL" implementationClass="ru.bellski.metasql.lang.folding.SqlParamFolding"/>
+
+      <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.metasql.lang.marker.MetaSqlRunMarkerProvider"/>
   </extensions>
 
   <actions>
