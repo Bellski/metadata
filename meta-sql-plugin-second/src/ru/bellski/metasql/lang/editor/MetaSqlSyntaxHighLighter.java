@@ -37,12 +37,12 @@ public class MetaSqlSyntaxHighLighter extends SyntaxHighlighterBase {
 
         textAttributeByElementType.put(
                 PARAMETERS_KEYWORD,
-                createTextAttributesKey("META_SQL_PARAMETERS_KEYWORD", JavaHighlightingColors.STATIC_FIELD_ATTRIBUTES)
+                createTextAttributesKey("META_SQL_PARAMETERS_KEYWORD", DefaultLanguageHighlighterColors.STATIC_FIELD)
         );
 
         textAttributeByElementType.put(
                 METADATA_KEYWORD,
-                createTextAttributesKey("META_SQL_METADATA_KEYWORD", JavaHighlightingColors.STATIC_FIELD_ATTRIBUTES)
+                createTextAttributesKey("META_SQL_METADATA_KEYWORD", DefaultLanguageHighlighterColors.STATIC_FIELD)
         );
 
         textAttributeByElementType.put(

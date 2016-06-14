@@ -27,6 +27,11 @@
         COMMA=","
         DOT="."
 
+        LIST="List"
+        Boolean="Boolean"
+        String="String"
+        Long="Long"
+
         IMPORT_KEYWORD="import"
         METADATA_KEYWORD="sqlMetadata"
         PARAMETERS_KEYWORD="parameters"
@@ -60,10 +65,14 @@ metadataDefinition ::= 'sqlMetadata' '=' metadata ';' {pin=2}
 
 parametersDefinition ::= 'parameters' '=' '[' (parameterDefinition  ((',' parameterDefinition)*)?) ']' ';' {pin=4}
 
-parameterDefinition ::= type  IDENTIFIER {pin=1}
+parameterDefinition ::= primitives  IDENTIFIER {pin=1}
 
 returnStatement ::= 'return' returnType ';' {pin=1}
-returnType ::= type ('<' type '>')? {pin=1}
+returnType ::= primitives | collection {pin=1}
+
+collection ::= 'List' ('<' primitives '>')
+primitives ::= 'String' | 'Boolean' | 'Long'
+
 
 metadata ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
 {mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataReferenceElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataReferenceElement"}

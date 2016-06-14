@@ -41,6 +41,10 @@ LINE_COMMENT="//".*
   "="                 { return EQ; }
   ","                 { return COMMA; }
   "."                 { return DOT; }
+  "List"              { return LIST; }
+  "Boolean"           { return BOOLEAN; }
+  "String"            { return STRING; }
+  "Long"              { return LONG; }
   "import"            { return IMPORT_KEYWORD; }
   "sqlMetadata"       { return METADATA_KEYWORD; }
   "parameters"        { return PARAMETERS_KEYWORD; }
