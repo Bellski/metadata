@@ -1,5 +1,4 @@
-@Override
-public {nextStep} set{paramName}({paramType} value) {
-    params[{paramIndex}] = value;
-    return this;
-}
+    @Override
+    public {nextStep} {paramName}({paramType} value) {
+
+    }

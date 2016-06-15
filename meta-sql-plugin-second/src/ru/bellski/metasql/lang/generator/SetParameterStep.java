@@ -5,23 +5,23 @@ import java.util.List;
 /**
  * Created by oem on 6/14/16.
  */
-public class SetParameterStep {
+public class SetParameterStep implements Step {
     private final String name;
-    private List<ParameterSetter> parameterSetterList;
+    private final List<StepMethod> stepMethods;
 
-    public SetParameterStep(String name) {
-        this.name = name;
+
+    public SetParameterStep(List<StepMethod> stepMethods) {
+        this.name = stepMethods.get(0).getName();
+        this.stepMethods = stepMethods;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
-    public List<ParameterSetter> getParameterSetterList() {
-        return parameterSetterList;
-    }
-
-    public void setParameterSetterList(List<ParameterSetter> parameterSetterList) {
-        this.parameterSetterList = parameterSetterList;
+    @Override
+    public List<StepMethod> getStepMethods() {
+        return stepMethods;
     }
 }

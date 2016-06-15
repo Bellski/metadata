@@ -1,8 +1,6 @@
 package ru.bellski.metasql.lang.generator;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Created by oem on 6/14/16.
@@ -10,15 +8,11 @@ import java.util.function.Consumer;
 public class MetaQuery {
     private final String name;
     private String query;
-    private List<SetParameterStep> steps;
+    private List<Step> steps;
 
-    public MetaQuery(String name, List<String> paramNames) {
-        this.name = name.concat("Query");
-
-        steps = new ArrayList<>();
-
-        paramNames.forEach(paramName -> steps.add(new SetParameterStep(paramName)));
-        steps.add(new SetParameterStep(this.name.concat("Executor")));
+    public MetaQuery(String name, List<Step> steps) {
+        this.name = name;
+        this.steps = steps;
     }
 
     public String getName() {
@@ -33,11 +27,11 @@ public class MetaQuery {
         this.query = query;
     }
 
-    public List<SetParameterStep> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 
-    public SetParameterStep getFirstStep() {
+    public Step getFirstStep() {
         return steps.get(0);
     }
 }

@@ -1,18 +1,14 @@
 package ru.bellski.metasql.lang.generator;
 
-import com.intellij.codeInsight.template.TemplateBuilderFactory;
 import com.intellij.openapi.util.text.StringUtil;
-import com.intellij.spellchecker.util.Strings;
+import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.function.Consumer;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -31,18 +27,42 @@ public class MetaQueryGenerator {
         }
     }
 
-    public static String generate(String className, String query, List<String> paramNames)  {
-        final MetaQuery metaQuery = new MetaQuery(className, paramNames);
+    public static String generate(String className, String query, MetaSqlParameterDefinition[] parameterDefinitions)  {
+
+        final MetaQuery metaQuery = new MetaQuery(className, generateSteps(parameterDefinitions));
         metaQuery.setQuery(query);
 
         String classTemplate = writeClassName(metaQuery.getName(), metaClassTemplate);
         classTemplate = writeSteps(metaQuery.getSteps(), classTemplate);
         classTemplate = writeQueryString(metaQuery.getQuery(), classTemplate);
-        classTemplate = writeParamsCount(paramNames.size(), classTemplate);
+        classTemplate = writeParamsCount(parameterDefinitions.length, classTemplate);
         classTemplate = writeFirstStep(metaQuery.getFirstStep().getName(), classTemplate);
         classTemplate = writeImplementSteps(metaQuery.getSteps(), classTemplate);
 
         return classTemplate;
+    }
+
+    private static List<Step> generateSteps(MetaSqlParameterDefinition[] parameterDefinitions) {
+        final List<Step> steps = new ArrayList<>();
+
+        for (int i = 0; i < parameterDefinitions.length; i++) {
+            final MetaSqlParameterDefinition parameterDefinition = parameterDefinitions[i];
+            final String id = parameterDefinition.getIdentifier().getText();
+            final String type = parameterDefinition.getPrimitives().getText();
+
+            final List<StepMethod> setStepMethods =
+                    Collections.singletonList(
+                            new StepMethod(
+                                    "set".concat(StringUtil.capitalize(id)),
+                                    "",
+                                    new StepMethodParameter(type, "value")
+                            )
+                    );
+
+            steps.add(new SetParameterStep(setStepMethods));
+        }
+
+        return steps;
     }
 
     private static String readTemplate(String templateName) throws IOException, URISyntaxException {
@@ -53,7 +73,7 @@ public class MetaQueryGenerator {
         return metaClassTemplate.replaceAll("\\{metaQueryClassName\\}", className);
     }
 
-    private static String writeSteps(List<SetParameterStep> steps, String classTemplate) {
+    private static String writeSteps(List<Step> steps, String classTemplate) {
         return classTemplate
                 .replaceAll(
                         "\\{steps\\}",
@@ -73,33 +93,23 @@ public class MetaQueryGenerator {
     }
 
     private static String writeFirstStep(String firstStep, String classTemplate) {
-        return classTemplate.replaceAll("\\{firstStep\\}", firstStep);
+        return classTemplate.replaceAll("\\{firstStep\\}", StringUtil.capitalize(firstStep));
     }
 
-    private static String writeImplementSteps(List<SetParameterStep> steps, String classTemplate) {
+    private static String writeImplementSteps(List<Step> steps, String classTemplate) {
         final StringJoiner stringJoiner = new StringJoiner("\n\n");
 
+        for (int i = 0; i < steps.size() - 1; i++) {
+            final Step setParameterStep = steps.get(i);
 
-
-        steps.forEach(new Consumer<SetParameterStep>() {
-            int paramIndex = 0;
-
-            @Override
-            public void accept(SetParameterStep setParameterStep) {
-                String setterTemplate = writeParamName(setParameterStep.getName(), implementedStepTemplate);
-                setterTemplate = writeParamIndex(String.valueOf(paramIndex++), setterTemplate);
+            int finalI = i;
+            setParameterStep.getStepMethods().forEach(stepMethod -> {
+                String setterTemplate = implementedStepTemplate.replace("{paramName}", StringUtil.capitalize(setParameterStep.getName()));
+                setterTemplate = setterTemplate.replace("{paramIndex}", String.valueOf(finalI));
+                setterTemplate = setterTemplate.replace("{paramType}", stepMethod.getReturnType());
                 stringJoiner.add(setterTemplate);
-            }
-
-            private String writeParamName(String paramName, String setterTemplate) {
-                return setterTemplate.replace("{paramName}", StringUtil.capitalize(paramName));
-            }
-
-            private String writeParamIndex(String paramIndex, String setterTemplate) {
-                return setterTemplate.replace("{paramIndex}", paramIndex);
-            }
-
-        });
+            });
+        }
 
         return classTemplate.replace("{implementSteps}", stringJoiner.toString());
     }
