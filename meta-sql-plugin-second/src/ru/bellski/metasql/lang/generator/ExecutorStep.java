@@ -15,8 +15,8 @@ public class ExecutorStep implements Step {
 
         stepMethods = new ArrayList<>(2);
 
-        stepMethods.add(new StepMethod("execute", returnType, new StepMethodParameter()));
-        stepMethods.add(new StepMethod("execute", returnType, new StepMethodParameter("ds", "Connection")));
+        stepMethods.add(new StepMethod("execute", returnType, null));
+        stepMethods.add(new StepMethod("execute", returnType, new StepMethodParameter("Connection", "connection")));
     }
 
     @Override

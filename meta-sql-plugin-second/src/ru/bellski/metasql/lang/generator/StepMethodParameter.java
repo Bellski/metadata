@@ -23,7 +23,4 @@ public class StepMethodParameter {
         return name;
     }
 
-    public boolean isVoid() {
-        return name == null || type == null;
-    }
 }

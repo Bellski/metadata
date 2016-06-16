@@ -16,7 +16,10 @@ import org.jetbrains.annotations.Nullable;
 import ru.bellski.metasql.lang.MetaSqlFile;
 import ru.bellski.metasql.lang.generator.MetaQueryGenerator;
 import ru.bellski.metasql.lang.generator.ParameterSetter;
+import ru.bellski.metasql.lang.generator.builder.MetaQueryBuilder;
 import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
+import ru.bellski.metasql.lang.psi.MetaSqlReturnStatement;
+import ru.bellski.metasql.lang.psi.MetaSqlReturnType;
 
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -47,12 +50,12 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                                     = PsiTreeUtil.findChildrenOfType(metaSqlFile, MetaSqlParameterDefinition.class);
 
                             System.out.println(
-                                    MetaQueryGenerator
-                                            .generate(
-                                                    "Test",
-                                                    "Query",
-                                                    parameters.toArray(new MetaSqlParameterDefinition[parameters.size()])
-                                            )
+                                    new MetaQueryBuilder(
+                                            "Test",
+                                            parameters.toArray(new MetaSqlParameterDefinition[parameters.size()]),
+                                            "Query",
+                                            PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlReturnType.class)
+                                    )
                             );
                         }
                     },

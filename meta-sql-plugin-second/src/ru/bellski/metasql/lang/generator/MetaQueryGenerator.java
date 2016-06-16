@@ -27,9 +27,9 @@ public class MetaQueryGenerator {
         }
     }
 
-    public static String generate(String className, String query, MetaSqlParameterDefinition[] parameterDefinitions)  {
+    public static String generate(String className, String query, MetaSqlParameterDefinition[] parameterDefinitions, String returnType)  {
 
-        final MetaQuery metaQuery = new MetaQuery(className, generateSteps(parameterDefinitions));
+        final MetaQuery metaQuery = new MetaQuery(className, generateSteps(parameterDefinitions, className, returnType));
         metaQuery.setQuery(query);
 
         String classTemplate = writeClassName(metaQuery.getName(), metaClassTemplate);
@@ -42,25 +42,32 @@ public class MetaQueryGenerator {
         return classTemplate;
     }
 
-    private static List<Step> generateSteps(MetaSqlParameterDefinition[] parameterDefinitions) {
+    private static List<Step> generateSteps(MetaSqlParameterDefinition[] parameterDefinitions, String className, String returnType) {
         final List<Step> steps = new ArrayList<>();
+
+        final ExecutorStep executorStep = new ExecutorStep(className, returnType);
 
         for (int i = 0; i < parameterDefinitions.length; i++) {
             final MetaSqlParameterDefinition parameterDefinition = parameterDefinitions[i];
             final String id = parameterDefinition.getIdentifier().getText();
             final String type = parameterDefinition.getPrimitives().getText();
 
+            final String nextStep = parameterDefinitions.length == (i +1) ?
+                            executorStep.getName() : "set".concat(StringUtil.capitalize(parameterDefinitions[i+1].getIdentifier().getText()));
+
             final List<StepMethod> setStepMethods =
                     Collections.singletonList(
                             new StepMethod(
                                     "set".concat(StringUtil.capitalize(id)),
-                                    "",
+                                    nextStep,
                                     new StepMethodParameter(type, "value")
                             )
                     );
 
             steps.add(new SetParameterStep(setStepMethods));
         }
+
+        steps.add(executorStep);
 
         return steps;
     }
@@ -99,15 +106,21 @@ public class MetaQueryGenerator {
     private static String writeImplementSteps(List<Step> steps, String classTemplate) {
         final StringJoiner stringJoiner = new StringJoiner("\n\n");
 
-        for (int i = 0; i < steps.size() - 1; i++) {
+        for (int i = 0; i < steps.size(); i++) {
             final Step setParameterStep = steps.get(i);
 
             int finalI = i;
             setParameterStep.getStepMethods().forEach(stepMethod -> {
-                String setterTemplate = implementedStepTemplate.replace("{paramName}", StringUtil.capitalize(setParameterStep.getName()));
-                setterTemplate = setterTemplate.replace("{paramIndex}", String.valueOf(finalI));
-                setterTemplate = setterTemplate.replace("{paramType}", stepMethod.getReturnType());
-                stringJoiner.add(setterTemplate);
+                final StepMethodParameter parameter = stepMethod.getStepMethodParameter();
+
+                if (parameter != null) {
+                    String setterTemplate = implementedStepTemplate.replace("{methodName}", StringUtil.capitalize(stepMethod.getName()));
+                    setterTemplate = setterTemplate.replace("{paramIndex}", String.valueOf(finalI));
+                    setterTemplate = setterTemplate.replace("{paramType}", parameter.getType());
+                    setterTemplate = setterTemplate.replace("{paramName}", parameter.getName());
+                    setterTemplate = setterTemplate.replace("{nextStep}", stepMethod.getReturnType());
+                    stringJoiner.add(setterTemplate);
+                }
             });
         }
 
