@@ -57,7 +57,7 @@ public class StepBuilder {
     public String getOverrideSetter() {
         return
                 "    @Override \n"
-                + "    public " + setterReturnType + " " + name + "(" + setterParamType + " " + setterParamName + ") { \n"
+                + "    public " + setterReturnType + " " + setterName + "(" + setterParamType + " " + setterParamName + ") { \n"
                 + "        params[" + index + "] = " + setterParamName + "; \n"
                 + "        return this; \n"
                 + "    }"
@@ -67,7 +67,7 @@ public class StepBuilder {
     @Override
     public String toString() {
         return "public interface " + name + " { \n"
-                + "    " + setterReturnType + " " + name + "(" + setterParamType + " " + setterParamName + ");\n"
+                + "    " + setterReturnType + " " + setterName + "(" + setterParamType + " " + setterParamName + ");\n"
                 + "}"
                 ;
     }

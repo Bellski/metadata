@@ -53,7 +53,8 @@
 metaSql ::= packageDefinition? metaQueryDefinition {recoverWhile=metaSql_recovery}
 private metaSql_recovery ::= !('package')
 
-packageDefinition ::= 'package' (IDENTIFIER (('.' IDENTIFIER)*)?) ';' {pin=2}
+packageDefinition ::= 'package' packageName ';' {pin=2}
+packageName ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
 
 metaQueryDefinition ::= 'metaQuery' IDENTIFIER? queryBody {pin=2}
 

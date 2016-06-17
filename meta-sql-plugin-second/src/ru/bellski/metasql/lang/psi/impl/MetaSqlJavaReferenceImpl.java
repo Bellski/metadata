@@ -16,10 +16,10 @@ public class MetaSqlJavaReferenceImpl extends MetaSqlReferenceElementImpl implem
     public static Map<String, String> supportedReferenceByName = new HashMap<>();
 
     static {
-        supportedReferenceByName.put("List", "java.util");
-        supportedReferenceByName.put("Boolean", "java.lang");
-        supportedReferenceByName.put("String", "java.lang");
-        supportedReferenceByName.put("Long", "java.lang");
+        supportedReferenceByName.put("List", "java.util.List");
+        supportedReferenceByName.put("Boolean", "java.lang.Boolean");
+        supportedReferenceByName.put("String", "java.lang.String");
+        supportedReferenceByName.put("Long", "java.lang.Long");
     }
 
     public MetaSqlJavaReferenceImpl(@NotNull ASTNode node) {

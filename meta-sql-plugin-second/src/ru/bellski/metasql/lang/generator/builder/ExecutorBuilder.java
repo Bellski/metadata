@@ -31,4 +31,15 @@ public class ExecutorBuilder {
                 + "    }"
                 ;
     }
+
+    @Override
+    public String toString() {
+        return
+                "import java.sql.Connection;\n\n"
+                + "public interface " + name + " { \n"
+                + "    public " + returnType + " execute(Connection connection);\n"
+                + "    public " + returnType + " execute();\n"
+                + "}"
+                ;
+    }
 }

@@ -5,9 +5,16 @@ import com.intellij.codeInsight.daemon.GutterIconNavigationHandler;
 import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.LineMarkerProvider;
 import com.intellij.icons.AllIcons;
+import com.intellij.ide.highlighter.JavaFileType;
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.markup.GutterIconRenderer;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.file.PsiDirectoryFactory;
 import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FunctionUtil;
@@ -17,11 +24,14 @@ import ru.bellski.metasql.lang.MetaSqlFile;
 import ru.bellski.metasql.lang.generator.MetaQueryGenerator;
 import ru.bellski.metasql.lang.generator.ParameterSetter;
 import ru.bellski.metasql.lang.generator.builder.MetaQueryBuilder;
+import ru.bellski.metasql.lang.generator.builder.StepBuilder;
+import ru.bellski.metasql.lang.psi.MetaSqlPackageDefinition;
 import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
 import ru.bellski.metasql.lang.psi.MetaSqlReturnStatement;
 import ru.bellski.metasql.lang.psi.MetaSqlReturnType;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,7 +43,7 @@ import java.util.function.Consumer;
  */
 public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
 
-    public class RunLineMarkerInfo extends  LineMarkerInfo<PsiElement> {
+    public class RunLineMarkerInfo extends LineMarkerInfo<PsiElement> {
         public RunLineMarkerInfo(PsiElement element) {
             super(
                     element,
@@ -42,21 +52,83 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                     Pass.UPDATE_ALL,
                     FunctionUtil.constant("Generate"),
                     new GutterIconNavigationHandler<PsiElement>() {
+                        private Project project;
+
                         @Override
                         public void navigate(MouseEvent e, PsiElement elt) {
                             final MetaSqlFile metaSqlFile = (MetaSqlFile) elt.getContainingFile();
 
+                            this.project = elt.getProject();
+
+                            final Module module = ModuleUtil.findModuleForFile(metaSqlFile.getVirtualFile(), project);
+
                             final Collection<MetaSqlParameterDefinition> parameters
                                     = PsiTreeUtil.findChildrenOfType(metaSqlFile, MetaSqlParameterDefinition.class);
 
-                            System.out.println(
-                                    new MetaQueryBuilder(
-                                            "Test",
-                                            parameters.toArray(new MetaSqlParameterDefinition[parameters.size()]),
-                                            "Query",
-                                            PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlReturnType.class)
-                                    )
+                            final MetaSqlPackageDefinition packageDef
+                                    = PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlPackageDefinition.class);
+
+                            final MetaQueryBuilder metaQueryBuilder = new MetaQueryBuilder(
+                                    "Test",
+                                    parameters.toArray(new MetaSqlParameterDefinition[parameters.size()]),
+                                    "Query",
+                                    PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlReturnType.class)
                             );
+
+                            String path = module.getModuleFile().getParent().getPath().concat("/target/generated-sources/meta/");
+
+                            saveJavaFile(metaQueryBuilder, packageDef == null ? path.concat("queries") : path.concat(packageDef.getPackageName().getText().replace(".", "/")));
+                        }
+
+                        private void saveJavaFile(MetaQueryBuilder metaQueryBuilder, String path) {
+                            final PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(project);
+                            final PsiManager psiManager = PsiManager.getInstance(project);
+
+                            ApplicationManager.getApplication().runWriteAction(() -> {
+                                try {
+                                    VirtualFile metaSqlPackage = project
+                                            .getBaseDir()
+                                            .findFileByRelativePath(
+                                                    path
+                                            );
+
+                                    if (metaSqlPackage == null) {
+                                        metaSqlPackage = VfsUtil.createDirectories(path);
+                                    }
+
+                                    final PsiDirectory directory = psiManager.findDirectory(metaSqlPackage);
+                                    directory.add(
+                                            psiFileFactory
+                                                    .createFileFromText(
+                                                            metaQueryBuilder.getName()+".java",
+                                                            JavaFileType.INSTANCE,
+                                                            metaQueryBuilder.toString()
+                                                    )
+                                    );
+
+                                    directory.add(
+                                            psiFileFactory
+                                                    .createFileFromText(
+                                                            metaQueryBuilder.getExecutorBuilder().getName()+".java",
+                                                            JavaFileType.INSTANCE,
+                                                            metaQueryBuilder.getExecutorBuilder().toString()
+                                                    )
+                                    );
+
+                                    metaQueryBuilder.getStepBuilders().forEach(stepBuilder -> directory.add(
+                                            psiFileFactory
+                                                    .createFileFromText(
+                                                            stepBuilder.getName()+".java",
+                                                            JavaFileType.INSTANCE,
+                                                            stepBuilder.toString()
+                                                    )
+                                    ));
+
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+
                         }
                     },
                     GutterIconRenderer.Alignment.RIGHT

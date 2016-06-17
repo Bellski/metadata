@@ -79,18 +79,18 @@ public class MetaQueryBuilder {
                 +"import java.sql.Connection; \n\n"
                 + "public class " + name + " implements " + joinSteps() + " { \n"
                 + "    private DataSource ds; \n"
-                + "    private final String query = " + query + "\n"
+                + "    private final String query = \"" + query + "\"; \n"
                 + "    private final Object[] params = new Object[" + paramsCount + "]; \n\n"
-                + "    private Test() { \n"
+                + "    private " + name + "(){ \n"
                 + "    } \n\n"
-                + "    private Test(DataSource ds) { \n"
+                + "    private " + name + "(DataSource ds) { \n"
                 + "        this.ds = ds; \n"
                 + "    } \n\n"
                 + "    public static " + firstStep + " create(DataSource ds) { \n"
                 + "        return new " + name + "(ds); \n"
                 + "    } \n\n"
                 + "    public static " + firstStep +  " create() { \n"
-                + "        return new Test(); \n"
+                + "        return new " + name + "(); \n"
                 + "    } \n\n"
                 + implementSetters() + "\n\n"
                 + executorBuilder.getOverrideExecutions() + "\n\n"
@@ -136,5 +136,13 @@ public class MetaQueryBuilder {
 
     public List<StepBuilder> getStepBuilders() {
         return stepBuilders;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ExecutorBuilder getExecutorBuilder() {
+        return executorBuilder;
     }
 }
