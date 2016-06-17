@@ -70,9 +70,9 @@ parameterDefinition ::= primitives  IDENTIFIER {pin=1}
 returnStatement ::= 'return' returnType ';' {pin=1}
 returnType ::= primitives | collection {pin=1}
 
-collection ::= list ('<' primitives '>')
+collection ::= returnList ('<' primitives '>')
 
-list ::= 'List'
+returnList ::= 'List'
 {mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlJavaReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlJavaReference"}
 
 primitives ::= 'String' | 'Boolean' | 'Long'

@@ -21,11 +21,6 @@ public class StepBuilder {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
-
 
     public void setSetterName(String setterName) {
         this.setterName = setterName;
@@ -66,6 +61,14 @@ public class StepBuilder {
                 + "        params[" + index + "] = " + setterParamName + "; \n"
                 + "        return this; \n"
                 + "    }"
+                ;
+    }
+
+    @Override
+    public String toString() {
+        return "public interface " + name + " { \n"
+                + "    " + setterReturnType + " " + name + "(" + setterParamType + " " + setterParamName + ");\n"
+                + "}"
                 ;
     }
 }

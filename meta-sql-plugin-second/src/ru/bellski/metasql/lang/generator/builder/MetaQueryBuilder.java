@@ -1,11 +1,14 @@
 package ru.bellski.metasql.lang.generator.builder;
 
 import com.intellij.openapi.util.text.StringUtil;
+import ru.bellski.metasql.lang.psi.MetaSqlCollection;
 import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
 import ru.bellski.metasql.lang.psi.MetaSqlReturnType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 /**
@@ -66,13 +69,14 @@ public class MetaQueryBuilder {
             firstStep = stepBuilders.get(0).getName();
         }
 
+
     }
 
     @Override
     public String toString() {
-        return  "import javax.sql.DataSource;\n"
-                + (returnTypeElement == null ? "" : returnTypeElement.getCollection())
-                +"import java.sql.Connection;\n"
+        return  "import javax.sql.DataSource; \n"
+                + resolveImport() + "\n"
+                +"import java.sql.Connection; \n\n"
                 + "public class " + name + " implements " + joinSteps() + " { \n"
                 + "    private DataSource ds; \n"
                 + "    private final String query = " + query + "\n"
@@ -92,6 +96,20 @@ public class MetaQueryBuilder {
                 + executorBuilder.getOverrideExecutions() + "\n\n"
                 + "}"
                 ;
+    }
+
+    private String resolveImport() {
+        final StringJoiner stringJoiner = new StringJoiner("\n");
+
+        if (returnTypeElement != null) {
+            final MetaSqlCollection collection = returnTypeElement.getCollection();
+
+            if (collection != null) {
+                stringJoiner.add("import ".concat(collection.getReturnList().getPackageName()).concat(";"));
+            }
+        }
+
+        return stringJoiner.toString();
     }
 
     private String joinSteps() {
@@ -114,5 +132,9 @@ public class MetaQueryBuilder {
                 .stream()
                 .map(StepBuilder::getOverrideSetter)
                 .collect(Collectors.joining("\n\n"));
+    }
+
+    public List<StepBuilder> getStepBuilders() {
+        return stepBuilders;
     }
 }
