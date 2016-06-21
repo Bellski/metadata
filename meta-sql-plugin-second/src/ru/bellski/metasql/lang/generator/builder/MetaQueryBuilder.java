@@ -1,14 +1,10 @@
 package ru.bellski.metasql.lang.generator.builder;
 
 import com.intellij.openapi.util.text.StringUtil;
-import ru.bellski.metasql.lang.psi.MetaSqlCollection;
-import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
-import ru.bellski.metasql.lang.psi.MetaSqlReturnType;
+import ru.bellski.metasql.lang.MetaSqlFile;
+import ru.bellski.metasql.lang.psi.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -21,35 +17,32 @@ public class MetaQueryBuilder {
     private String firstStep;
     private ExecutorBuilder executorBuilder;
     private int paramsCount;
+    private List<String> importPackages;
     private String returnType;
-    private MetaSqlReturnType returnTypeElement;
+    private MetaSqlReturnStatement returnTypeStatement;
+    private String returnTemplate;
 
-    public MetaQueryBuilder(String name, MetaSqlParameterDefinition[] parameterDefinitions,String query, MetaSqlReturnType returnTypeElement) {
+    public MetaQueryBuilder(String name, String query, MetaSqlRoot metaSqlRoot) {
         this.name = name.concat("Query");
         this.query = query;
-        this.paramsCount = parameterDefinitions.length;
-        this.returnTypeElement = returnTypeElement;
+        this.paramsCount = metaSqlRoot.getParametersCount();
 
-        if (returnType == null) {
+        importPackages = metaSqlRoot.getImportNames();
+
+        if (metaSqlRoot.getReturnStatement() == null) {
             this.returnType = "void";
         } else {
-            this.returnType = returnTypeElement.getText();
+            this.returnType = metaSqlRoot.getReturnStatement().getTypeReference().getText();
         }
 
-        executorBuilder = new ExecutorBuilder(this.name.concat("Executor"), this.returnType);
+        executorBuilder = new ExecutorBuilder(this.name.concat("Executor"), metaSqlRoot.getReturnStatement());
 
         stepBuilders = new ArrayList<>();
 
+        final MetaSqlParameterDefinition[] parameterDefinitions = metaSqlRoot.getParameters();
+
         for (int i = 0; i < parameterDefinitions.length; i++) {
-            final MetaSqlParameterDefinition parameterDefinition = parameterDefinitions[i];
-            final String paramName = parameterDefinition.getIdentifier().getText();
-            final String paramType = parameterDefinition.getPrimitives().getText();
-
-            final StepBuilder stepBuilder = new StepBuilder(StringUtil.capitalize(paramName), i);
-            stepBuilder.setSetterName("set".concat(StringUtil.capitalize(paramName)));
-            stepBuilder.setSetterParamType(paramType);
-            stepBuilder.setSetterParamName(paramName);
-
+            final StepBuilder stepBuilder = new StepBuilder(parameterDefinitions[i], i);
 
             if (parameterDefinitions.length > (i+1)) {
                 final String nextStep = parameterDefinitions[i + 1].getIdentifier().getText();
@@ -60,7 +53,6 @@ public class MetaQueryBuilder {
 
             stepBuilders.add(stepBuilder);
         }
-
 
 
         if (stepBuilders.isEmpty()) {
@@ -75,7 +67,11 @@ public class MetaQueryBuilder {
     @Override
     public String toString() {
         return  "import javax.sql.DataSource; \n"
-                + resolveImport() + "\n"
+                + "import java.sql.PreparedStatement;\n"
+                + "import java.sql.ResultSet;\n"
+                + "import java.sql.SQLException;\n"
+                + "import java.util.ArrayList;\n"
+                + resolveImport() + ";\n"
                 +"import java.sql.Connection; \n\n"
                 + "public class " + name + " implements " + joinSteps() + " { \n"
                 + "    private DataSource ds; \n"
@@ -99,17 +95,9 @@ public class MetaQueryBuilder {
     }
 
     private String resolveImport() {
-        final StringJoiner stringJoiner = new StringJoiner("\n");
-
-        if (returnTypeElement != null) {
-            final MetaSqlCollection collection = returnTypeElement.getCollection();
-
-            if (collection != null) {
-                stringJoiner.add("import ".concat(collection.getReturnList().getPackageName()).concat(";"));
-            }
-        }
-
-        return stringJoiner.toString();
+        return importPackages
+                .stream()
+                .map(packageName -> "import " + packageName).collect(Collectors.joining("; \n"));
     }
 
     private String joinSteps() {
@@ -118,7 +106,7 @@ public class MetaQueryBuilder {
                 .map(StepBuilder::getName)
                 .collect(Collectors.joining(", "));
 
-        if (steps == null) {
+        if (steps.isEmpty()) {
             steps = executorBuilder.getName();
         } else {
             steps = steps.concat(", ").concat(executorBuilder.getName());

@@ -13,30 +13,22 @@ import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VfsUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.*;
-import com.intellij.psi.impl.file.PsiDirectoryFactory;
-import com.intellij.psi.impl.source.tree.injected.InjectedLanguageUtil;
+import com.intellij.psi.PsiDirectory;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.PsiManager;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.FunctionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.bellski.metasql.lang.MetaSqlFile;
-import ru.bellski.metasql.lang.generator.MetaQueryGenerator;
-import ru.bellski.metasql.lang.generator.ParameterSetter;
 import ru.bellski.metasql.lang.generator.builder.MetaQueryBuilder;
-import ru.bellski.metasql.lang.generator.builder.StepBuilder;
-import ru.bellski.metasql.lang.psi.MetaSqlPackageDefinition;
-import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
-import ru.bellski.metasql.lang.psi.MetaSqlReturnStatement;
-import ru.bellski.metasql.lang.psi.MetaSqlReturnType;
+import ru.bellski.metasql.lang.psi.*;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Created by Aleksandr on 22.05.2016.
@@ -70,9 +62,8 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
 
                             final MetaQueryBuilder metaQueryBuilder = new MetaQueryBuilder(
                                     "Test",
-                                    parameters.toArray(new MetaSqlParameterDefinition[parameters.size()]),
                                     "Query",
-                                    PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlReturnType.class)
+                                    PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlRoot.class)
                             );
 
                             String path = module.getModuleFile().getParent().getPath().concat("/target/generated-sources/meta/");

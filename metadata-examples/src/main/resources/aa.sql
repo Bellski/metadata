@@ -1,14 +1,11 @@
 /*
-    package aaabellski.dwq;
+    package queries;
 
     metaQuery aaa {
         sqlMetadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
-        parameters = [
-            String q,
-            Boolean f
-        ];
         
-        return List<Boolean>;
+        
+        return List<ru.bellski.metadata.examples.domain.UserSqlMetadata>;
     }
 */
 

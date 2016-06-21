@@ -1,49 +1,30 @@
 package ru.bellski.metasql.lang.generator.builder;
 
+import com.intellij.openapi.util.text.StringUtil;
+import ru.bellski.metasql.lang.psi.MetaSqlParameterDefinition;
+
 /**
  * Created by oem on 6/16/16.
  */
 public class StepBuilder {
     private final String name;
     private final int index;
-    private String setterName;
-    private String setterParamType;
-    private String setterParamName;
+    private final String setterName;
+    private final String setterParamType;
+    private final String setterParamName;
     private String setterReturnType;
 
 
-    public StepBuilder(String name, int index) {
-        this.name = name;
+    public StepBuilder(MetaSqlParameterDefinition parameterDefinition, int index) {
+        this.name = StringUtil.capitalize(parameterDefinition.getName());
+        this.setterName = "set".concat(name);
+        this.setterParamType = parameterDefinition.getLiteralType().getTypeName();
+        this.setterParamName = parameterDefinition.getName();
         this.index = index;
     }
 
     public String getName() {
         return name;
-    }
-
-
-    public void setSetterName(String setterName) {
-        this.setterName = setterName;
-    }
-
-    public String getSetterName() {
-        return setterName;
-    }
-
-    public void setSetterParamType(String setterParamType) {
-        this.setterParamType = setterParamType;
-    }
-
-    public String getSetterParamType() {
-        return setterParamType;
-    }
-
-    public void setSetterParamName(String setterParamName) {
-        this.setterParamName = setterParamName;
-    }
-
-    public String getSetterParamName() {
-        return setterParamName;
     }
 
     public void setSetterReturnType(String setterReturnType) {

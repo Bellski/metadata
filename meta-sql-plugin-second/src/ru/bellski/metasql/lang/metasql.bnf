@@ -15,6 +15,8 @@
     elementTypeClass="ru.bellski.metasql.lang.psi.MetaSqlElementType"
     tokenTypeClass="ru.bellski.metasql.lang.psi.MetaSqlTokenType"
 
+    psiImplUtilClass="ru.bellski.metasql.lang.psi.impl.MetaSqlPsiImplUtil"
+
     tokens = [
         LBRACE="{"
         RBRACE="}"
@@ -50,39 +52,44 @@
 
 }
 
-metaSql ::= packageDefinition? metaQueryDefinition {recoverWhile=metaSql_recovery}
+metaSqlFile ::= root
+
+root ::= packageDefinition? metaQueryDefinition {recoverWhile=metaSql_recovery methods=[getMetaQueryName getPackageName getImportNames getParametersCount getParameters getReturnStatement]}
 private metaSql_recovery ::= !('package')
 
 packageDefinition ::= 'package' packageName ';' {pin=2}
-packageName ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
+packageName ::= (IDENTIFIER (('.' IDENTIFIER)*)?) {methods=[getName]}
 
 metaQueryDefinition ::= 'metaQuery' IDENTIFIER? queryBody {pin=2}
 
-queryBody ::= '{' queryMembers '}'
-queryMembers ::= metadataDefinition? parametersDefinition? returnStatement? {recoverWhile=queryMembers_recovery}
+private queryBody ::= '{' queryMembers '}'
+private queryMembers ::= metadataDefinition? parametersDefinition? returnStatement? {recoverWhile=queryMembers_recovery}
 private queryMembers_recovery ::= !'}'
 
-metadataDefinition ::= 'sqlMetadata' '=' metadata ';' {pin=2}
+metadataDefinition ::= 'sqlMetadata' '=' metadata ';' {pin=3}
 
 parametersDefinition ::= 'parameters' '=' '[' (parameterDefinition  ((',' parameterDefinition)*)?) ']' ';' {pin=4}
 
-parameterDefinition ::= primitives  IDENTIFIER {pin=1}
+parameterDefinition ::= literalType  IDENTIFIER {pin=2 methods=[getName]}
 
-returnStatement ::= 'return' returnType ';' {pin=1}
-returnType ::= primitives | collection {pin=1}
+returnStatement ::= 'return' typeReference ';' {pin=2}
 
-collection ::= returnList ('<' primitives '>')
 
-returnList ::= 'List'
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlJavaReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlJavaReference"}
+typeReference ::= literalType | listTypeReference referenceParameter
 
-primitives ::= 'String' | 'Boolean' | 'Long'
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlJavaReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlJavaReference"}
+listTypeReference ::= 'List'
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlJavaReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlJavaReference" methods=[getTypeName]}
 
+referenceParameter ::= '<' (literalType | metadata) '>' {pin=2}
+
+
+literalType ::= literalTypeList
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlJavaReferenceImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlJavaReference" methods=[getTypeName]}
+
+private literalTypeList ::= 'String' | 'Boolean' | 'Long'
 
 metadata ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
-{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataReferenceElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataReferenceElement"}
-
+{mixin="ru.bellski.metasql.lang.psi.impl.MetaSqlMetadataReferenceElementImpl" implements="ru.bellski.metasql.lang.psi.MetaSqlMetadataReferenceElement" methods=[getName]}
 
 
 

@@ -50,7 +50,7 @@ public class MetaQueryGenerator {
         for (int i = 0; i < parameterDefinitions.length; i++) {
             final MetaSqlParameterDefinition parameterDefinition = parameterDefinitions[i];
             final String id = parameterDefinition.getIdentifier().getText();
-            final String type = parameterDefinition.getPrimitives().getText();
+            final String type = parameterDefinition.getLiteralType().getText();
 
             final String nextStep = parameterDefinitions.length == (i +1) ?
                             executorStep.getName() : "set".concat(StringUtil.capitalize(parameterDefinitions[i+1].getIdentifier().getText()));

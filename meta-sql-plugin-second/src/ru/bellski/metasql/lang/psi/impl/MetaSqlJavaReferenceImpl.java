@@ -1,7 +1,11 @@
 package ru.bellski.metasql.lang.psi.impl;
 
 import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.PsiShortNamesCache;
 import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,12 +38,28 @@ public class MetaSqlJavaReferenceImpl extends MetaSqlReferenceElementImpl implem
     @Nullable
     @Override
     public PsiElement resolve() {
-        return null;
+        PsiClass[] result = PsiShortNamesCache
+                .getInstance(getProject())
+                .getClassesByName(getText(), GlobalSearchScope.allScope(getProject()));
+
+        PsiClass jClass = null;
+        for (PsiClass psiClass : result) {
+            if (psiClass.getQualifiedName().equals(supportedReferenceByName.get(getText()))) {
+                jClass = psiClass;
+                break;
+            }
+        }
+        return jClass;
     }
 
     @NotNull
     @Override
     public Object[] getVariants() {
         return new Object[0];
+    }
+
+    @Override
+    public PsiReference getReference() {
+        return this;
     }
 }

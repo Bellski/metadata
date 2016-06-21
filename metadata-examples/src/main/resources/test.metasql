@@ -1,11 +1,11 @@
 package queries;
 
 metaQuery aaa {
-    sqlMetadata = ru.bellski.metadata.examples.domain.UserSqlMetadata;
+    sqlMetadata = UserSqlMetadata;
     parameters = [
-        String q,
+        Long f,
         Boolean f
     ];
-    
+
     return List<Boolean>;
 }

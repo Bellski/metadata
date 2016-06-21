@@ -63,4 +63,11 @@ public class MetaSqlMetadataReferenceElementImpl extends MetaSqlReferenceElement
     public PsiReference getReference() {
         return this;
     }
+
+    @Override
+    public PsiClass[] multyResolve() {
+        return PsiShortNamesCache
+                .getInstance(getProject())
+                .getClassesByName(getText(), GlobalSearchScope.allScope(getProject()));
+    }
 }
