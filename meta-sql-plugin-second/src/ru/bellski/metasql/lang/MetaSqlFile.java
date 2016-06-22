@@ -47,6 +47,6 @@ public class MetaSqlFile extends PsiFileBase {
     }
 
     public MetaSqlRoot getMetaSqlRoot() {
-        return (MetaSqlRoot) getNode().findChildByType(MetaSqlTokenTypes.ROOT);
+        return (MetaSqlRoot) getNode().findChildByType(MetaSqlTokenTypes.ROOT).getPsi();
     }
 }

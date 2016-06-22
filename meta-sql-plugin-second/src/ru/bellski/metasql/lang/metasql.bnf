@@ -54,11 +54,14 @@
 
 metaSqlFile ::= root
 
-root ::= packageDefinition? metaQueryDefinition {recoverWhile=metaSql_recovery methods=[getMetaQueryName getPackageName getImportNames getParametersCount getParameters getReturnStatement]}
+root ::= packageDefinition? importList metaQueryDefinition? {recoverWhile=metaSql_recovery methods=[getMetaQueryName getPackageName getImportNames getParametersCount getParameters getReturnStatement]}
 private metaSql_recovery ::= !('package')
 
 packageDefinition ::= 'package' packageName ';' {pin=2}
 packageName ::= (IDENTIFIER (('.' IDENTIFIER)*)?) {methods=[getName]}
+
+importList ::= importStatement*
+importStatement ::= 'import' (IDENTIFIER (('.' IDENTIFIER)*)?) ';' {pin=2}
 
 metaQueryDefinition ::= 'metaQuery' IDENTIFIER? queryBody {pin=2}
 

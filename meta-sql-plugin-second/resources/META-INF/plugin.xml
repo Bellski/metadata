@@ -45,6 +45,11 @@
     <lang.foldingBuilder language="SQL" implementationClass="ru.bellski.metasql.lang.folding.SqlParamFolding"/>
 
       <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.metasql.lang.marker.MetaSqlRunMarkerProvider"/>
+
+    <codeStyleSettingsProvider implementation="ru.bellski.metasql.lang.style.MetaSqlCodeStyleSettingsProvider"/>
+    <langCodeStyleSettingsProvider implementation="ru.bellski.metasql.lang.style.MetaSqlLanguageCodeStyleSettingsProvider"/>
+
+    <lang.formatter language="MetaSql" implementationClass="ru.bellski.metasql.lang.style.MetaSqlFormattingModelBuilder"/>
   </extensions>
 
   <actions>

@@ -24,6 +24,7 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.metasql.lang.MetaSqlElementUtil;
 import ru.bellski.metasql.lang.MetaSqlFile;
+import ru.bellski.metasql.lang.actions.AddImportQuestionAction;
 import ru.bellski.metasql.lang.psi.*;
 
 import java.util.Arrays;
@@ -127,7 +128,7 @@ public class MetaSqlHighLightVisitor extends MetaSqlVisitor implements Highlight
 
         @Override
         public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
-            new AddImportAction(editor.getProject(), ref, editor, ref.multyResolve()).execute();
+            new AddImportQuestionAction(editor.getProject(), ref, editor, (MetaSqlFile) ref.getContainingFile(), ref.multyResolve()).execute();
         }
 
         @Override

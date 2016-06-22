@@ -1,11 +1,5 @@
-package queries;
 
-metaQuery aaa {
+
+import ru.bellski.metadata.examples.domain.UserSqlMetadata;metaQuery aaa {
     sqlMetadata = UserSqlMetadata;
-    parameters = [
-        Long f,
-        Boolean f
-    ];
-
-    return List<Boolean>;
 }
