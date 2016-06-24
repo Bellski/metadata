@@ -1,4 +1,4 @@
-package ru.bellski.metasql.lang.style;
+package ru.bellski.metasql.lang.formater;
 
 import com.intellij.formatting.*;
 import com.intellij.lang.ASTNode;
@@ -8,9 +8,6 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.codeStyle.CodeStyleSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.bellski.metasql.lang.MetaSqlFile;
-import ru.bellski.metasql.lang.MetaSqlLanguage;
-import ru.bellski.metasql.lang.psi.MetaSqlTokenTypes;
 
 /**
  * Created by oem on 6/22/16.
@@ -23,7 +20,8 @@ public class MetaSqlFormattingModelBuilder implements FormattingModelBuilder {
         final MetaSqlBlock metaSqlBlock = new MetaSqlBlock(
                 element.getNode(),
                 Wrap.createWrap(WrapType.NONE, false),
-                Alignment.createAlignment()
+                Alignment.createAlignment(),
+                settings
         );
         return
                 FormattingModelProvider

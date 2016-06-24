@@ -1,5 +1,8 @@
+import ru.bellski.metadata.examples.domain.UserSqlMetadata;
+import ru.bellski.metadata.examples.domain.UserSqlMetadata;
+import ru.bellski.metadata.examples.domain.UserSqlMetadata;
+import ru.bellski.metadata.examples.domain.UserSqlMetadata;
 
+metaQuery aaa {
 
-import ru.bellski.metadata.examples.domain.UserSqlMetadata;metaQuery aaa {
-    sqlMetadata = UserSqlMetadata;
 }

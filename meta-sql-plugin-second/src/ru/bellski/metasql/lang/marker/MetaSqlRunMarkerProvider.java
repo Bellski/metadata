@@ -60,15 +60,15 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
                             final MetaSqlPackageDefinition packageDef
                                     = PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlPackageDefinition.class);
 
-                            final MetaQueryBuilder metaQueryBuilder = new MetaQueryBuilder(
-                                    "Test",
-                                    "Query",
-                                    PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlRoot.class)
-                            );
+//                            final MetaQueryBuilder metaQueryBuilder = new MetaQueryBuilder(
+//                                    "Test",
+//                                    "Query",
+//                                    PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlRoot.class)
+//                            );
 
                             String path = module.getModuleFile().getParent().getPath().concat("/target/generated-sources/meta/");
 
-                            saveJavaFile(metaQueryBuilder, packageDef == null ? path.concat("queries") : path.concat(packageDef.getPackageName().getText().replace(".", "/")));
+//                            saveJavaFile(metaQueryBuilder, packageDef == null ? path.concat("queries") : path.concat(packageDef.getPackageName().getText().replace(".", "/")));
                         }
 
                         private void saveJavaFile(MetaQueryBuilder metaQueryBuilder, String path) {

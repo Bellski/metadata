@@ -1,0 +1,44 @@
+{
+    psiImplUtilClass="ru.bellski.lang.metasql.util.MetaSqlPsiImplUtil"
+
+    parserClass="ru.bellski.lang.metasql.MetaSqlParser"
+    parserUtilClass="ru.bellski.lang.metasql.psi.impl.MetaSqlGeneratedParserUtilBase"
+
+    implements="ru.bellski.lang.metasql.psi.MetaSqlPsiCompositeElement"
+    extends="ru.bellski.lang.metasql.psi.impl.MetaSqlPsiCompositeElementImpl"
+
+    psiClassPrefix="MetaSql"
+    psiImplClassSuffix="Impl"
+    psiPackage="ru.bellski.lang.metasql.psi"
+    psiImplPackage="ru.bellski.lang.metasql.psi.impl"
+
+    elementTypeHolderClass="ru.bellski.lang.metasql.MetaSqlTokenTypes"
+    elementTypePrefix=""
+    elementTypeClass="ru.bellski.lang.metasql.MetaSqlElementType"
+    tokenTypeClass="ru.bellski.lang.metasql.MetaSqlElementType"
+
+    tokens = [
+        DOT = '.'
+        SEMICOLON = ';'
+        COLON = ':'
+
+        IMPORT = 'import'
+
+        SPACE='regexp:\s+'
+        LINE_COMMENT='regexp://.*'
+        IDENTIFIER = 'regexp:\p{Alpha}\w*'
+        LITERAL="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+    ]
+}
+
+metaSqlFile ::= importList
+
+importList ::= importStatement*
+
+importStatement ::= 'import' packageReferenceElement ':' codeReferenceElement ';'  {pin=1}
+
+packageReferenceElement ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
+codeReferenceElement ::= IDENTIFIER
+
+
+

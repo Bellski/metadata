@@ -16,10 +16,10 @@ public class StepBuilder {
 
 
     public StepBuilder(MetaSqlParameterDefinition parameterDefinition, int index) {
-        this.name = StringUtil.capitalize(parameterDefinition.getName());
+        this.name = StringUtil.capitalize("");
         this.setterName = "set".concat(name);
-        this.setterParamType = parameterDefinition.getLiteralType().getTypeName();
-        this.setterParamName = parameterDefinition.getName();
+        this.setterParamType = "";
+        this.setterParamName = "";
         this.index = index;
     }
 

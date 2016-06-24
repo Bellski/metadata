@@ -1,9 +1,15 @@
 package ru.bellski.metasql.lang.style;
 
+import com.intellij.application.options.IndentOptionsEditor;
+import com.intellij.application.options.SmartIndentOptionsEditor;
+import com.intellij.ide.JavaLanguageCodeStyleSettingsProvider;
+import com.intellij.json.JsonLanguage;
 import com.intellij.lang.Language;
 import com.intellij.psi.codeStyle.CodeStyleSettingsCustomizable;
+import com.intellij.psi.codeStyle.CommonCodeStyleSettings;
 import com.intellij.psi.codeStyle.LanguageCodeStyleSettingsProvider;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import ru.bellski.metasql.lang.MetaSqlLanguage;
 
 /**
@@ -19,13 +25,24 @@ public class MetaSqlLanguageCodeStyleSettingsProvider extends LanguageCodeStyleS
 
     @Override
     public void customizeSettings(@NotNull CodeStyleSettingsCustomizable consumer, @NotNull SettingsType settingsType) {
-        if (settingsType == SettingsType.SPACING_SETTINGS) {
-            consumer.showStandardOptions("SPACE_AROUND_ASSIGNMENT_OPERATORS");
-            consumer.renameStandardOption("SPACE_AROUND_ASSIGNMENT_OPERATORS", "Separator");
-        } else if (settingsType == SettingsType.BLANK_LINES_SETTINGS) {
-            consumer.showStandardOptions("BLANK_LINES_AFTER_IMPORTS");
-            consumer.renameStandardOption("BLANK_LINES_AFTER_IMPORTS", "ImportList");
-        }
+
+    }
+
+    @Nullable
+    @Override
+    public IndentOptionsEditor getIndentOptionsEditor() {
+        return new SmartIndentOptionsEditor();
+    }
+
+    @Nullable
+    @Override
+    public CommonCodeStyleSettings getDefaultCommonSettings() {
+        CommonCodeStyleSettings commonSettings = new CommonCodeStyleSettings(JsonLanguage.INSTANCE);
+        CommonCodeStyleSettings.IndentOptions indentOptions = commonSettings.initIndentOptions();
+        indentOptions.INDENT_SIZE = 2;
+        // strip all blank lines by default
+        commonSettings.KEEP_BLANK_LINES_IN_CODE = 0;
+        return commonSettings;
     }
 
     @Override

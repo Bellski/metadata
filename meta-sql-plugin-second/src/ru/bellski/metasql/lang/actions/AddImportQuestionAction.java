@@ -17,6 +17,7 @@ import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
 import com.intellij.psi.*;
 import com.intellij.psi.statistics.JavaStatisticsManager;
 import com.intellij.psi.statistics.StatisticsManager;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.ui.popup.list.ListPopupImpl;
 import com.intellij.ui.popup.list.PopupListElementRenderer;
 import com.intellij.util.IncorrectOperationException;
@@ -106,7 +107,7 @@ public class AddImportQuestionAction implements QuestionAction {
 
 
 
-        final MetaSqlImportList importList = metaSqlFile.getMetaSqlRoot().getImportList();
+        final MetaSqlImportList importList = PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlImportList.class);
 
         importList.add(MetaSqlElementGenerator.createImportStatementFromText(myProject, target.getQualifiedName()));
 

@@ -1,5 +1,6 @@
 package ru.bellski.metasql.lang;
 
+
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileTypes.FileType;
@@ -46,7 +47,5 @@ public class MetaSqlFile extends PsiFileBase {
         super.delete();
     }
 
-    public MetaSqlRoot getMetaSqlRoot() {
-        return (MetaSqlRoot) getNode().findChildByType(MetaSqlTokenTypes.ROOT).getPsi();
-    }
+
 }

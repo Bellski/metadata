@@ -22,44 +22,44 @@ public class MetaQueryBuilder {
     private MetaSqlReturnStatement returnTypeStatement;
     private String returnTemplate;
 
-    public MetaQueryBuilder(String name, String query, MetaSqlRoot metaSqlRoot) {
-        this.name = name.concat("Query");
-        this.query = query;
-        this.paramsCount = metaSqlRoot.getParametersCount();
-
-        importPackages = metaSqlRoot.getImportNames();
-
-        if (metaSqlRoot.getReturnStatement() == null) {
-            this.returnType = "void";
-        } else {
-            this.returnType = metaSqlRoot.getReturnStatement().getTypeReference().getText();
-        }
-
-        executorBuilder = new ExecutorBuilder(this.name.concat("Executor"), metaSqlRoot.getReturnStatement());
-
-        stepBuilders = new ArrayList<>();
-
-        final MetaSqlParameterDefinition[] parameterDefinitions = metaSqlRoot.getParameters();
-
-        for (int i = 0; i < parameterDefinitions.length; i++) {
-            final StepBuilder stepBuilder = new StepBuilder(parameterDefinitions[i], i);
-
-            if (parameterDefinitions.length > (i+1)) {
-                final String nextStep = parameterDefinitions[i + 1].getIdentifier().getText();
-                stepBuilder.setSetterReturnType(StringUtil.capitalize(nextStep));
-            } else {
-                stepBuilder.setSetterReturnType(executorBuilder.getName());
-            }
-
-            stepBuilders.add(stepBuilder);
-        }
-
-
-        if (stepBuilders.isEmpty()) {
-            firstStep = executorBuilder.getName();
-        } else {
-            firstStep = stepBuilders.get(0).getName();
-        }
+    public MetaQueryBuilder(String name, String query) {
+//        this.name = name.concat("Query");
+//        this.query = query;
+//        this.paramsCount = metaSqlRoot.getParametersCount();
+//
+//        importPackages = metaSqlRoot.getImportNames();
+//
+//        if (metaSqlRoot.getReturnStatement() == null) {
+//            this.returnType = "void";
+//        } else {
+//            this.returnType = metaSqlRoot.getReturnStatement().getTypeReference().getText();
+//        }
+//
+//        executorBuilder = new ExecutorBuilder(this.name.concat("Executor"), metaSqlRoot.getReturnStatement());
+//
+//        stepBuilders = new ArrayList<>();
+//
+//        final MetaSqlParameterDefinition[] parameterDefinitions = metaSqlRoot.getParameters();
+//
+//        for (int i = 0; i < parameterDefinitions.length; i++) {
+//            final StepBuilder stepBuilder = new StepBuilder(parameterDefinitions[i], i);
+//
+//            if (parameterDefinitions.length > (i+1)) {
+//                final String nextStep = parameterDefinitions[i + 1].getIdentifier().getText();
+//                stepBuilder.setSetterReturnType(StringUtil.capitalize(nextStep));
+//            } else {
+//                stepBuilder.setSetterReturnType(executorBuilder.getName());
+//            }
+//
+//            stepBuilders.add(stepBuilder);
+//        }
+//
+//
+//        if (stepBuilders.isEmpty()) {
+//            firstStep = executorBuilder.getName();
+//        } else {
+//            firstStep = stepBuilders.get(0).getName();
+//        }
 
 
     }

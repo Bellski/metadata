@@ -46,10 +46,10 @@
 
       <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.metasql.lang.marker.MetaSqlRunMarkerProvider"/>
 
-    <codeStyleSettingsProvider implementation="ru.bellski.metasql.lang.style.MetaSqlCodeStyleSettingsProvider"/>
-    <langCodeStyleSettingsProvider implementation="ru.bellski.metasql.lang.style.MetaSqlLanguageCodeStyleSettingsProvider"/>
+    <!--<codeStyleSettingsProvider implementation="ru.bellski.metasql.lang.style.MetaSqlCodeStyleSettingsProvider"/>-->
+    <!--<langCodeStyleSettingsProvider implementation="ru.bellski.metasql.lang.style.MetaSqlLanguageCodeStyleSettingsProvider"/>-->
 
-    <lang.formatter language="MetaSql" implementationClass="ru.bellski.metasql.lang.style.MetaSqlFormattingModelBuilder"/>
+    <lang.formatter language="MetaSql" implementationClass="ru.bellski.metasql.lang.formater.MetaSqlFormattingModelBuilder"/>
   </extensions>
 
   <actions>
