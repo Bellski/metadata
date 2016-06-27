@@ -12,7 +12,7 @@ import ru.bellski.lang.metasql.psi.MetaSqlMetadataPsiReference;
 /**
  * Created by Aleksandr on 26.06.2016.
  */
-public class MetaSqlMetadataPsiReferenceImpl extends MetaSqlPsiReferenceImpl implements MetaSqlMetadataPsiReference{
+public class MetaSqlMetadataPsiReferenceImpl extends MetaSqlPsiReferenceImpl implements MetaSqlMetadataPsiReference {
 
     public MetaSqlMetadataPsiReferenceImpl(@NotNull ASTNode node) {
         super(node);
@@ -23,12 +23,15 @@ public class MetaSqlMetadataPsiReferenceImpl extends MetaSqlPsiReferenceImpl imp
     public PsiElement resolve() {
         final PsiClass resolvedClass = (PsiClass) super.resolve();
 
-        if (resolvedClass == null) return null;
-        if (resolvedClass.getModifierList() == null) return null;
+        if (resolvedClass == null)
+            return null;
+        if (resolvedClass.getModifierList() == null)
+            return null;
 
         final PsiAnnotation[] annotations = resolvedClass.getModifierList().getAnnotations();
 
-        if (annotations.length == 0) return null;
+        if (annotations.length == 0)
+            return null;
 
         boolean annotationFound = false;
 

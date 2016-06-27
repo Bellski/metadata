@@ -22,20 +22,12 @@ public class MetaSqlCompileMarkerProvider implements LineMarkerProvider {
     public static class MetaSqlCompileLineMarkerInfo extends LineMarkerInfo<PsiElement> {
 
         public MetaSqlCompileLineMarkerInfo(PsiElement element) {
-            super(
-                    element,
-                    element.getTextRange(),
-                    AllIcons.Actions.Compile,
-                    Pass.UPDATE_ALL,
-                    FunctionUtil.constant("Generate"),
-                    new GutterIconNavigationHandler<PsiElement>() {
-                        @Override
-                        public void navigate(MouseEvent e, PsiElement elt) {
+            super(element, element.getTextRange(), AllIcons.Actions.Compile, Pass.UPDATE_ALL, FunctionUtil.constant("Generate"), new GutterIconNavigationHandler<PsiElement>() {
+                @Override
+                public void navigate(MouseEvent e, PsiElement elt) {
 
-                        }
-                    },
-                    GutterIconRenderer.Alignment.RIGHT
-            );
+                }
+            }, GutterIconRenderer.Alignment.RIGHT);
         }
     }
 

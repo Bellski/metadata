@@ -1,42 +1,48 @@
 <idea-plugin version="2">
-  <id>ru.bellski.metasqlplugin3</id>
-  <name>MetaSql Plugin</name>
-  <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <id>ru.bellski.metasqlplugin3</id>
+    <name>MetaSql Plugin</name>
+    <version>1.0</version>
+    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
-  <description><![CDATA[
+    <description><![CDATA[
       Enter short description for your plugin here.<br>
       <em>most HTML tags may be used</em>
     ]]></description>
 
-  <change-notes><![CDATA[
+    <change-notes><![CDATA[
       Add change notes here.<br>
       <em>most HTML tags may be used</em>
     ]]>
-  </change-notes>
+    </change-notes>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-  <idea-version since-build="141.0"/>
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="141.0"/>
 
-  <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-       on how to target different products -->
-  <!-- uncomment to enable plugin in all products
-  <depends>com.intellij.modules.lang</depends>
-  -->
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
 
-  <extensions defaultExtensionNs="com.intellij">
-    <fileTypeFactory implementation="ru.bellski.lang.metasql.MetaSqlFileTypeFactory"/>
-    <lang.parserDefinition language="MetaSql" implementationClass="ru.bellski.lang.metasql.MetaSqlParserDefinition"/>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="ru.bellski.lang.metasql.MetaSqlFileTypeFactory"/>
+        <lang.parserDefinition language="MetaSql"
+                               implementationClass="ru.bellski.lang.metasql.MetaSqlParserDefinition"/>
 
 
-    <lang.syntaxHighlighterFactory language="MetaSql" implementationClass="ru.bellski.lang.metasql.highlight.MetaSqlSyntaxHighLighterFactory"/>
-    <highlightVisitor implementation="ru.bellski.lang.metasql.highlight.MetaSqlHighLightVisitor"/>
+        <lang.syntaxHighlighterFactory language="MetaSql"
+                                       implementationClass="ru.bellski.lang.metasql.highlight.MetaSqlSyntaxHighLighterFactory"/>
+        <highlightVisitor implementation="ru.bellski.lang.metasql.highlight.MetaSqlHighLightVisitor"/>
 
-    <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.lang.metasql.marker.MetaSqlCompileMarkerProvider"/>
-  </extensions>
+        <codeInsight.lineMarkerProvider language="MetaSql"
+                                        implementationClass="ru.bellski.lang.metasql.marker.MetaSqlCompileMarkerProvider"/>
 
-  <actions>
-    <!-- Add your actions here -->
-  </actions>
+        <lang.formatter language="MetaSql"
+                        implementationClass="ru.bellski.lang.metasql.formater.MetaSqlFormattingModelBuilder"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
 
 </idea-plugin>

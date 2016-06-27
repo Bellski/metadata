@@ -22,10 +22,7 @@ public class MetaSqlSyntaxHighLighter extends SyntaxHighlighterBase {
     private static final Map<IElementType, TextAttributesKey> textAttributeByElementType = new HashMap<>();
 
     static {
-        textAttributeByElementType.put(
-                TokenType.BAD_CHARACTER,
-                createTextAttributesKey("META_SQL_ILLEGAL", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE)
-        );
+        textAttributeByElementType.put(TokenType.BAD_CHARACTER, createTextAttributesKey("META_SQL_ILLEGAL", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE));
     }
 
     @NotNull
@@ -39,7 +36,6 @@ public class MetaSqlSyntaxHighLighter extends SyntaxHighlighterBase {
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
         return pack(textAttributeByElementType.get(tokenType));
     }
-
 
 
 }

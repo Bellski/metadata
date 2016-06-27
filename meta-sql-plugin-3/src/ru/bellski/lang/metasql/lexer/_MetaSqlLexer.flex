@@ -36,6 +36,8 @@ LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
   ":"                 { return COLON; }
   "{"                 { return LBRACE; }
   "}"                 { return RBRACE; }
+  "["                 { return LBRACKET; }
+  "]"                 { return RBRACKET; }
   "<"                 { return LT; }
   ">"                 { return GT; }
   "="                 { return EQ; }
@@ -43,6 +45,8 @@ LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
   "import"            { return IMPORT; }
   "metaQuery"         { return METAQUERY; }
   "sqlMetadata"       { return SQLMETADATA; }
+  "parameters"        { return PARAMETERS; }
+  "return"            { return RETURN; }
 
   {LINE_COMMENT}      { return LINE_COMMENT; }
   {IDENTIFIER}        { return IDENTIFIER; }

@@ -9,6 +9,7 @@ import com.intellij.codeInspection.HintAction;
 import com.intellij.lang.injection.InjectedLanguageManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiResolveHelper;
@@ -16,9 +17,8 @@ import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.lang.metasql.MetaSqlFile;
-import ru.bellski.lang.metasql.psi.MetaSqlCodeReferenceElement;
-import ru.bellski.lang.metasql.psi.MetaSqlMetadataClassAccess;
-import ru.bellski.lang.metasql.psi.MetaSqlVisitor;
+import ru.bellski.lang.metasql.MetaSqlTokenTypes;
+import ru.bellski.lang.metasql.psi.*;
 
 /**
  * Created by oem on 6/9/16.
@@ -52,24 +52,35 @@ public class MetaSqlHighLightVisitor extends MetaSqlVisitor implements Highlight
         myHolder = holder;
         try {
             action.run();
-        }
-        finally {
+        } finally {
             myHolder = null;
         }
 
         return true;
     }
 
-
     @Override
-    public void visitMetadataClassAccess(@NotNull MetaSqlMetadataClassAccess o) {
-        if (o.resolve() == null) {
-            final  HighlightInfo info = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF).range(o).descriptionAndTooltip("Cannot resolve SqlMetadata class").create();
+    public void visitTypeElement(@NotNull MetaSqlTypeElement o) {
+        if (o.getCodeReferenceElement().resolve() == null) {
+            final MetaSqlCodeReferenceElement codeReference = o.getCodeReferenceElement();
+            final HighlightInfo info = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF).range(codeReference.getIdentifier()).descriptionAndTooltip("Cannot resolve").create();
+
+
             myHolder.add(info);
             metaSqlFile.setHasErrors(true);
         }
+        super.visitTypeElement(o);
+    }
 
-        super.visitMetadataClassAccess(o);
+    @Override
+    public void visitImportReferenceElement(@NotNull MetaSqlImportReferenceElement o) {
+        if (o.resolve() == null) {
+            final HighlightInfo info = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF).range(o).descriptionAndTooltip("Cannot resolve import").create();
+
+            myHolder.add(info);
+            metaSqlFile.setHasErrors(true);
+        }
+        super.visitImportReferenceElement(o);
     }
 
     @NotNull
