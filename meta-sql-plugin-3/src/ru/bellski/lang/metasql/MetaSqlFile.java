@@ -11,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MetaSqlFile extends PsiFileBase {
 
+    private boolean hasErrors;
+
     protected MetaSqlFile(@NotNull FileViewProvider viewProvider) {
         super(viewProvider, MetaSqlLanguage.INSTANCE);
     }
@@ -21,4 +23,11 @@ public class MetaSqlFile extends PsiFileBase {
         return MetaSqlFileType.INSTANCE;
     }
 
+    public void setHasErrors(boolean hasErrors) {
+        this.hasErrors = hasErrors;
+    }
+
+    public boolean isHasErrors() {
+        return hasErrors;
+    }
 }

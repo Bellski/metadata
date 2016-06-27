@@ -1,5 +1,7 @@
 package ru.bellski.metadata.examples.domain;
 
+import java.util.Map;
+
 /**
  * Информация о компании
  */

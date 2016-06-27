@@ -1,6 +1,6 @@
 package ru.bellski.lang.metasql.psi.impl;
 
-import org.intellij.grammar.parser.GeneratedParserUtilBase;
+import com.intellij.lang.parser.GeneratedParserUtilBase;
 
 /**
  * Created by oem on 6/24/16.

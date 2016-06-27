@@ -1,5 +1,5 @@
 <idea-plugin version="2">
-  <id>ru.bellski.metasqlplugin</id>
+  <id>ru.bellski.metasqlplugin3</id>
   <name>MetaSql Plugin</name>
   <version>1.0</version>
   <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
@@ -27,6 +27,12 @@
   <extensions defaultExtensionNs="com.intellij">
     <fileTypeFactory implementation="ru.bellski.lang.metasql.MetaSqlFileTypeFactory"/>
     <lang.parserDefinition language="MetaSql" implementationClass="ru.bellski.lang.metasql.MetaSqlParserDefinition"/>
+
+
+    <lang.syntaxHighlighterFactory language="MetaSql" implementationClass="ru.bellski.lang.metasql.highlight.MetaSqlSyntaxHighLighterFactory"/>
+    <highlightVisitor implementation="ru.bellski.lang.metasql.highlight.MetaSqlHighLightVisitor"/>
+
+    <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.lang.metasql.marker.MetaSqlCompileMarkerProvider"/>
   </extensions>
 
   <actions>

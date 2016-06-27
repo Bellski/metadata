@@ -2,12 +2,17 @@ package ru.bellski.lang.metasql.psi.impl;
 
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.source.resolve.ClassResolverProcessor;
+import com.intellij.psi.impl.source.tree.TreeElement;
+import com.intellij.psi.scope.util.PsiScopesUtil;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.bellski.lang.metasql.psi.MetaSqlPsiCompositeElement;
-import ru.bellski.lang.metasql.psi.MetaSqlPsiReference;
+import ru.bellski.lang.metasql.MetaSqlTokenTypes;
+import ru.bellski.lang.metasql.psi.*;
 
 /**
  * Created by oem on 6/24/16.
@@ -18,36 +23,63 @@ public class MetaSqlPsiReferenceImpl extends MetaSqlPsiCompositeElementImpl impl
         super(node);
     }
 
+
     @Override
     public PsiElement getElement() {
-        return null;
+        return this;
     }
 
     @Override
     public TextRange getRangeInElement() {
-        return null;
+        final TextRange textRange = getTextRange();
+        return new TextRange(0, textRange.getEndOffset() - textRange.getStartOffset());
     }
 
     @Nullable
     @Override
     public PsiElement resolve() {
+        final PsiElement classNameElement = findChildByType(MetaSqlTokenTypes.IDENTIFIER);
+        if ((classNameElement == null)) return null;
+
+        final MetaSqlImportList importList = PsiTreeUtil.findChildOfType(getContainingFile(), MetaSqlImportList.class);
+
+        if (importList == null) return null;
+
+        for (MetaSqlImportStatement metaSqlImportStatement : importList.getImportStatementList()) {
+            final MetaSqlImportReferenceElement importReferenceElement = metaSqlImportStatement.getImportReferenceElement();
+
+            if (importReferenceElement != null) {
+                final String id = importReferenceElement.getText();
+
+                if (classNameElement.getText().equals(id.substring(id.lastIndexOf('.') + 1))) {
+                    return JavaPsiFacade.getInstance(getProject()).findClass(id, GlobalSearchScope.allScope(getProject()));
+                }
+            }
+        }
+
         return null;
     }
 
     @NotNull
     @Override
+    public ResolveResult[] multiResolve(boolean incompleteCode) {
+        return ResolveResult.EMPTY_ARRAY;
+    }
+
+    @NotNull
+    @Override
     public String getCanonicalText() {
-        return null;
+        return getText();
     }
 
     @Override
     public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
-        return null;
+        return this;
     }
 
     @Override
     public PsiElement bindToElement(@NotNull PsiElement element) throws IncorrectOperationException {
-        return null;
+        return this;
     }
 
     @Override
@@ -64,5 +96,10 @@ public class MetaSqlPsiReferenceImpl extends MetaSqlPsiCompositeElementImpl impl
     @Override
     public boolean isSoft() {
         return false;
+    }
+
+    @Override
+    public PsiReference getReference() {
+        return this;
     }
 }

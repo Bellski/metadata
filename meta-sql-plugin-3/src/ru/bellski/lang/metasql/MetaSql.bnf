@@ -21,24 +21,63 @@
         DOT = '.'
         SEMICOLON = ';'
         COLON = ':'
+        LBRACE = '{'
+        RBRACE = '}'
+        LT = '<'
+        GT = '>'
+        EQ = '='
+        COMMA = ','
 
         IMPORT = 'import'
+        METAQUERY = 'metaQuery'
+        SQLMETADATA = 'sqlMetadata'
+        PARAMETERS = 'parameters'
+        STRING = 'String'
+        BOOLEAN = 'Boolean'
+        LONG = 'Long'
+        DATE = 'Date'
 
         SPACE='regexp:\s+'
         LINE_COMMENT='regexp://.*'
         IDENTIFIER = 'regexp:\p{Alpha}\w*'
         LITERAL="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
     ]
+
+    mixin(".*ReferenceElement")="ru.bellski.lang.metasql.psi.impl.MetaSqlPsiReferenceImpl"
+    implements(".*ReferenceElement")="ru.bellski.lang.metasql.psi.MetaSqlPsiReference"
+
+    mixin("metadataClassAccess")="ru.bellski.lang.metasql.psi.impl.MetaSqlMetadataPsiReferenceImpl"
+    implements("metadataClassAccess")="ru.bellski.lang.metasql.psi.MetaSqlMetadataPsiReference"
 }
 
-metaSqlFile ::= importList
+metaSqlFile ::= importList metaQuery
 
 importList ::= importStatement*
 
-importStatement ::= 'import' packageReferenceElement ':' codeReferenceElement ';'  {pin=1}
+/* IMPORT */
 
-packageReferenceElement ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
-codeReferenceElement ::= IDENTIFIER
+importStatement ::= 'import' importReferenceElement parametersAssign? ';'  {pin=1}
+
+importReferenceElement ::= (IDENTIFIER (('.' IDENTIFIER)*)?)
+
+metaQuery ::= 'metaQuery' IDENTIFIER? '{' metadataAssign? '}' {pin=1}
+
+metadataAssign ::= 'sqlMetadata' '=' metadataClassAccess ';'
+metadataClassAccess ::= IDENTIFIER;
+
+parametersAssign ::= 'parameters' '=' '[' parameterVariable ']'
+parameterVariable ::= sqlParameterTypeGroup IDENTIFIER
+
+private sqlParameterTypeGroup ::= 'String' | 'Boolean' | 'Long' | 'Date'
+{extends="typeElement"}
+
+typeElement ::= codeReferenceElement
+
+codeReferenceElement ::= IDENTIFIER referenceParameterList
+referenceParameterList ::= ('<' typeElement '>')?
+
+
+
 
 
 
