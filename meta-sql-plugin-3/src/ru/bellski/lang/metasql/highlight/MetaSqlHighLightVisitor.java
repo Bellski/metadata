@@ -10,14 +10,13 @@ import com.intellij.lang.injection.InjectedLanguageManager;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.PsiResolveHelper;
+import com.intellij.psi.*;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.lang.metasql.MetaSqlFile;
 import ru.bellski.lang.metasql.MetaSqlTokenTypes;
+import ru.bellski.lang.metasql.actions.AddImportQuestionAction;
 import ru.bellski.lang.metasql.psi.*;
 
 /**
@@ -65,9 +64,10 @@ public class MetaSqlHighLightVisitor extends MetaSqlVisitor implements Highlight
             final MetaSqlCodeReferenceElement codeReference = o.getCodeReferenceElement();
             final HighlightInfo info = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF).range(codeReference.getIdentifier()).descriptionAndTooltip("Cannot resolve").create();
 
-
             myHolder.add(info);
             metaSqlFile.setHasErrors(true);
+
+            QuickFixAction.registerQuickFixAction(info, new Import(o.getCodeReferenceElement()));
         }
         super.visitTypeElement(o);
     }
@@ -94,5 +94,46 @@ public class MetaSqlHighLightVisitor extends MetaSqlVisitor implements Highlight
         return 0;
     }
 
+    public class Import implements HintAction {
 
+        private final MetaSqlCodeReferenceElement ref;
+
+        public Import(MetaSqlCodeReferenceElement ref) {
+            this.ref = ref;
+        }
+
+        @Override
+        public boolean showHint(@NotNull Editor editor) {
+            return false;
+        }
+
+        @Nls
+        @NotNull
+        @Override
+        public String getText() {
+            return "Import Metadata";
+        }
+
+        @Nls
+        @NotNull
+        @Override
+        public String getFamilyName() {
+            return "Import Metadata";
+        }
+
+        @Override
+        public boolean isAvailable(@NotNull Project project, Editor editor, PsiFile file) {
+            return true;
+        }
+
+        @Override
+        public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
+            new AddImportQuestionAction(project, ref, editor, (MetaSqlFile) ref.getContainingFile(), ref.getResolveCandidates()).execute();
+        }
+
+        @Override
+        public boolean startInWriteAction() {
+            return false;
+        }
+    }
 }

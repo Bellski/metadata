@@ -80,12 +80,6 @@ public class MetaSqlBlock extends AbstractBlock implements BlockWithParent {
         return myResult;
     }
 
-    private Spacing addSingleSpaceIf(boolean condition, boolean linesFeed) {
-        final int spaces = condition ? 1 : 0;
-        final int lines = linesFeed ? 1 : 0;
-        return Spacing.createSpacing(spaces, spaces, lines, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_CODE);
-    }
-
     @Override
     public Indent getIndent() {
         final IElementType myElemeType = myNode.getElementType();

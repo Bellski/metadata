@@ -1,5 +1,6 @@
 package ru.bellski.metadata.maven;
 
+import com.google.common.primitives.Primitives;
 import org.jboss.forge.roaster.Roaster;
 import org.jboss.forge.roaster.model.source.FieldSource;
 import org.jboss.forge.roaster.model.source.JavaClassSource;
@@ -20,168 +21,149 @@ import java.util.Set;
  */
 public class MetadataGenerator {
 
-	public static MetadataGeneratorResult generate(Class<?> candidateClass, Set<Class<?>> candidates) {
-		final MetadataGeneratorResult result = new MetadataGeneratorResult();
-		final String metadataName = candidateClass.getSimpleName() + "Metadata";
+    public static MetadataGeneratorResult generate(Class<?> candidateClass, Set<Class<?>> candidates) {
+        final MetadataGeneratorResult result = new MetadataGeneratorResult();
+        final String metadataName = candidateClass.getSimpleName() + "Metadata";
 
-		final JavaClassSource metadataClass = Roaster
-			.create(JavaClassSource.class)
-			.setPackage(candidateClass.getPackage().getName())
-			.setName(metadataName);
+        final JavaClassSource metadataClass = Roaster.create(JavaClassSource.class).setPackage(candidateClass.getPackage().getName() + ".meta").setName(metadataName);
 
-		final GeneratedMetadata<?> generatedMetadata = new GeneratedMetadata<>(candidateClass);
+        final GeneratedMetadata<?> generatedMetadata = new GeneratedMetadata<>(candidateClass);
 
-		result.setMetadataClass(metadataClass);
-		result.setGeneratedMetadata(generatedMetadata);
+        result.setMetadataClass(metadataClass);
+        result.setGeneratedMetadata(generatedMetadata);
 
-		metadataClass.addImport(MetaProperty.class);
-		metadataClass.addImport(Metadata.class);
-		metadataClass.addImport(candidateClass);
+        metadataClass.addImport(MetaProperty.class);
+        metadataClass.addImport(Metadata.class);
+        metadataClass.addImport(candidateClass);
 
-		instantiateMetadataClassField(metadataClass, candidateClass.getSimpleName());
+        instantiateMetadataClassField(metadataClass, candidateClass.getSimpleName());
 
-		result.setMetadataProperties(implementsProperties(metadataClass, addProperties(candidateClass, candidates, metadataClass, generatedMetadata)));
+        result.setMetadataProperties(implementsProperties(metadataClass, addProperties(candidateClass, candidates, metadataClass, generatedMetadata)));
 
-		extendsAbstractMetadata(candidateClass, candidateClass.getSimpleName(), metadataClass);
+        extendsAbstractMetadata(candidateClass, candidateClass.getSimpleName(), metadataClass);
 
-		return result;
-	}
+        return result;
+    }
 
 
-	private static void instantiateMetadataClassField(JavaClassSource metadataClass, String typeName) {
-		metadataClass
-			.addField()
-			.setPublic()
-			.setStatic(true)
-			.setFinal(true)
-			.setType(metadataClass)
-			.setName(down(typeName))
-			.setLiteralInitializer("new " + metadataClass.getName() + "();");
-	}
+    private static void instantiateMetadataClassField(JavaClassSource metadataClass, String typeName) {
+        metadataClass.addField().setPublic().setStatic(true).setFinal(true).setType(metadataClass).setName("get").setLiteralInitializer("new " + metadataClass.getName() + "();");
+    }
 
-	private static List<FieldSource> addProperties(Class<?> candidateClass, Set<Class<?>> candidates, JavaClassSource metadataClass, GeneratedMetadata<?> generatedMetadata) {
-		final ArrayList<FieldSource> properties = new ArrayList<>();
+    private static List<FieldSource> addProperties(Class<?> candidateClass, Set<Class<?>> candidates, JavaClassSource metadataClass, GeneratedMetadata<?> generatedMetadata) {
+        final ArrayList<FieldSource> properties = new ArrayList<>();
 
-		for (Method getter : collectGetters(candidateClass, new ArrayList<>())) {
-			final String propertyName = down(getter.getName().substring(3, getter.getName().length()));
-			final boolean isNested = candidates.contains(getter.getReturnType());
+        for (Method getter : collectGetters(candidateClass, new ArrayList<>())) {
+            final String propertyName = down(getter.getName().substring(3, getter.getName().length()));
+            final boolean isNested = candidates.contains(getter.getReturnType());
 
-			metadataClass.addImport(getter.getReturnType());
+            Class<?> returnType = getter.getReturnType();
 
-			if (isNested) {
-				metadataClass.addImport(getter.getReturnType().getName() + "Metadata");
-			}
+            if (returnType.isPrimitive()) {
+                returnType = Primitives.wrap(returnType);
+            }
 
-			properties.add(
-				metadataClass.addField(buildProperty(candidateClass.getSimpleName(), propertyName, getter.getReturnType().getSimpleName(), isNested))
-			);
+            if (returnType.getPackage() != null) {
+                metadataClass.addImport(returnType);
+            }
 
-			generatedMetadata.addProperty(new GenerateMetaProperty<>(propertyName, getter.getReturnType(), candidateClass, isNested));
-		}
+            if (isNested) {
+//                metadataClass.addImport(returnType.getName() + "Metadata");
+            }
 
-		return properties;
-	}
+            final FieldSource<JavaClassSource> propertyField =
+                metadataClass.addField(buildProperty(candidateClass, propertyName, returnType, isNested));
 
-	private static List<Method> collectGetters(Class<?> aClass, List<Method> getters) {
-		for (Method method : aClass.getDeclaredMethods()) {
-			if (method.getName().startsWith("get")) {
-				getters.add(method);
-			}
-		}
+            properties.add(propertyField);
 
-		if (aClass.getSuperclass() != Object.class) {
-			collectGetters(aClass.getSuperclass(), getters);
-		}
+            generatedMetadata.addProperty(new GenerateMetaProperty<>(propertyName, returnType, candidateClass, isNested));
+        }
 
-		return getters;
-	}
+        return properties;
+    }
 
-	private static String buildProperty(String typeName, String propertyName, String propertyType, boolean isNested) {
-		return
-			"private final MetaProperty<" + typeName + ", " + propertyType + "> " + propertyName + " = new MetaProperty<" + typeName + ", " + propertyType + ">() {"
-				+ "@Override \n"
-				+ "public String getName() { \n"
-				+ "return \"" + propertyName + "\";\n"
-				+ "} \n"
+    private static List<Method> collectGetters(Class<?> aClass, List<Method> getters) {
+        for (Method method : aClass.getDeclaredMethods()) {
+            if (method.getName().startsWith("get")) {
+                getters.add(method);
+            }
+        }
 
-				+ "@Override \n"
-				+ "public Class<" + propertyType + "> getType() { \n"
-				+ "return " + propertyType + ".class;"
-				+ " } \n"
+        if (aClass.getSuperclass() != Object.class) {
+            collectGetters(aClass.getSuperclass(), getters);
+        }
 
-				+ "@Override \n"
-				+ "public void setValue(" + typeName + " " + down(typeName) + ", " + propertyType + " value) { \n"
-				+ down(typeName) + ".set" + up(propertyName) + "(value);"
-				+ "} \n"
+        return getters;
+    }
 
-				+ "@Override \n"
-				+ "public " + propertyType + " getValue(" + typeName + " " + down(typeName) + ") { \n"
-				+ " return " + down(typeName) + ".get" + up(propertyName) + "();"
-				+ "} \n"
+    private static String buildProperty(Class<?> type, String propertyName, Class<?> propertyType, boolean isNested) {
+        final String typeName = type.getSimpleName();
+        final String propertyTypeName = propertyType.getSimpleName();
 
-				+ "@Override \n"
-				+ "public boolean isNested() { \n"
-				+ " return " + isNested + ";"
-				+ "} \n"
+        boolean typeContainerSetter = true;
 
-				+ "@Override \n"
-				+ "public Metadata<" + propertyType + "> getMetadata() { \n"
-				+ (isNested ? " return " + propertyType + "Metadata." + propertyName + ";" : " return null;")
-				+ "} \n"
+        try {
+            type.getMethod("set"+up(propertyName), propertyType);
+        } catch (NoSuchMethodException e) {
+            typeContainerSetter = false;
+        }
 
-				+ "};"
-			;
-	}
+        return "private final MetaProperty<" + typeName + ", " + propertyTypeName + "> " + propertyName + " = new MetaProperty<" + typeName + ", " + propertyTypeName + ">() {" + "@Override \n" + "public String getName() { \n" + "return \"" + propertyName + "\";\n" + "} \n"
 
-	private static JavaInterfaceSource implementsProperties(JavaClassSource metadataClass, List<FieldSource> properties) {
-		final JavaInterfaceSource propertiesInterface = Roaster
-			.create(JavaInterfaceSource.class)
-			.setPackage(metadataClass.getPackage())
-			.setName(metadataClass.getName() + "Properties");
+                + "@Override \n" + "public Class<" + propertyTypeName + "> getType() { \n" + "return " + propertyTypeName + ".class;" + " } \n"
 
-		propertiesInterface.addTypeVariable("PROPERTY");
+                + (!typeContainerSetter ?
+                     "@Override \n" + "public void setValue(" + typeName + " " + down(typeName) + ", " + propertyTypeName + " value) { \n" + "throw new RuntimeException(\" Setter is not present \"); " + "} \n" :
+                     "@Override \n" + "public void setValue(" + typeName + " " + down(typeName) + ", " + propertyTypeName + " value) { \n" + down(typeName) + ".set" + up(propertyName) + "(value);" + "} \n"
+                )
 
-		for (FieldSource property : properties) {
-			propertiesInterface
-				.addMethod()
-				.setReturnType("PROPERTY")
-				.setName(property.getName());
-		}
+                + "@Override \n" + "public " + propertyTypeName + " getValue(" + typeName + " " + down(typeName) + ") { \n" + " return " + down(typeName) + ".get" + up(propertyName) + "();" + "} \n"
 
-		metadataClass.addInterface(propertiesInterface.getQualifiedName() + "<MetaProperty>");
-		metadataClass.implementInterface(propertiesInterface);
+                + "@Override \n" + "public boolean isNested() { \n" + " return " + isNested + ";" + "} \n"
 
-		for (FieldSource property : properties) {
-			metadataClass
-				.getMethod(property.getName())
-				.setPublic()
-				.setReturnType(property.getType().getQualifiedNameWithGenerics())
-				.setBody("return " + property.getName() + ";");
-		}
+                + "@Override \n" + "public Metadata<" + propertyTypeName + "> getMetadata() { \n" + (isNested ? " return " + propertyTypeName + "Metadata." + "get" + ";" : " return null;") + "} \n"
 
-		return propertiesInterface;
-	}
+                + "};";
+    }
 
-	private static void extendsAbstractMetadata(Class<?> type, String typeName, JavaClassSource metadataClass) {
-		metadataClass.extendSuperType(AbstractMetadata.class);
-		metadataClass.setSuperType(AbstractMetadata.class.getName() + "<" + typeName + ">");
+    private static JavaInterfaceSource implementsProperties(JavaClassSource metadataClass, List<FieldSource> properties) {
+        final JavaInterfaceSource propertiesInterface = Roaster.create(JavaInterfaceSource.class).setPackage(metadataClass.getPackage()).setName(metadataClass.getName() + "Properties");
 
-		metadataClass
-			.getMethod("create")
-			.setReturnType(type)
-			.setBody("return new " + typeName + "();");
+        propertiesInterface.addTypeVariable("PROPERTY");
 
-		metadataClass
-			.getMethod("getType")
-			.setReturnType("Class<" + type.getName() + ">")
-			.setBody("return " + typeName + ".class;");
-	}
+        for (FieldSource property : properties) {
+            propertiesInterface
+                .addMethod()
+                .setReturnType("PROPERTY")
+                .setName(
+                    property.getName()
+                );
+        }
 
-	private static String up(String value) {
-		return Character.toUpperCase(value.charAt(0)) + value.substring(1);
-	}
+        metadataClass.addInterface(propertiesInterface.getQualifiedName() + "<MetaProperty>");
+        metadataClass.implementInterface(propertiesInterface);
 
-	private static String down(String value) {
-		return Character.toLowerCase(value.charAt(0)) + value.substring(1);
-	}
+        for (FieldSource property : properties) {
+            metadataClass.getMethod(property.getName()).setPublic().setReturnType(property.getType().getQualifiedNameWithGenerics()).setBody("return " + property.getName() + ";");
+        }
+
+        return propertiesInterface;
+    }
+
+    private static void extendsAbstractMetadata(Class<?> type, String typeName, JavaClassSource metadataClass) {
+        metadataClass.extendSuperType(AbstractMetadata.class);
+        metadataClass.setSuperType(AbstractMetadata.class.getName() + "<" + typeName + ">");
+
+        metadataClass.getMethod("create").setReturnType(type).setBody("return new " + typeName + "();");
+
+        metadataClass.getMethod("getType").setReturnType("Class<" + type.getName() + ">").setBody("return " + typeName + ".class;");
+    }
+
+    private static String up(String value) {
+        return Character.toUpperCase(value.charAt(0)) + value.substring(1);
+    }
+
+    private static String down(String value) {
+        return Character.toLowerCase(value.charAt(0)) + value.substring(1);
+    }
 }

@@ -1,5 +1,6 @@
 package ru.bellski.lang.metasql.highlight;
 
+import com.intellij.ide.highlighter.JavaHighlightingColors;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -8,6 +9,7 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.NotNull;
+import ru.bellski.lang.metasql.MetaSqlTokenTypes;
 import ru.bellski.lang.metasql.lexer.MetaSqlLexerAdapter;
 
 import java.util.Map;
@@ -23,6 +25,13 @@ public class MetaSqlSyntaxHighLighter extends SyntaxHighlighterBase {
 
     static {
         textAttributeByElementType.put(TokenType.BAD_CHARACTER, createTextAttributesKey("META_SQL_ILLEGAL", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE));
+        textAttributeByElementType.put(MetaSqlTokenTypes.IMPORT, createTextAttributesKey("IMPORT", JavaHighlightingColors.KEYWORD));
+        textAttributeByElementType.put(MetaSqlTokenTypes.METAQUERY, createTextAttributesKey("METAQUERY", JavaHighlightingColors.KEYWORD));
+        textAttributeByElementType.put(MetaSqlTokenTypes.RETURN, createTextAttributesKey("RETURN", JavaHighlightingColors.KEYWORD));
+        textAttributeByElementType.put(MetaSqlTokenTypes.PARAMETERS, createTextAttributesKey("PARAMETERS", DefaultLanguageHighlighterColors.STATIC_FIELD));
+        textAttributeByElementType.put(MetaSqlTokenTypes.SQLMETADATA, createTextAttributesKey("SQLMETADATA", DefaultLanguageHighlighterColors.STATIC_FIELD));
+        textAttributeByElementType.put(MetaSqlTokenTypes.COMMA, createTextAttributesKey("COMMA", JavaHighlightingColors.KEYWORD));
+        textAttributeByElementType.put(MetaSqlTokenTypes.SEMICOLON, createTextAttributesKey("SEMICOLON", JavaHighlightingColors.KEYWORD));
     }
 
     @NotNull

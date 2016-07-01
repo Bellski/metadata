@@ -1,31 +1,53 @@
 package ru.bellski.metadata.maven.test.domain2;
 
 
+import javax.xml.datatype.XMLGregorianCalendar;
+
 public class User {
-	private String name;
-	private Address address;
+    private String nameName;
+    private Address home;
+    private Address delivery;
+    private XMLGregorianCalendar date;
 
-	public String getName() {
-		return name;
-	}
+    public String getNameName() {
+        return nameName;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setNameName(String nameName) {
+        this.nameName = nameName;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public Address getHome() {
+        return home;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public void setHome(Address home) {
+        this.home = home;
+    }
 
-	@Override
-	public String toString() {
-		return "User{" +
-			"name='" + name + '\'' +
-			", address=" + address +
-			'}';
-	}
+    public Address getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Address delivery) {
+        this.delivery = delivery;
+    }
+
+    public XMLGregorianCalendar getDate() {
+        return date;
+    }
+
+    public void setDate(XMLGregorianCalendar date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+            "nameName='" + nameName + '\'' +
+            ", home=" + home +
+            ", delivery=" + delivery +
+            '}';
+    }
+
 }

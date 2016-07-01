@@ -6,6 +6,7 @@ import com.intellij.lang.FileASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.PsiShortNamesCache;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
@@ -214,6 +215,13 @@ public class MetaSqlPsiReferenceImpl extends MetaSqlPsiCompositeElementImpl impl
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
         return ResolveResult.EMPTY_ARRAY;
+    }
+
+    @Override
+    public PsiClass[] getResolveCandidates() {
+        return PsiShortNamesCache
+                .getInstance(getProject())
+                .getClassesByName(getReferenceName(), GlobalSearchScope.allScope(getProject()));
     }
 
     @NotNull

@@ -1,11 +1,9 @@
 /*
-    import aaaa;
-
     metaQuery {
 
     }
 */
 
 SELECT *
-FROM a
+FROM a as "AAAA"
 WHERE b = ? OR ?

@@ -47,6 +47,7 @@ LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
   "sqlMetadata"       { return SQLMETADATA; }
   "parameters"        { return PARAMETERS; }
   "return"            { return RETURN; }
+  "package"           { return PACKAGE; }
 
   {LINE_COMMENT}      { return LINE_COMMENT; }
   {IDENTIFIER}        { return IDENTIFIER; }

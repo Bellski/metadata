@@ -8,23 +8,23 @@ import ru.bellski.metadata.Metadata;
  * Created by oem on 5/10/16.
  */
 public class GeneratedMetadata<TYPE> extends AbstractMetadata<TYPE> implements Metadata<TYPE> {
-	private final Class<TYPE> type;
+    private final Class<TYPE> type;
 
-	public GeneratedMetadata(Class<TYPE> type) {
-		this.type = type;
-	}
+    public GeneratedMetadata(Class<TYPE> type) {
+        this.type = type;
+    }
 
-	@Override
-	public TYPE create() {
-		return null;
-	}
+    @Override
+    public TYPE create() {
+        return null;
+    }
 
-	@Override
-	public Class<TYPE> getType() {
-		return type;
-	}
+    @Override
+    public Class<TYPE> getType() {
+        return type;
+    }
 
-	public void addProperty(MetaProperty<?, ?> property) {
-		addProperties(property);
-	}
+    public void addProperty(MetaProperty<?, ?> property) {
+        addProperties(property);
+    }
 }

@@ -9,5 +9,5 @@ import java.util.List;
  */
 @FunctionalInterface
 public interface BeanListMapper<TYPE> {
-	List<TYPE> fetch(ResultSet resultSet) throws SQLException;
+    List<TYPE> fetch(ResultSet resultSet) throws SQLException;
 }

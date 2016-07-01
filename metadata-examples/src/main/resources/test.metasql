@@ -1,7 +1,19 @@
-import  ru.bellski.metadata.examples.domain.UserSqlMetadata;
+import ru.bellski.metadata.examples.domain.UserSqlMetadata;
+import java.lang.String;
+import java.lang.Boolean;
+
 
 metaQuery {
+
     sqlMetadata = UserSqlMetadata;
 
+
+    parameters = [
+        String s,
+        Boolean a
+    ];
+
+
+    return UserSqlMetadata;
 }
 

@@ -7,5 +7,5 @@ import java.sql.ResultSet;
  */
 @FunctionalInterface
 public interface BeanMapper<TYPE> {
-	TYPE fetch(ResultSet resultSet);
+    TYPE fetch(ResultSet resultSet);
 }
