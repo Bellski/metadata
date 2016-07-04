@@ -35,11 +35,11 @@ public class MetaSqlFile extends PsiFileBase {
     @Override
     public void subtreeChanged() {
         super.subtreeChanged();
-//        ApplicationManager
-//                .getApplication()
-//                .invokeLater(() ->
-//                        FileContentUtil.reparseFiles(InjectedLanguageUtil.findInjectionHost(MetaSqlFile.this).getContainingFile().getVirtualFile())
-//                );
+        //        ApplicationManager
+        //                .getApplication()
+        //                .invokeLater(() ->
+        //                        FileContentUtil.reparseFiles(InjectedLanguageUtil.findInjectionHost(MetaSqlFile.this).getContainingFile().getVirtualFile())
+        //                );
     }
 
     @Override

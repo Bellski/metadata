@@ -51,9 +51,7 @@ public class MetadataReferenceImpl extends MetaSqlCompositeElementImpl implement
         if (text != null) {
             final int lastDot = text.lastIndexOf('.');
             if (lastDot > 0) {
-                PsiClass[] result = PsiShortNamesCache
-                        .getInstance(getProject())
-                        .getClassesByName(text.substring(lastDot + 1), GlobalSearchScope.allScope(getProject()));
+                PsiClass[] result = PsiShortNamesCache.getInstance(getProject()).getClassesByName(text.substring(lastDot + 1), GlobalSearchScope.allScope(getProject()));
 
                 for (PsiClass psiClass : result) {
                     if (psiClass.getQualifiedName().equals(getText())) {
@@ -91,12 +89,7 @@ public class MetadataReferenceImpl extends MetaSqlCompositeElementImpl implement
     @NotNull
     @Override
     public Object[] getVariants() {
-        return SqlMetadataJavaClassCache
-                .getInstance(getProject())
-                .getAllSqlMetaClasses()
-                .stream()
-                .map(JavaPsiClassReferenceElement::new)
-                .collect(Collectors.toList()).toArray();
+        return SqlMetadataJavaClassCache.getInstance(getProject()).getAllSqlMetaClasses().stream().map(JavaPsiClassReferenceElement::new).collect(Collectors.toList()).toArray();
     }
 
     @Override

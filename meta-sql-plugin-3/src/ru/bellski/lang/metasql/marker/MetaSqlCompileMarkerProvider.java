@@ -79,7 +79,8 @@ public class MetaSqlCompileMarkerProvider implements LineMarkerProvider {
 
     private static void writeJavaFile(PsiManager psiManager, MetaSqlFile metaSqlFile, PsiClass classToWrite, Module module) {
         final Project project = metaSqlFile.getProject();
-        final String path = module.getModuleFile().getParent().getPath().concat("/target/generated-sources/meta/").concat(DEFAULT_QUERY_PATH);
+
+        final String path = module.getModuleFile().getParent().getPath().concat("/src/main/java/").concat(metaSqlFile.getPackagePath());
 
         ApplicationManager.getApplication().runWriteAction(() -> {
             VirtualFile queryPath = project.getBaseDir().findFileByRelativePath(path);

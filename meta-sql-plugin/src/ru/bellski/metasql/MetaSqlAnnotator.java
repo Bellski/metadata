@@ -28,8 +28,7 @@ public class MetaSqlAnnotator implements Annotator {
                 String value = commentCandidate.getText().substring(2).trim();
 
                 if (!value.isEmpty() && value.startsWith("metadata")) {
-                    TextRange range = new TextRange(commentCandidate.getText().indexOf('m'),
-                            value.length() + commentCandidate.getText().indexOf('m'));
+                    TextRange range = new TextRange(commentCandidate.getText().indexOf('m'), value.length() + commentCandidate.getText().indexOf('m'));
                     Annotation annotation = holder.createInfoAnnotation(range, "metadata");
                     annotation.setTextAttributes(XmlHighlighterColors.XML_TAG);
                 }

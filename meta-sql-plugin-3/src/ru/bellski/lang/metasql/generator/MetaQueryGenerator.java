@@ -100,7 +100,7 @@ public class MetaQueryGenerator {
     }
 
     private static PsiField createQueryField(PsiElementFactory elementFactory, String query) {
-        return elementFactory.createFieldFromText("private String query = \"" + query + "\";", null);
+        return elementFactory.createFieldFromText("private String query = " + query + ";", null);
     }
 
     private static PsiField createParamsField(PsiElementFactory elementFactory, int paramsCount) {

@@ -49,42 +49,24 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../.idea/libraries/Maven__org_sonatype_sisu_sisu_guice_noaop_2_1_7.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../.idea/libraries/Maven__org_sonatype_sisu_sisu_inject_bean_1_4_2.xml" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../.idea/libraries/Maven__org_sonatype_sisu_sisu_inject_plexus_1_4_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/copyright/profiles_settings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/actions/AddImportQuestionAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/GeneratorUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/inject/MetaSqlInjector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/util/MetaSqlElementGenerator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/convertors/PropertyConverter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/convertors/PropertyConvertorProvider.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/convertors/XMLGregorianCalendarConverter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/StringUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/sqlmetadata/BodyBuilder.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/sqlmetadata/SqlMetadata.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/sqlmetadata/SqlMetadataGenerator.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/MetadataGeneratorTests.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/CompanyTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/MetadataGeneratorTests.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/AddressMetadata.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/PermanentAddressMetadata.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/UserMetadata.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/meta-sql-plugin-3.iml" afterPath="$PROJECT_DIR$/meta-sql-plugin-3.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/sql/queries/GetClaimInfo.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/sql/queries/GetClaimInfoA.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/sql/queries/GetClaimInfoExecutor.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/sql/queries/GetClaimInfoS.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/MetaSqlFile.class" afterPath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/MetaSqlFile.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/generator/MetaQueryGenerator.class" afterPath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/generator/MetaQueryGenerator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/generator/ResultSetRules.class" afterPath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/generator/ResultSetRules.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.class" afterPath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.class" afterPath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/out/production/meta-sql-plugin-3/META-INF/plugin.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSql.bnf" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSql.bnf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlFile.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlFile.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/formater/MetaSqlBlock.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/formater/MetaSqlBlock.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/MetaQueryGenerator.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/MetaQueryGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlHighLightVisitor.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlHighLightVisitor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/ResultSetRules.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/ResultSetRules.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlSyntaxHighLighter.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlSyntaxHighLighter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/lexer/_MetaSqlLexer.flex" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/lexer/_MetaSqlLexer.flex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/lexer/_MetaSqlLexer.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/lexer/_MetaSqlLexer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/psi/MetaSqlPsiReference.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/psi/MetaSqlPsiReference.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/psi/impl/MetaSqlPsiReferenceImpl.java" afterPath="$PROJECT_DIR$/src/ru/bellski/lang/metasql/psi/impl/MetaSqlPsiReferenceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../meta-sql-plugin-second/resources/META-INF/plugin.xml" afterPath="$PROJECT_DIR$/../meta-sql-plugin-second/resources/META-INF/plugin.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../meta-sql-plugin-second/src/ru/bellski/metasql/lang/MetaSqlFile.java" afterPath="$PROJECT_DIR$/../meta-sql-plugin-second/src/ru/bellski/metasql/lang/MetaSqlFile.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../meta-sql-plugin-second/src/ru/bellski/metasql/lang/MetaSqlFileType.java" afterPath="$PROJECT_DIR$/../meta-sql-plugin-second/src/ru/bellski/metasql/lang/MetaSqlFileType.java" />
@@ -127,36 +109,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../meta-sql-plugin/src/ru/bellski/metasql/lang/lexer/_MetaSqlLexer.java" afterPath="$PROJECT_DIR$/../meta-sql-plugin/src/ru/bellski/metasql/lang/lexer/_MetaSqlLexer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../meta-sql-plugin/src/ru/bellski/metasql/lang/psi/impl/MetadataReferenceImpl.java" afterPath="$PROJECT_DIR$/../meta-sql-plugin/src/ru/bellski/metasql/lang/psi/impl/MetadataReferenceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../meta-sql-plugin/src/ru/bellski/metasql/marker/MetaSqlRunMarkerProvider.java" afterPath="$PROJECT_DIR$/../meta-sql-plugin/src/ru/bellski/metasql/marker/MetaSqlRunMarkerProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/AbstractMetadata.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/AbstractMetadata.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/MetaProperty.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/MetaProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/Metadata.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/Metadata.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/NestedMetaProperty.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/NestedMetaProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/BeanListMapper.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/BeanListMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/BeanMapper.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/BeanMapper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/SQL.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/SQL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/SqlQuery.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/SqlQuery.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/SqlQueryResult.java" afterPath="$PROJECT_DIR$/../metadata-core/src/main/java/ru/bellski/metadata/sql/SqlQueryResult.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/metadata-examples.iml" afterPath="$PROJECT_DIR$/../metadata-examples/metadata-examples.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/pom.xml" afterPath="$PROJECT_DIR$/../metadata-examples/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/domain/Address.java" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/domain/Address.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/domain/Company.java" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/domain/Company.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/domain/User.java" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/java/ru/bellski/metadata/examples/domain/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/resources/aa.sql" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/resources/aa.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/resources/getClaimInfo.sql" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/resources/getClaimInfo.sql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-examples/src/main/resources/test.metasql" afterPath="$PROJECT_DIR$/../metadata-examples/src/main/resources/test.metasql" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/pom.xml" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/GenerateMetadataCompiler.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/GenerateMetadataCompiler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/GenerateMetadataFinder.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/GenerateMetadataFinder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/GenerateMetadataMojo.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/GenerateMetadataMojo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/MetadataGenerator.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/MetadataGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/MetadataGeneratorResult.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/MetadataGeneratorResult.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/SQLMetadataGenerator.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/SQLMetadataGenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/forgeneration/GenerateMetaProperty.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/forgeneration/GenerateMetaProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/forgeneration/GeneratedMetadata.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/main/java/ru/bellski/metadata/maven/forgeneration/GeneratedMetadata.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/Address.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/Address.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/PermanentAddress.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/PermanentAddress.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/User.java" afterPath="$PROJECT_DIR$/../metadata-maven-plugin/src/test/java/ru/bellski/metadata/maven/test/domain2/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../pom.xml" afterPath="$PROJECT_DIR$/../pom.xml" />
     </list>
     <ignored path="meta-sql-plugin-3.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -177,110 +129,7 @@
     <favorites_list name="meta-sql-plugin-3" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MetaSqlFile.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlFile.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="139" column="80" selection-start-line="139" selection-start-column="80" selection-end-line="139" selection-end-column="80" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SqlTokens.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../../../../opt/idea-IU-145.597.3/plugins/DatabaseTools/lib/database-impl.jar!/com/intellij/sql/psi/SqlTokens.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="220" column="63" selection-start-line="220" selection-start-column="63" selection-end-line="220" selection-end-column="63" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaTokenType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../sources/idea/java/java-psi-api/src/com/intellij/psi/JavaTokenType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TokenType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../sources/idea/platform/core-api/src/com/intellij/psi/TokenType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ElementType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../sources/idea/java/java-psi-impl/src/com/intellij/psi/impl/source/tree/ElementType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="24" column="60" selection-start-line="24" selection-start-column="60" selection-end-line="24" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaTokenTypes.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/../../../../opt/idea-IU-145.597.3/lib/groovy-all-2.4.6.jar!/org/codehaus/groovy/antlr/java/JavaTokenTypes.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaElement.class" pinned="false" current-in-tab="false">
-        <entry file="jar://$USER_HOME$/Downloads/roaster-jdt-2.18.7.Final.jar!/org/jboss/forge/roaster/_shade/org/eclipse/jdt/internal/core/JavaElement.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ASTNode.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../sources/idea/platform/core-api/src/com/intellij/lang/ASTNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="731">
-              <caret line="273" column="10" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MetaSqlParserDefinition.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlParserDefinition.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="21" column="54" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MetaSql.bnf" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSql.bnf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="715">
-              <caret line="59" column="33" selection-start-line="59" selection-start-column="33" selection-end-line="59" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#1524#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -322,21 +171,21 @@
         <option value="/MetaSql.bnf.preview" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/psi/impl/MetaSqlPsiReferenceImpl.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlHighLightVisitor.java" />
-        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.java" />
-        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.java" />
-        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/ResultSetRules.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/GeneratorUtils.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/QueryExecutorGenerator.java" />
-        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/MetaQueryGenerator.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlParserDefinition.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/inject/MetaSqlInjector.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSql.bnf" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/lexer/_MetaSqlLexer.flex" />
-        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/formater/MetaSqlBlock.java" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/actions/AddImportQuestionAction.java" />
-        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlSyntaxHighLighter.java" />
+        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/MetaQueryGenerator.java" />
+        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.java" />
+        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.java" />
+        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/ResultSetRules.java" />
+        <option value="$PROJECT_DIR$/resources/META-INF/plugin.xml" />
         <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlFile.java" />
+        <option value="$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlSyntaxHighLighter.java" />
       </list>
     </option>
   </component>
@@ -370,7 +219,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -531,50 +380,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metasql" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="marker" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="meta-sql-plugin-3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="meta-sql-plugin-3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="metasql" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="generator" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="meta-sql-plugin-3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="meta-sql-plugin-3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -585,8 +390,8 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Scratches" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -800,7 +605,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1175" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -813,7 +618,7 @@
       <window_info id="OSGI Projects Manager" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="OSGI Local Manager" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32959402" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23824786" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23824786" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -841,83 +646,18 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlFile.java</url>
-          <line>155</line>
-          <properties />
-          <option name="timeStamp" value="111" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="112" />
+      <option name="time" value="114" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../../sources/idea/java/java-psi-api/src/com/intellij/psi/PsiMethod.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="62" column="17" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../../sources/idea/platform/util/src/com/intellij/openapi/util/TextRange.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#7580#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#1186#1187#0" expanded="false" />
-            <element signature="e#1230#1231#0" expanded="false" />
-            <element signature="e#1678#1679#0" expanded="false" />
-            <element signature="e#1708#1709#0" expanded="false" />
-            <element signature="e#1757#1758#0" expanded="false" />
-            <element signature="e#1785#1786#0" expanded="false" />
-            <element signature="e#1819#1820#0" expanded="false" />
-            <element signature="e#1863#1864#0" expanded="false" />
-            <element signature="e#2131#2132#0" expanded="false" />
-            <element signature="e#2175#2176#0" expanded="false" />
-            <element signature="e#2230#2231#0" expanded="false" />
-            <element signature="e#2271#2272#0" expanded="false" />
-            <element signature="e#2793#2794#0" expanded="false" />
-            <element signature="e#2858#2859#0" expanded="false" />
-            <element signature="e#2900#2901#0" expanded="false" />
-            <element signature="e#2962#2963#0" expanded="false" />
-            <element signature="e#3003#3004#0" expanded="false" />
-            <element signature="e#3067#3068#0" expanded="false" />
-            <element signature="e#4231#4232#0" expanded="false" />
-            <element signature="e#4294#4295#0" expanded="false" />
-            <element signature="e#4363#4364#0" expanded="false" />
-            <element signature="e#4411#4412#0" expanded="false" />
-            <element signature="e#4490#4491#0" expanded="false" />
-            <element signature="e#4544#4545#0" expanded="false" />
-            <element signature="e#5477#5478#0" expanded="false" />
-            <element signature="e#5524#5525#0" expanded="false" />
-            <element signature="e#6391#6392#0" expanded="false" />
-            <element signature="e#6436#6437#0" expanded="false" />
-            <element signature="e#6841#6842#0" expanded="false" />
-            <element signature="e#6886#6887#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/java-8-oracle/src.zip!/java/beans/Introspector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="940">
-          <caret line="92" column="13" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../sources/idea/platform/util-rt/src/com/intellij/openapi/util/text/StringUtilRt.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="758">
           <caret line="57" column="21" selection-start-line="57" selection-start-column="21" selection-end-line="57" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -938,7 +678,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -946,7 +685,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="24" column="17" selection-start-line="24" selection-start-column="17" selection-end-line="24" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -954,10 +692,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="700">
           <caret line="60" column="11" selection-start-line="60" selection-start-column="11" selection-end-line="60" selection-end-column="11" />
-          <folding>
-            <element signature="e#1598#1599#0" expanded="false" />
-            <element signature="e#1628#1629#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -965,9 +699,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="380">
           <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -975,7 +706,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -983,7 +713,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
           <caret line="54" column="28" selection-start-line="54" selection-start-column="28" selection-end-line="54" selection-end-column="28" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -991,7 +720,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="994">
           <caret line="95" column="10" selection-start-line="95" selection-start-column="10" selection-end-line="95" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -999,7 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1007,23 +734,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="274">
           <caret line="66" column="15" selection-start-line="66" selection-start-column="15" selection-end-line="66" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gen/ru/bellski/lang/metasql/psi/impl/MetaSqlSqlAssignImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="20" column="11" selection-start-line="20" selection-start-column="11" selection-end-line="20" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/gen/ru/bellski/lang/metasql/psi/impl/MetaSqlSqlAssignImpl.java" />
     <entry file="file://$PROJECT_DIR$/../../../sources/idea/java/java-psi-impl/src/com/intellij/psi/impl/source/tree/JavaElementType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
           <caret line="87" column="15" selection-start-line="87" selection-start-column="15" selection-end-line="87" selection-end-column="15" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1031,9 +749,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
           <caret line="79" column="46" selection-start-line="79" selection-start-column="46" selection-end-line="79" selection-end-column="46" />
-          <folding>
-            <element signature="e#2649#2650#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1041,7 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1049,7 +763,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1057,7 +770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1065,7 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
           <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1073,15 +784,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="460">
           <caret line="26" column="34" selection-start-line="26" selection-start-column="34" selection-end-line="26" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="40" column="38" selection-start-line="40" selection-start-column="38" selection-end-line="40" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1089,7 +791,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
           <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1097,7 +798,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1105,7 +805,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1113,7 +812,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="258">
           <caret line="149" column="0" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1121,10 +819,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="19" column="49" selection-start-line="19" selection-start-column="49" selection-end-line="19" selection-end-column="49" />
-          <folding>
-            <element signature="e#1010#1011#0" expanded="false" />
-            <element signature="e#1037#1038#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1132,7 +826,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="496">
           <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1140,7 +833,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="736">
           <caret line="670" column="21" selection-start-line="670" selection-start-column="21" selection-end-line="670" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1148,7 +840,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1156,10 +847,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
-          <folding>
-            <element signature="e#397#398#0" expanded="true" />
-            <element signature="e#455#456#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1178,23 +865,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="816">
           <caret line="67" column="18" selection-start-line="67" selection-start-column="18" selection-end-line="67" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlSyntaxHighLighter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlHighLightVisitor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="600">
-          <caret line="130" column="37" selection-start-line="130" selection-start-column="37" selection-end-line="130" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1202,15 +872,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="318">
           <caret line="25" column="15" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-449">
-          <caret line="51" column="56" selection-start-line="51" selection-start-column="56" selection-end-line="51" selection-end-column="56" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1226,33 +887,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="28" column="24" selection-start-line="28" selection-start-column="24" selection-end-line="28" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/MetaQueryGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="47" column="74" selection-start-line="47" selection-start-column="74" selection-end-line="47" selection-end-column="74" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSql.bnf">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="715">
+        <state relative-caret-position="220">
           <caret line="59" column="33" selection-start-line="59" selection-start-column="33" selection-end-line="59" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#1524#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../../../sources/idea/platform/core-api/src/com/intellij/lang/ASTNode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
+        <state relative-caret-position="5040">
           <caret line="273" column="10" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1260,7 +908,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
           <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1268,7 +915,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="24" column="60" selection-start-line="24" selection-start-column="60" selection-end-line="24" selection-end-column="60" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1276,7 +922,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1284,13 +929,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/../../../../opt/idea-IU-145.597.3/lib/groovy-all-2.4.6.jar!/org/codehaus/groovy/antlr/java/JavaTokenTypes.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
+        <state relative-caret-position="80">
           <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
           <folding />
         </state>
@@ -1298,7 +942,7 @@
     </entry>
     <entry file="jar://$PROJECT_DIR$/../../../../opt/idea-IU-145.597.3/plugins/DatabaseTools/lib/database-impl.jar!/com/intellij/sql/psi/SqlTokens.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
+        <state relative-caret-position="4120">
           <caret line="220" column="63" selection-start-line="220" selection-start-column="63" selection-end-line="220" selection-end-column="63" />
           <folding />
         </state>
@@ -1312,10 +956,77 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/StepInterfaceGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="35" column="58" selection-start-line="35" selection-start-column="58" selection-end-line="35" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../sources/idea/platform/core-impl/src/com/intellij/psi/impl/source/PsiFileImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8200">
+          <caret line="490" column="25" selection-start-line="490" selection-start-column="25" selection-end-line="490" selection-end-column="25" />
+          <folding>
+            <element signature="e#17505#17506#0" expanded="false" />
+            <element signature="e#17566#17567#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/MetaQueryGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2540">
+          <caret line="134" column="0" selection-start-line="134" selection-start-column="0" selection-end-line="134" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/generator/ResultSetRules.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="560">
+          <caret line="39" column="36" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/META-INF/plugin.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlSyntaxHighLighter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/highlight/MetaSqlHighLightVisitor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="130" column="37" selection-start-line="130" selection-start-column="37" selection-end-line="130" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/MetaSqlFile.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="139" column="80" selection-start-line="139" selection-start-column="80" selection-end-line="139" selection-end-column="80" />
+        <state relative-caret-position="477">
+          <caret line="86" column="54" selection-start-line="86" selection-start-column="54" selection-end-line="86" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ru/bellski/lang/metasql/marker/MetaSqlCompileMarkerProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1480">
+          <caret line="98" column="51" selection-start-line="98" selection-start-column="51" selection-end-line="98" selection-end-column="51" />
           <folding />
         </state>
       </provider>

@@ -30,7 +30,7 @@ public class MetaSqlElementGenerator {
         final PsiFileFactory factory = PsiFileFactory.getInstance(myProject);
         final String name = "dummy." + MetaSqlFileType.INSTANCE.getDefaultExtension();
         final LightVirtualFile virtualFile = new LightVirtualFile(name, MetaSqlFileType.INSTANCE, text);
-        final PsiFile psiFile = ((PsiFileFactoryImpl)factory).trySetupPsiForFile(virtualFile, MetaSqlLanguage.INSTANCE, false, true);
+        final PsiFile psiFile = ((PsiFileFactoryImpl) factory).trySetupPsiForFile(virtualFile, MetaSqlLanguage.INSTANCE, false, true);
         assert psiFile != null;
         return psiFile;
     }

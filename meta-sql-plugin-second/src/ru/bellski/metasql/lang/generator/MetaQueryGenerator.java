@@ -27,7 +27,7 @@ public class MetaQueryGenerator {
         }
     }
 
-    public static String generate(String className, String query, MetaSqlParameterDefinition[] parameterDefinitions, String returnType)  {
+    public static String generate(String className, String query, MetaSqlParameterDefinition[] parameterDefinitions, String returnType) {
 
         final MetaQuery metaQuery = new MetaQuery(className, generateSteps(parameterDefinitions, className, returnType));
         metaQuery.setQuery(query);
@@ -52,17 +52,9 @@ public class MetaQueryGenerator {
             final String id = parameterDefinition.getIdentifier().getText();
             final String type = parameterDefinition.getLiteralType().getText();
 
-            final String nextStep = parameterDefinitions.length == (i +1) ?
-                            executorStep.getName() : "set".concat(StringUtil.capitalize(parameterDefinitions[i+1].getIdentifier().getText()));
+            final String nextStep = parameterDefinitions.length == (i + 1) ? executorStep.getName() : "set".concat(StringUtil.capitalize(parameterDefinitions[i + 1].getIdentifier().getText()));
 
-            final List<StepMethod> setStepMethods =
-                    Collections.singletonList(
-                            new StepMethod(
-                                    "set".concat(StringUtil.capitalize(id)),
-                                    nextStep,
-                                    new StepMethodParameter(type, "value")
-                            )
-                    );
+            final List<StepMethod> setStepMethods = Collections.singletonList(new StepMethod("set".concat(StringUtil.capitalize(id)), nextStep, new StepMethodParameter(type, "value")));
 
             steps.add(new SetParameterStep(setStepMethods));
         }
@@ -81,14 +73,7 @@ public class MetaQueryGenerator {
     }
 
     private static String writeSteps(List<Step> steps, String classTemplate) {
-        return classTemplate
-                .replaceAll(
-                        "\\{steps\\}",
-                        steps
-                                .stream()
-                                .map(step -> StringUtil.capitalize(step.getName()))
-                                .collect(Collectors.joining(", "))
-                );
+        return classTemplate.replaceAll("\\{steps\\}", steps.stream().map(step -> StringUtil.capitalize(step.getName())).collect(Collectors.joining(", ")));
     }
 
     private static String writeQueryString(String query, String classTemplate) {

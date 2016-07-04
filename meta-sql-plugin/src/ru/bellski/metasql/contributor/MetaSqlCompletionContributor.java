@@ -17,38 +17,19 @@ public class MetaSqlCompletionContributor extends CompletionContributor {
 
     public MetaSqlCompletionContributor() {
 
-        extend(
-                CompletionType.BASIC,
-                PlatformPatterns
-                        .psiElement()
-                        .withSuperParent(2, MetaSqlReturnRuleInit.class),
-                new CompletionProvider<CompletionParameters>() {
-                    @Override
-                    protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
-                        result.addAllElements(
-                                Arrays.asList(
-                                        LookupElementBuilder.create("List"),
-                                        LookupElementBuilder.create("Boolean"),
-                                        LookupElementBuilder.create("Integer"),
-                                        LookupElementBuilder.create("Single")
-                                )
-                        );
-                    }
-                }
-        );
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement().withSuperParent(2, MetaSqlReturnRuleInit.class), new CompletionProvider<CompletionParameters>() {
+            @Override
+            protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+                result.addAllElements(Arrays.asList(LookupElementBuilder.create("List"), LookupElementBuilder.create("Boolean"), LookupElementBuilder.create("Integer"), LookupElementBuilder.create("Single")));
+            }
+        });
 
-        extend(
-                CompletionType.BASIC,
-                PlatformPatterns
-                        .psiElement()
-                        .withSuperParent(2, MetaSqlBody.class),
-                new CompletionProvider<CompletionParameters>() {
-                    @Override
-                    protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
-                        result.addAllElements(Arrays.asList(LookupElementBuilder.create("Metadata = "), LookupElementBuilder.create("ReturnRule = ")));
-                    }
-                }
-        );
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement().withSuperParent(2, MetaSqlBody.class), new CompletionProvider<CompletionParameters>() {
+            @Override
+            protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+                result.addAllElements(Arrays.asList(LookupElementBuilder.create("Metadata = "), LookupElementBuilder.create("ReturnRule = ")));
+            }
+        });
     }
 
 }

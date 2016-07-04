@@ -31,7 +31,11 @@ public class StepInterfaceGenerator {
             for (int i = 0; i < parameters.size(); i++) {
                 final MetaSqlParameterVariable parameter = parameters.get(i);
 
-                final PsiClass stepInterface = elementFactory.createInterface(StringUtil.capitalize(parameter.getIdentifier().getText()));
+                final PsiClass stepInterface = elementFactory
+                        .createInterface(
+                                metaSqlFile.getQueryName()
+                                + StringUtil.capitalize(parameter.getIdentifier().getText())
+                        );
 
                 if (i != parameters.size() -1) {
                     stepInterface.add(createSetterMethod(elementFactory, parameter, StringUtil.capitalize(parameters.get(i+1).getIdentifier().getText())));

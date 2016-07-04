@@ -37,93 +37,58 @@ public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
 
     public class RunLineMarkerInfo extends LineMarkerInfo<PsiElement> {
         public RunLineMarkerInfo(PsiElement element) {
-            super(
-                    element,
-                    element.getTextRange(),
-                    AllIcons.Actions.Compile,
-                    Pass.UPDATE_ALL,
-                    FunctionUtil.constant("Generate"),
-                    new GutterIconNavigationHandler<PsiElement>() {
-                        private Project project;
+            super(element, element.getTextRange(), AllIcons.Actions.Compile, Pass.UPDATE_ALL, FunctionUtil.constant("Generate"), new GutterIconNavigationHandler<PsiElement>() {
+                private Project project;
 
-                        @Override
-                        public void navigate(MouseEvent e, PsiElement elt) {
-                            final MetaSqlFile metaSqlFile = (MetaSqlFile) elt.getContainingFile();
+                @Override
+                public void navigate(MouseEvent e, PsiElement elt) {
+                    final MetaSqlFile metaSqlFile = (MetaSqlFile) elt.getContainingFile();
 
-                            this.project = elt.getProject();
+                    this.project = elt.getProject();
 
-                            final Module module = ModuleUtil.findModuleForFile(metaSqlFile.getVirtualFile(), project);
+                    final Module module = ModuleUtil.findModuleForFile(metaSqlFile.getVirtualFile(), project);
 
-                            final Collection<MetaSqlParameterDefinition> parameters
-                                    = PsiTreeUtil.findChildrenOfType(metaSqlFile, MetaSqlParameterDefinition.class);
+                    final Collection<MetaSqlParameterDefinition> parameters = PsiTreeUtil.findChildrenOfType(metaSqlFile, MetaSqlParameterDefinition.class);
 
-                            final MetaSqlPackageDefinition packageDef
-                                    = PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlPackageDefinition.class);
+                    final MetaSqlPackageDefinition packageDef = PsiTreeUtil.findChildOfType(metaSqlFile, MetaSqlPackageDefinition.class);
 
-//                            final MetaQueryBuilder metaQueryBuilder = new MetaQueryBuilder(
-//                                    "Test",
-//                                    "Query",
-//                                    PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlRoot.class)
-//                            );
+                    //                            final MetaQueryBuilder metaQueryBuilder = new MetaQueryBuilder(
+                    //                                    "Test",
+                    //                                    "Query",
+                    //                                    PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlRoot.class)
+                    //                            );
 
-                            String path = module.getModuleFile().getParent().getPath().concat("/target/generated-sources/meta/");
+                    String path = module.getModuleFile().getParent().getPath().concat("/target/generated-sources/meta/");
 
-//                            saveJavaFile(metaQueryBuilder, packageDef == null ? path.concat("queries") : path.concat(packageDef.getPackageName().getText().replace(".", "/")));
+                    //                            saveJavaFile(metaQueryBuilder, packageDef == null ? path.concat("queries") : path.concat(packageDef.getPackageName().getText().replace(".", "/")));
+                }
+
+                private void saveJavaFile(MetaQueryBuilder metaQueryBuilder, String path) {
+                    final PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(project);
+                    final PsiManager psiManager = PsiManager.getInstance(project);
+
+                    ApplicationManager.getApplication().runWriteAction(() -> {
+                        try {
+                            VirtualFile metaSqlPackage = project.getBaseDir().findFileByRelativePath(path);
+
+                            if (metaSqlPackage == null) {
+                                metaSqlPackage = VfsUtil.createDirectories(path);
+                            }
+
+                            final PsiDirectory directory = psiManager.findDirectory(metaSqlPackage);
+                            directory.add(psiFileFactory.createFileFromText(metaQueryBuilder.getName() + ".java", JavaFileType.INSTANCE, metaQueryBuilder.toString()));
+
+                            directory.add(psiFileFactory.createFileFromText(metaQueryBuilder.getExecutorBuilder().getName() + ".java", JavaFileType.INSTANCE, metaQueryBuilder.getExecutorBuilder().toString()));
+
+                            metaQueryBuilder.getStepBuilders().forEach(stepBuilder -> directory.add(psiFileFactory.createFileFromText(stepBuilder.getName() + ".java", JavaFileType.INSTANCE, stepBuilder.toString())));
+
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
+                    });
 
-                        private void saveJavaFile(MetaQueryBuilder metaQueryBuilder, String path) {
-                            final PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(project);
-                            final PsiManager psiManager = PsiManager.getInstance(project);
-
-                            ApplicationManager.getApplication().runWriteAction(() -> {
-                                try {
-                                    VirtualFile metaSqlPackage = project
-                                            .getBaseDir()
-                                            .findFileByRelativePath(
-                                                    path
-                                            );
-
-                                    if (metaSqlPackage == null) {
-                                        metaSqlPackage = VfsUtil.createDirectories(path);
-                                    }
-
-                                    final PsiDirectory directory = psiManager.findDirectory(metaSqlPackage);
-                                    directory.add(
-                                            psiFileFactory
-                                                    .createFileFromText(
-                                                            metaQueryBuilder.getName()+".java",
-                                                            JavaFileType.INSTANCE,
-                                                            metaQueryBuilder.toString()
-                                                    )
-                                    );
-
-                                    directory.add(
-                                            psiFileFactory
-                                                    .createFileFromText(
-                                                            metaQueryBuilder.getExecutorBuilder().getName()+".java",
-                                                            JavaFileType.INSTANCE,
-                                                            metaQueryBuilder.getExecutorBuilder().toString()
-                                                    )
-                                    );
-
-                                    metaQueryBuilder.getStepBuilders().forEach(stepBuilder -> directory.add(
-                                            psiFileFactory
-                                                    .createFileFromText(
-                                                            stepBuilder.getName()+".java",
-                                                            JavaFileType.INSTANCE,
-                                                            stepBuilder.toString()
-                                                    )
-                                    ));
-
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            });
-
-                        }
-                    },
-                    GutterIconRenderer.Alignment.RIGHT
-            );
+                }
+            }, GutterIconRenderer.Alignment.RIGHT);
         }
     }
 

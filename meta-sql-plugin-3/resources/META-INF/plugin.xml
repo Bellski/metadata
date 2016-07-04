@@ -1,7 +1,7 @@
 <idea-plugin version="2">
     <id>ru.bellski.metasqlplugin3</id>
-    <nameName>MetaSql Plugin</nameName>
-    <version>1.0</version>
+    <name>MetaSql Plugin</name>
+    <version>1.5</version>
     <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
     <description><![CDATA[

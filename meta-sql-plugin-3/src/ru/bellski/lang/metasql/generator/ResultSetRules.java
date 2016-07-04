@@ -17,17 +17,17 @@ public class ResultSetRules {
     static {
         literalTypes.put(
                 "String",
-                "resultSet.getString(0)"
+                "resultSet.getString(1)"
         );
 
         literalTypes.put(
                 "Boolean",
-                "resultSet.getBoolean(0)"
+                "resultSet.getBoolean(1)"
         );
 
         literalTypes.put(
                 "Long",
-                "resultSet.getLong(0)"
+                "resultSet.getLong(1)"
         );
     }
 
@@ -37,7 +37,7 @@ public class ResultSetRules {
         if (type != null) {
             if (literalTypes.containsKey(type.getText())) {
                 result = "if (resultSet.next()) {"
-                        + literalTypes.get(type.getText()) + ";"
+                        + "result = " + literalTypes.get(type.getText()) + ";"
                         + "}"
                 ;
             }

@@ -15,10 +15,8 @@ public class ExecutorBuilder {
     private String returnType;
     private String importList = "";
 
-    public ExecutorBuilder(String name, @Nullable  MetaSqlReturnStatement returnStatement) {
+    public ExecutorBuilder(String name, @Nullable MetaSqlReturnStatement returnStatement) {
         this.name = name;
-
-
 
 
         this.returnStatement = returnStatement;
@@ -40,30 +38,11 @@ public class ExecutorBuilder {
     }
 
     public String getOverrideExecutions() {
-        return "    @Override \n"
-                + "    public " + returnType + " execute(Connection connection) throws SQLException { \n"
-                + "        final PreparedStatement stmp = connection.prepareStatement(query);\n"
-                + ExecuteStatementStrategy.buildTemplate(returnStatement)
-                + "    } \n\n"
-                + "    @Override \n"
-                + "    public " + returnType + " execute() throws SQLException { \n"
-                + "        try(Connection connection = ds.getConnection()) { \n"
-                + "            " + (returnType.equals("void") ? "" : " return ") + "execute(connection); \n"
-                + "        } \n"
-                + "    }"
-                ;
+        return "    @Override \n" + "    public " + returnType + " execute(Connection connection) throws SQLException { \n" + "        final PreparedStatement stmp = connection.prepareStatement(query);\n" + ExecuteStatementStrategy.buildTemplate(returnStatement) + "    } \n\n" + "    @Override \n" + "    public " + returnType + " execute() throws SQLException { \n" + "        try(Connection connection = ds.getConnection()) { \n" + "            " + (returnType.equals("void") ? "" : " return ") + "execute(connection); \n" + "        } \n" + "    }";
     }
 
     @Override
     public String toString() {
-        return
-                importList + "; \n"
-                + "import java.sql.SQLException; \n"
-                + "import java.sql.Connection;\n\n"
-                + "public interface " + name + " { \n"
-                + "    public " + returnType + " execute(Connection connection) throws SQLException;\n"
-                + "    public " + returnType + " execute() throws SQLException;\n"
-                + "}"
-                ;
+        return importList + "; \n" + "import java.sql.SQLException; \n" + "import java.sql.Connection;\n\n" + "public interface " + name + " { \n" + "    public " + returnType + " execute(Connection connection) throws SQLException;\n" + "    public " + returnType + " execute() throws SQLException;\n" + "}";
     }
 }

@@ -59,8 +59,7 @@ public class MetaSqlHighLightVisitor extends MetaSqlVisitor implements Highlight
         myHolder = holder;
         try {
             action.run();
-        }
-        finally {
+        } finally {
             myHolder = null;
         }
         return true;
@@ -69,7 +68,7 @@ public class MetaSqlHighLightVisitor extends MetaSqlVisitor implements Highlight
     @Override
     public void visitMetadata(@NotNull MetaSqlMetadata o) {
         if (o.resolve() == null) {
-            final  HighlightInfo info = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF).range(o).descriptionAndTooltip("Cannot resolve SqlMetadata class").create();
+            final HighlightInfo info = HighlightInfo.newHighlightInfo(HighlightInfoType.WRONG_REF).range(o).descriptionAndTooltip("Cannot resolve SqlMetadata class").create();
             myHolder.add(info);
 
             QuickFixAction.registerQuickFixAction(info, new Import(o));

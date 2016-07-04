@@ -25,6 +25,7 @@ public class MetaSqlSyntaxHighLighter extends SyntaxHighlighterBase {
 
     static {
         textAttributeByElementType.put(TokenType.BAD_CHARACTER, createTextAttributesKey("META_SQL_ILLEGAL", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE));
+        textAttributeByElementType.put(MetaSqlTokenTypes.PACKAGE, createTextAttributesKey("PACKAGE", JavaHighlightingColors.KEYWORD));
         textAttributeByElementType.put(MetaSqlTokenTypes.IMPORT, createTextAttributesKey("IMPORT", JavaHighlightingColors.KEYWORD));
         textAttributeByElementType.put(MetaSqlTokenTypes.METAQUERY, createTextAttributesKey("METAQUERY", JavaHighlightingColors.KEYWORD));
         textAttributeByElementType.put(MetaSqlTokenTypes.RETURN, createTextAttributesKey("RETURN", JavaHighlightingColors.KEYWORD));

@@ -10,6 +10,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.util.containers.HashMap;
 import org.jetbrains.annotations.NotNull;
 import ru.bellski.metasql.lang.lexer.MetaSqlLexeraAdapter;
+
 import static ru.bellski.metasql.lang.psi.MetaSqlTokenTypes.*;
 
 
@@ -25,55 +26,25 @@ public class MetaSqlSyntaxHighLighter extends SyntaxHighlighterBase {
     private static final Map<IElementType, TextAttributesKey> textAttributeByElementType = new HashMap<>();
 
     static {
-        textAttributeByElementType.put(
-                TokenType.BAD_CHARACTER,
-                createTextAttributesKey("META_SQL_ILLEGAL", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE)
-        );
+        textAttributeByElementType.put(TokenType.BAD_CHARACTER, createTextAttributesKey("META_SQL_ILLEGAL", DefaultLanguageHighlighterColors.INVALID_STRING_ESCAPE));
 
-        textAttributeByElementType.put(
-                META_QUERY_KEYWORD,
-                createTextAttributesKey("META_SQL_QUERY_KEYWORD", JavaHighlightingColors.KEYWORD)
-        );
+        textAttributeByElementType.put(META_QUERY_KEYWORD, createTextAttributesKey("META_SQL_QUERY_KEYWORD", JavaHighlightingColors.KEYWORD));
 
-        textAttributeByElementType.put(
-                PARAMETERS_KEYWORD,
-                createTextAttributesKey("META_SQL_PARAMETERS_KEYWORD", DefaultLanguageHighlighterColors.STATIC_FIELD)
-        );
+        textAttributeByElementType.put(PARAMETERS_KEYWORD, createTextAttributesKey("META_SQL_PARAMETERS_KEYWORD", DefaultLanguageHighlighterColors.STATIC_FIELD));
 
-        textAttributeByElementType.put(
-                METADATA_KEYWORD,
-                createTextAttributesKey("META_SQL_METADATA_KEYWORD", DefaultLanguageHighlighterColors.STATIC_FIELD)
-        );
+        textAttributeByElementType.put(METADATA_KEYWORD, createTextAttributesKey("META_SQL_METADATA_KEYWORD", DefaultLanguageHighlighterColors.STATIC_FIELD));
 
-        textAttributeByElementType.put(
-                COMMA,
-                createTextAttributesKey("META_SQL_COMMA", JavaHighlightingColors.COMMA)
-        );
+        textAttributeByElementType.put(COMMA, createTextAttributesKey("META_SQL_COMMA", JavaHighlightingColors.COMMA));
 
-        textAttributeByElementType.put(
-                SEMICOLON,
-                createTextAttributesKey("META_SQL_SEMICOLON", JavaHighlightingColors.JAVA_SEMICOLON)
-        );
+        textAttributeByElementType.put(SEMICOLON, createTextAttributesKey("META_SQL_SEMICOLON", JavaHighlightingColors.JAVA_SEMICOLON));
 
-        textAttributeByElementType.put(
-                IMPORT_KEYWORD,
-                createTextAttributesKey("META_SQL_IMPORT_KEYWORD", JavaHighlightingColors.KEYWORD)
-        );
+        textAttributeByElementType.put(IMPORT_KEYWORD, createTextAttributesKey("META_SQL_IMPORT_KEYWORD", JavaHighlightingColors.KEYWORD));
 
-        textAttributeByElementType.put(
-                PACKAGE_KEYWORD,
-                createTextAttributesKey("META_SQL_PACKAGE_KEYWORD", JavaHighlightingColors.KEYWORD)
-        );
+        textAttributeByElementType.put(PACKAGE_KEYWORD, createTextAttributesKey("META_SQL_PACKAGE_KEYWORD", JavaHighlightingColors.KEYWORD));
 
-        textAttributeByElementType.put(
-                PACKAGE_KEYWORD,
-                createTextAttributesKey("META_SQL_PACKAGE_KEYWORD", JavaHighlightingColors.KEYWORD)
-        );
+        textAttributeByElementType.put(PACKAGE_KEYWORD, createTextAttributesKey("META_SQL_PACKAGE_KEYWORD", JavaHighlightingColors.KEYWORD));
 
-        textAttributeByElementType.put(
-                RETURN_KEYWORD,
-                createTextAttributesKey("META_SQL_RETURN_KEYWORD", JavaHighlightingColors.KEYWORD)
-        );
+        textAttributeByElementType.put(RETURN_KEYWORD, createTextAttributesKey("META_SQL_RETURN_KEYWORD", JavaHighlightingColors.KEYWORD));
     }
 
     @NotNull

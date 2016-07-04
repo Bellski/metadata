@@ -9,7 +9,7 @@ import java.sql.SQLException;
 /**
  * Created by Aleksandr on 30.05.2016.
  */
-public class ExecutionStepInterface  {
+public class ExecutionStepInterface {
     private final JavaInterfaceSource interfaceSource;
     private final String name;
     private final String packageName;
@@ -26,20 +26,9 @@ public class ExecutionStepInterface  {
     }
 
     private void initExecutionMethods() {
-        interfaceSource
-                .addMethod()
-                .setPublic()
-                .setReturnType("void")
-                .setName("execute")
-                .addThrows(SQLException.class);
+        interfaceSource.addMethod().setPublic().setReturnType("void").setName("execute").addThrows(SQLException.class);
 
-        interfaceSource
-                .addMethod()
-                .setPublic()
-                .setReturnType("void")
-                .setName("execute")
-                .addThrows(SQLException.class)
-                .addParameter(Connection.class, "connection");
+        interfaceSource.addMethod().setPublic().setReturnType("void").setName("execute").addThrows(SQLException.class).addParameter(Connection.class, "connection");
     }
 
     public static ExecutionStepInterface create(String name, String packageName) {

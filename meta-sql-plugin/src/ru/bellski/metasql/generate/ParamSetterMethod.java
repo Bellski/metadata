@@ -16,8 +16,7 @@ public class ParamSetterMethod {
     public ParamSetterMethod(ParameterInterface parent, MethodSource<JavaInterfaceSource> setterSource) {
         this.parent = parent;
         this.setterSource = setterSource;
-        setterSource
-                .setPublic();
+        setterSource.setPublic();
     }
 
 

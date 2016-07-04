@@ -41,11 +41,7 @@ public class AddImportQuestionAction implements QuestionAction {
     private final Editor myEditor;
     private final MetaSqlFile metaSqlFile;
 
-    public AddImportQuestionAction(@NotNull Project project,
-                                   @NotNull PsiReference ref,
-                                   @NotNull Editor editor,
-                                   @NotNull MetaSqlFile metaSqlFile,
-                                   @NotNull PsiClass... targetClasses) {
+    public AddImportQuestionAction(@NotNull Project project, @NotNull PsiReference ref, @NotNull Editor editor, @NotNull MetaSqlFile metaSqlFile, @NotNull PsiClass... targetClasses) {
 
         myProject = project;
         myReference = ref;
@@ -58,7 +54,7 @@ public class AddImportQuestionAction implements QuestionAction {
     public boolean execute() {
         PsiDocumentManager.getInstance(myProject).commitAllDocuments();
 
-        if (!myReference.getElement().isValid()){
+        if (!myReference.getElement().isValid()) {
             return false;
         }
 
@@ -68,10 +64,9 @@ public class AddImportQuestionAction implements QuestionAction {
             }
         }
 
-        if (myTargetClasses.length == 1){
+        if (myTargetClasses.length == 1) {
             addImport(myReference, myTargetClasses[0]);
-        }
-        else{
+        } else {
             chooseClassAndImport();
         }
         return true;
@@ -106,7 +101,6 @@ public class AddImportQuestionAction implements QuestionAction {
         }
 
 
-
         final MetaSqlImportList importList = PsiTreeUtil.findChildOfAnyType(metaSqlFile, MetaSqlImportList.class);
 
         importList.add(MetaSqlElementGenerator.createImportStatementFromText(myProject, target.getQualifiedName()));
@@ -120,46 +114,45 @@ public class AddImportQuestionAction implements QuestionAction {
     private void chooseClassAndImport() {
         CodeInsightUtil.sortIdenticalShortNamedMembers(myTargetClasses, myReference);
 
-        final BaseListPopupStep<PsiClass> step =
-                new BaseListPopupStep<PsiClass>(QuickFixBundle.message("class.to.import.chooser.title"), myTargetClasses) {
-                    @Override
-                    public boolean isAutoSelectionEnabled() {
-                        return false;
-                    }
+        final BaseListPopupStep<PsiClass> step = new BaseListPopupStep<PsiClass>(QuickFixBundle.message("class.to.import.chooser.title"), myTargetClasses) {
+            @Override
+            public boolean isAutoSelectionEnabled() {
+                return false;
+            }
 
-                    @Override
-                    public boolean isSpeedSearchEnabled() {
-                        return true;
-                    }
+            @Override
+            public boolean isSpeedSearchEnabled() {
+                return true;
+            }
 
 
-                    @Override
-                    public boolean hasSubstep(PsiClass selectedValue) {
-                        return false;
-                    }
+            @Override
+            public boolean hasSubstep(PsiClass selectedValue) {
+                return false;
+            }
 
-                    @NotNull
-                    @Override
-                    public String getTextFor(PsiClass value) {
-                        return ObjectUtils.assertNotNull(value.getQualifiedName());
-                    }
+            @NotNull
+            @Override
+            public String getTextFor(PsiClass value) {
+                return ObjectUtils.assertNotNull(value.getQualifiedName());
+            }
 
-                    @Override
-                    public Icon getIconFor(PsiClass aValue) {
-                        return aValue.getIcon(0);
-                    }
+            @Override
+            public Icon getIconFor(PsiClass aValue) {
+                return aValue.getIcon(0);
+            }
 
-                    @Override
-                    public PopupStep onChosen(PsiClass selectedValue, boolean finalChoice) {
-                        PsiDocumentManager.getInstance(myProject).commitAllDocuments();
-                        addImport(myReference, selectedValue);
-                        return FINAL_CHOICE;
-                    }
-                };
+            @Override
+            public PopupStep onChosen(PsiClass selectedValue, boolean finalChoice) {
+                PsiDocumentManager.getInstance(myProject).commitAllDocuments();
+                addImport(myReference, selectedValue);
+                return FINAL_CHOICE;
+            }
+        };
         ListPopupImpl popup = new ListPopupImpl(step) {
             @Override
             protected ListCellRenderer getListElementRenderer() {
-                final PopupListElementRenderer baseRenderer = (PopupListElementRenderer)super.getListElementRenderer();
+                final PopupListElementRenderer baseRenderer = (PopupListElementRenderer) super.getListElementRenderer();
                 final DefaultPsiElementCellRenderer psiRenderer = new DefaultPsiElementCellRenderer();
                 return new ListCellRenderer() {
                     @Override

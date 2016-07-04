@@ -38,9 +38,7 @@ public class MetaSqlJavaReferenceImpl extends MetaSqlReferenceElementImpl implem
     @Nullable
     @Override
     public PsiElement resolve() {
-        PsiClass[] result = PsiShortNamesCache
-                .getInstance(getProject())
-                .getClassesByName(getText(), GlobalSearchScope.allScope(getProject()));
+        PsiClass[] result = PsiShortNamesCache.getInstance(getProject()).getClassesByName(getText(), GlobalSearchScope.allScope(getProject()));
 
         PsiClass jClass = null;
         for (PsiClass psiClass : result) {

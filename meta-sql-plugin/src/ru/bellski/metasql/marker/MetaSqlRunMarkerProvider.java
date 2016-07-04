@@ -28,61 +28,43 @@ import java.util.List;
  */
 public class MetaSqlRunMarkerProvider implements LineMarkerProvider {
 
-    public class RunLineMarkerInfo extends  LineMarkerInfo<PsiElement> {
+    public class RunLineMarkerInfo extends LineMarkerInfo<PsiElement> {
         public RunLineMarkerInfo(PsiElement element) {
-            super(
-                    element,
-                    element.getTextRange(),
-                    AllIcons.Actions.Compile,
-                    Pass.UPDATE_ALL,
-                    FunctionUtil.constant("Generate"),
-                    new GutterIconNavigationHandler<PsiElement>() {
-                        @Override
-                        public void navigate(MouseEvent e, PsiElement elt) {
-                            final MetaSqlBody metaSqlBody = PsiTreeUtil.findChildOfType(elt.getContainingFile(), MetaSqlBody.class);
+            super(element, element.getTextRange(), AllIcons.Actions.Compile, Pass.UPDATE_ALL, FunctionUtil.constant("Generate"), new GutterIconNavigationHandler<PsiElement>() {
+                @Override
+                public void navigate(MouseEvent e, PsiElement elt) {
+                    final MetaSqlBody metaSqlBody = PsiTreeUtil.findChildOfType(elt.getContainingFile(), MetaSqlBody.class);
 
-                            final PsiLanguageInjectionHost injectedBlock = InjectedLanguageUtil.findInjectionHost(elt.getContainingFile());
+                    final PsiLanguageInjectionHost injectedBlock = InjectedLanguageUtil.findInjectionHost(elt.getContainingFile());
 
-                            final String queryName = injectedBlock.getContainingFile().getName().split("\\.sql")[0];
+                    final String queryName = injectedBlock.getContainingFile().getName().split("\\.sql")[0];
 
-                            final PsiFile sqlFIle = injectedBlock.getContainingFile();
+                    final PsiFile sqlFIle = injectedBlock.getContainingFile();
 
-                            PsiElement clone = sqlFIle.copy();
+                    PsiElement clone = sqlFIle.copy();
 
-                            ApplicationManager.getApplication().runWriteAction(() -> {
-                                clone.deleteChildRange(clone.getFirstChild(), clone.getFirstChild());
-                            });
+                    ApplicationManager.getApplication().runWriteAction(() -> {
+                        clone.deleteChildRange(clone.getFirstChild(), clone.getFirstChild());
+                    });
 
-                            final PsiClass psiClass = (PsiClass) metaSqlBody.getMetadataClause().getMetadataInit().getMetadataReference().resolve();
+                    final PsiClass psiClass = (PsiClass) metaSqlBody.getMetadataClause().getMetadataInit().getMetadataReference().resolve();
 
-                            BetterGenerator
-                                    .generate(
-                                            queryName,
-                                            psiClass.getQualifiedName().substring(0, psiClass.getQualifiedName().lastIndexOf(".")),
-                                            clone.getText(),
-                                            metaSqlBody,
-                                            MavenProjectsManager
-                                                    .getInstance(elt.getProject())
-                                                    .findProject(ModuleUtil.findModuleForPsiElement(elt)),
-                                            elt.getProject()
-                                    );
+                    BetterGenerator.generate(queryName, psiClass.getQualifiedName().substring(0, psiClass.getQualifiedName().lastIndexOf(".")), clone.getText(), metaSqlBody, MavenProjectsManager.getInstance(elt.getProject()).findProject(ModuleUtil.findModuleForPsiElement(elt)), elt.getProject());
 
-//                            SqlQueryGenerator
-//                                    .generate(
-//                                            queryName,
-//                                            "queries",
-//                                            clone.getText(),
-//                                            metaSqlBody,
-//                                            MavenProjectsManager
-//                                                    .getInstance(elt.getProject())
-//                                                    .findProject(ModuleUtil.findModuleForPsiElement(elt)),
-//                                            elt.getProject()
-//                                    );
+                    //                            SqlQueryGenerator
+                    //                                    .generate(
+                    //                                            queryName,
+                    //                                            "queries",
+                    //                                            clone.getText(),
+                    //                                            metaSqlBody,
+                    //                                            MavenProjectsManager
+                    //                                                    .getInstance(elt.getProject())
+                    //                                                    .findProject(ModuleUtil.findModuleForPsiElement(elt)),
+                    //                                            elt.getProject()
+                    //                                    );
 
-                        }
-                    },
-                    GutterIconRenderer.Alignment.RIGHT
-            );
+                }
+            }, GutterIconRenderer.Alignment.RIGHT);
         }
     }
 

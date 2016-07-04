@@ -1,6 +1,6 @@
 <idea-plugin version="2">
     <id>meta-sql-plugin</id>
-    <name>Plugin display name here</name>
+    <nameName>Plugin display nameName here</nameName>
     <version>1.0</version>
     <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
@@ -32,22 +32,27 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
 
-        <completion.contributor language="SQL" implementationClass="ru.bellski.metasql.contributor.SqlMetaFieldCompletionContributor"/>
-        <completion.contributor language="MetaSql" implementationClass="ru.bellski.metasql.contributor.MetaSqlCompletionContributor"/>
+        <completion.contributor language="SQL"
+                                implementationClass="ru.bellski.metasql.contributor.SqlMetaFieldCompletionContributor"/>
+        <completion.contributor language="MetaSql"
+                                implementationClass="ru.bellski.metasql.contributor.MetaSqlCompletionContributor"/>
 
         <annotator language="SQL" implementationClass="ru.bellski.metasql.MetaSqlAnnotator"/>
 
         <projectService serviceImplementation="ru.bellski.metasql.MetaSqlFilesCache"/>
         <projectService serviceImplementation="ru.bellski.metasql.SqlMetadataJavaClassCache"/>
 
-        <codeInsight.lineMarkerProvider language="SQL" implementationClass="ru.bellski.metasql.MetaSqlLineMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="SQL"
+                                        implementationClass="ru.bellski.metasql.MetaSqlLineMarkerProvider"/>
 
         <fileTypeFactory implementation="ru.bellski.metasql.lang.MetaSqlFileTypeFactory"/>
-        <lang.parserDefinition language="MetaSql" implementationClass="ru.bellski.metasql.lang.MetaSqlParserDefinition"/>
+        <lang.parserDefinition language="MetaSql"
+                               implementationClass="ru.bellski.metasql.lang.MetaSqlParserDefinition"/>
 
         <languageInjector implementation="ru.bellski.metasql.MetaSqlInjector"/>
 
-        <codeInsight.lineMarkerProvider language="MetaSql" implementationClass="ru.bellski.metasql.marker.MetaSqlRunMarkerProvider"/>
+        <codeInsight.lineMarkerProvider language="MetaSql"
+                                        implementationClass="ru.bellski.metasql.marker.MetaSqlRunMarkerProvider"/>
 
         <lang.foldingBuilder language="SQL" implementationClass="ru.bellski.metasql.lang.SqlParamFolding"/>
 

@@ -38,15 +38,13 @@ public class SqlParamFolding extends FoldingBuilderEx {
                 SqlParameter sqlParam = paramsArray[i];
                 final MetaSqlParameter metaSqlParam = metaParamsArray[i];
 
-                foldingDescriptors.add(
-                        new FoldingDescriptor(sqlParam.getNode(), new TextRange(sqlParam.getTextRange().getStartOffset(), sqlParam.getTextRange().getEndOffset()), null, Sets.newHashSet(), true) {
-                            @Nullable
-                            @Override
-                            public String getPlaceholderText() {
-                                return metaSqlParam.getParameterKeyword().getText();
-                            }
-                        }
-                );
+                foldingDescriptors.add(new FoldingDescriptor(sqlParam.getNode(), new TextRange(sqlParam.getTextRange().getStartOffset(), sqlParam.getTextRange().getEndOffset()), null, Sets.newHashSet(), true) {
+                    @Nullable
+                    @Override
+                    public String getPlaceholderText() {
+                        return metaSqlParam.getParameterKeyword().getText();
+                    }
+                });
             }
         }
 

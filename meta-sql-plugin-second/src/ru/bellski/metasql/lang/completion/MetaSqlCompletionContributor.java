@@ -15,21 +15,21 @@ public class MetaSqlCompletionContributor extends CompletionContributor {
     public MetaSqlCompletionContributor() {
 
 
-//        extend(
-//                CompletionType.BASIC,
-//                PlatformPatterns
-//                        .psiElement()
-//                        .withSuperParent(2, MetaSqlQueryMembers.class),
-//                new CompletionProvider<CompletionParameters>() {
-//                    @Override
-//                    protected void addCompletions(@NotNull CompletionParameters parameters,
-//                                                  ProcessingContext context,
-//                                                  @NotNull CompletionResultSet result) {
-//
-//
-//                        result.addAllElements(MetaSqlCompletionUtil.buildMembersCompletion((MetaSqlFile) parameters.getOriginalFile()));
-//                    }
-//                }
-//        );
+        //        extend(
+        //                CompletionType.BASIC,
+        //                PlatformPatterns
+        //                        .psiElement()
+        //                        .withSuperParent(2, MetaSqlQueryMembers.class),
+        //                new CompletionProvider<CompletionParameters>() {
+        //                    @Override
+        //                    protected void addCompletions(@NotNull CompletionParameters parameters,
+        //                                                  ProcessingContext context,
+        //                                                  @NotNull CompletionResultSet result) {
+        //
+        //
+        //                        result.addAllElements(MetaSqlCompletionUtil.buildMembersCompletion((MetaSqlFile) parameters.getOriginalFile()));
+        //                    }
+        //                }
+        //        );
     }
 }

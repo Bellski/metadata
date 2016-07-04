@@ -44,8 +44,9 @@ public class MetaSqlBlock extends AbstractBlock implements BlockWithParent {
         }
         final ArrayList<Block> tlChildren = new ArrayList<>();
         for (ASTNode childNode = getNode().getFirstChildNode(); childNode != null; childNode = childNode.getTreeNext()) {
-            if (FormatterUtil.containsWhiteSpacesOnly(childNode)) continue;
-            final MetaSqlBlock childBlock = new MetaSqlBlock(childNode,Wrap.createWrap(WrapType.NONE, true), createChildAlignment(childNode), mySettings);
+            if (FormatterUtil.containsWhiteSpacesOnly(childNode))
+                continue;
+            final MetaSqlBlock childBlock = new MetaSqlBlock(childNode, Wrap.createWrap(WrapType.NONE, true), createChildAlignment(childNode), mySettings);
             childBlock.setParent(this);
             tlChildren.add(childBlock);
         }
@@ -61,7 +62,6 @@ public class MetaSqlBlock extends AbstractBlock implements BlockWithParent {
     }
 
 
-
     @Nullable
     @Override
     public Spacing getSpacing(@Nullable Block child1, @NotNull Block child2) {
@@ -73,30 +73,25 @@ public class MetaSqlBlock extends AbstractBlock implements BlockWithParent {
         if (myType1 == MetaSqlTokenTypes.PACKAGE_DEFINITION) {
             int lf = mySettings.BLANK_LINES_AFTER_PACKAGE;
             myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
-        }
-
-        else if (myType2 == MetaSqlTokenTypes.PACKAGE_DEFINITION) {
-            int lf = mySettings.BLANK_LINES_BEFORE_PACKAGE;
-            myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
-        }
-
-        else if (myType1 == MetaSqlTokenTypes.IMPORT_LIST) {
-            int lf = mySettings.BLANK_LINES_AFTER_IMPORTS;
-            myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
-        }
-
-        else if (myType2 == MetaSqlTokenTypes.IMPORT_LIST) {
-            int lf = mySettings.BLANK_LINES_BEFORE_IMPORTS;
-            myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
-        }
-
-        else if (myType1 == MetaSqlTokenTypes.IMPORT_STATEMENT) {
-            myResult = Spacing.createSpacing(0, 0, 1, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
-        }
-
-        else if (myType2 == MetaSqlTokenTypes.IMPORT_STATEMENT) {
-            myResult = Spacing.createSpacing(0, 0, 1, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
-        }
+        } else
+            if (myType2 == MetaSqlTokenTypes.PACKAGE_DEFINITION) {
+                int lf = mySettings.BLANK_LINES_BEFORE_PACKAGE;
+                myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
+            } else
+                if (myType1 == MetaSqlTokenTypes.IMPORT_LIST) {
+                    int lf = mySettings.BLANK_LINES_AFTER_IMPORTS;
+                    myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
+                } else
+                    if (myType2 == MetaSqlTokenTypes.IMPORT_LIST) {
+                        int lf = mySettings.BLANK_LINES_BEFORE_IMPORTS;
+                        myResult = Spacing.createSpacing(0, 0, lf, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
+                    } else
+                        if (myType1 == MetaSqlTokenTypes.IMPORT_STATEMENT) {
+                            myResult = Spacing.createSpacing(0, 0, 1, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
+                        } else
+                            if (myType2 == MetaSqlTokenTypes.IMPORT_STATEMENT) {
+                                myResult = Spacing.createSpacing(0, 0, 1, mySettings.KEEP_LINE_BREAKS, mySettings.KEEP_BLANK_LINES_IN_DECLARATIONS);
+                            }
 
         return myResult;
     }
@@ -113,15 +108,15 @@ public class MetaSqlBlock extends AbstractBlock implements BlockWithParent {
         final ASTNode myParentNode = myNode.getTreeParent();
         final IElementType parentElementType = myParentNode == null ? null : myParentNode.getElementType();
 
-//        if (parentElementType == META_QUERY_DEFINITION) {
-//            if (myElemeType != LBRACE) {
-//                return Indent.getNormalIndent();
-//            }
-//
-//            if (myElemeType != RBRACE) {
-//                return Indent.getNormalIndent();
-//            }
-//        }
+        //        if (parentElementType == META_QUERY_DEFINITION) {
+        //            if (myElemeType != LBRACE) {
+        //                return Indent.getNormalIndent();
+        //            }
+        //
+        //            if (myElemeType != RBRACE) {
+        //                return Indent.getNormalIndent();
+        //            }
+        //        }
 
         return Indent.getNoneIndent();
     }

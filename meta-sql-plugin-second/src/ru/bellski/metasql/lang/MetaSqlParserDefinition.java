@@ -21,13 +21,12 @@ import ru.bellski.metasql.lang.psi.MetaSqlTokenTypes;
 /**
  * Created by oem on 5/19/16.
  */
-public class MetaSqlParserDefinition implements ParserDefinition{
+public class MetaSqlParserDefinition implements ParserDefinition {
     private static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
     private static final TokenSet COMMENTS = TokenSet.create(MetaSqlTokenTypes.LINE_COMMENT);
     public static final TokenSet LITERALS = TokenSet.create(MetaSqlTokenTypes.STRING);
 
-    public static final IFileElementType FILE =
-            new IFileElementType(Language.findInstance(MetaSqlLanguage.class));
+    public static final IFileElementType FILE = new IFileElementType(Language.findInstance(MetaSqlLanguage.class));
 
     @NotNull
     @Override

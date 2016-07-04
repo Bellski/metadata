@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.bellski.lang.metasql.psi.*;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * Created by oem on 5/19/16.
@@ -47,6 +48,7 @@ public class MetaSqlFile extends PsiFileBase {
         return getPackage().replaceAll("\\.", "/");
     }
 
+
     public String getPackage() {
         String packageName = null;
         final MetaSqlPackageStatement packageStatement = findChildByClass(MetaSqlPackageStatement.class);
@@ -74,7 +76,15 @@ public class MetaSqlFile extends PsiFileBase {
     }
 
     private String buildNameFromSqlFileName() {
-        return "FileNameQuery";
+        String name = null;
+        final PsiLanguageInjectionHost host = InjectedLanguageUtil.findInjectionHost(this);
+
+        if (host != null && host.getContainingFile() instanceof SqlFile) {
+            final String fileName = host.getContainingFile().getName();
+            name = StringUtil.capitalize(fileName.substring(0, fileName.lastIndexOf('.')));
+        }
+
+        return name == null ? "Undefined name" : name;
     }
 
     public int getParamsCount() {
@@ -129,37 +139,22 @@ public class MetaSqlFile extends PsiFileBase {
         if (host != null && host.getContainingFile() instanceof SqlFile) {
             final PsiFile sqlFile = (PsiFile) host.getContainingFile().copy();
 
-            removeComments(sqlFile.getChildren());
-
             final TextRange metaSqlLangTextRange = host.getTextRange();
 
-//            query = sqlFile.getText().substring(metaSqlLangTextRange.getEndOffset());
-            query = sqlFile.getText();
-            query = StringUtil.escapeQuotes(query);
+            query = sqlFile.getText().substring(metaSqlLangTextRange.getEndOffset());
+            query = StringUtil.escapeQuotes(query).trim();
 
-            query = StringUtil.join(StringUtil.splitByLines(query), " ").trim();
+            StringJoiner stringJoiner = new StringJoiner("\n+");
+
+            for (String line : StringUtil.splitByLines(query)) {
+                stringJoiner.add("\"" + line.trim() + "\\n\"");
+            }
 
 
+            query = stringJoiner.toString();
         }
         return query;
     }
 
-    private void removeComments(PsiElement[] children) {
 
-        for (PsiElement child : children) {
-            ASTNode[] comments = child
-                    .getNode()
-                    .getChildren(SqlTokens.COMMENT_TOKENS);
-
-            if (comments.length > 0) {
-                for (ASTNode comment : comments) {
-                    comment.getPsi().delete();
-                }
-            }  else {
-                if (child.getChildren().length > 0) {
-                    removeComments(child.getChildren());
-                }
-            }
-        }
-    }
 }

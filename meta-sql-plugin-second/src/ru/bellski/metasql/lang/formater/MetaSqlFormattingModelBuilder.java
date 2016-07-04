@@ -17,15 +17,8 @@ public class MetaSqlFormattingModelBuilder implements FormattingModelBuilder {
     @NotNull
     @Override
     public FormattingModel createModel(PsiElement element, CodeStyleSettings settings) {
-        final MetaSqlBlock metaSqlBlock = new MetaSqlBlock(
-                element.getNode(),
-                Wrap.createWrap(WrapType.NONE, false),
-                Alignment.createAlignment(),
-                settings
-        );
-        return
-                FormattingModelProvider
-                        .createFormattingModelForPsiFile(element.getContainingFile(), metaSqlBlock, settings);
+        final MetaSqlBlock metaSqlBlock = new MetaSqlBlock(element.getNode(), Wrap.createWrap(WrapType.NONE, false), Alignment.createAlignment(), settings);
+        return FormattingModelProvider.createFormattingModelForPsiFile(element.getContainingFile(), metaSqlBlock, settings);
     }
 
     @Nullable

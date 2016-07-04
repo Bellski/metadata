@@ -7,5 +7,6 @@ import java.util.List;
  */
 public interface Step {
     String getName();
+
     List<StepMethod> getStepMethods();
 }

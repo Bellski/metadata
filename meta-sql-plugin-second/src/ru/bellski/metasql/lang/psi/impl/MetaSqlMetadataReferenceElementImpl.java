@@ -32,9 +32,7 @@ public class MetaSqlMetadataReferenceElementImpl extends MetaSqlReferenceElement
         if (text != null) {
             final int lastDot = text.lastIndexOf('.');
             if (lastDot > 0) {
-                PsiClass[] result = PsiShortNamesCache
-                        .getInstance(getProject())
-                        .getClassesByName(text.substring(lastDot + 1), GlobalSearchScope.allScope(getProject()));
+                PsiClass[] result = PsiShortNamesCache.getInstance(getProject()).getClassesByName(text.substring(lastDot + 1), GlobalSearchScope.allScope(getProject()));
 
                 for (PsiClass psiClass : result) {
                     if (psiClass.getQualifiedName().equals(getText())) {
@@ -51,12 +49,7 @@ public class MetaSqlMetadataReferenceElementImpl extends MetaSqlReferenceElement
     @NotNull
     @Override
     public Object[] getVariants() {
-        return SqlMetadataJavaClassCache
-                .getInstance(getProject())
-                .getAllSqlMetaClasses()
-                .stream()
-                .map(JavaPsiClassReferenceElement::new)
-                .collect(Collectors.toList()).toArray();
+        return SqlMetadataJavaClassCache.getInstance(getProject()).getAllSqlMetaClasses().stream().map(JavaPsiClassReferenceElement::new).collect(Collectors.toList()).toArray();
     }
 
     @Override
@@ -66,8 +59,6 @@ public class MetaSqlMetadataReferenceElementImpl extends MetaSqlReferenceElement
 
     @Override
     public PsiClass[] multyResolve() {
-        return PsiShortNamesCache
-                .getInstance(getProject())
-                .getClassesByName(getText(), GlobalSearchScope.allScope(getProject()));
+        return PsiShortNamesCache.getInstance(getProject()).getClassesByName(getText(), GlobalSearchScope.allScope(getProject()));
     }
 }

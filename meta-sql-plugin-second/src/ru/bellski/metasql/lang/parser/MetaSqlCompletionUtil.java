@@ -21,14 +21,16 @@ public class MetaSqlCompletionUtil {
 
         if (hasMetadataDefinition(metaSqlFile) && hasParametersDefinition(metaSqlFile)) {
 
-        } else if(hasMetadataDefinition(metaSqlFile)) {
-            elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.PARAMETERS_KEYWORD));
-        } else if(hasParametersDefinition(metaSqlFile)) {
-            elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.METADATA_KEYWORD));
-        } else {
-            elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.METADATA_KEYWORD));
-            elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.PARAMETERS_KEYWORD));
-        }
+        } else
+            if (hasMetadataDefinition(metaSqlFile)) {
+                elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.PARAMETERS_KEYWORD));
+            } else
+                if (hasParametersDefinition(metaSqlFile)) {
+                    elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.METADATA_KEYWORD));
+                } else {
+                    elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.METADATA_KEYWORD));
+                    elements.add(LookupElementBuilder.create(MetaSqlTokenTypes.PARAMETERS_KEYWORD));
+                }
 
         return elements;
     }

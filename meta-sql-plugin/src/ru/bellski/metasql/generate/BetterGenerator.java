@@ -18,15 +18,7 @@ import java.util.List;
  */
 public class BetterGenerator {
     public static void generate(String name, String packageName, String sqlQuery, MetaSqlBody metaSqlBody, MavenProject mProject, Project project) {
-        QueryClass
-                .create(name, packageName, sqlQuery)
-                .addParamInterfaces(
-                        buildParamInterfaces(metaSqlBody, name, packageName)
-                )
-                .addExecutionStepInterface(
-                        ExecutionStepInterface.create(name, packageName)
-                )
-                .save(mProject.getDirectoryFile(), project);
+        QueryClass.create(name, packageName, sqlQuery).addParamInterfaces(buildParamInterfaces(metaSqlBody, name, packageName)).addExecutionStepInterface(ExecutionStepInterface.create(name, packageName)).save(mProject.getDirectoryFile(), project);
     }
 
     private static List<ParameterInterface> buildParamInterfaces(MetaSqlBody metaSqlBody, String queryClassName, String packageName) {
@@ -35,29 +27,16 @@ public class BetterGenerator {
         final List<ParameterInterface> paramInterfaces = new ArrayList<>();
 
         if (parameters.size() > 0) {
-            final MetaSqlParameter[] parametersArray = parameters
-                    .stream()
-                    .toArray(MetaSqlParameter[]::new);
+            final MetaSqlParameter[] parametersArray = parameters.stream().toArray(MetaSqlParameter[]::new);
 
             for (int i = 0; i < parametersArray.length; i++) {
                 final MetaSqlParameter metaSqlParameter = parametersArray[i];
-                final ParameterInterface parameterInterface = ParameterInterface.create(
-                        buildParamInterfaceName(metaSqlParameter),
-                        packageName
-                );
+                final ParameterInterface parameterInterface = ParameterInterface.create(buildParamInterfaceName(metaSqlParameter), packageName);
 
-                if (i != parametersArray.length -1) {
-                    parameterInterface
-                            .createSetter()
-                            .setReturnType(buildParamInterfaceName(parametersArray[i + 1]))
-                            .setName(buildParamSetter(metaSqlParameter))
-                            .setParameter(metaSqlParameter.getParameterType().getText());
+                if (i != parametersArray.length - 1) {
+                    parameterInterface.createSetter().setReturnType(buildParamInterfaceName(parametersArray[i + 1])).setName(buildParamSetter(metaSqlParameter)).setParameter(metaSqlParameter.getParameterType().getText());
                 } else {
-                    parameterInterface
-                            .createSetter()
-                            .setReturnType(queryClassName + "Execution")
-                            .setName(buildParamSetter(metaSqlParameter))
-                            .setParameter(metaSqlParameter.getParameterType().getText());
+                    parameterInterface.createSetter().setReturnType(queryClassName + "Execution").setName(buildParamSetter(metaSqlParameter)).setParameter(metaSqlParameter.getParameterType().getText());
                 }
 
                 paramInterfaces.add(parameterInterface);
@@ -68,25 +47,15 @@ public class BetterGenerator {
     }
 
     private static String buildParamInterfaceName(MetaSqlParameter metaSqlParameter) {
-        return
-                "Set"
-                        + StringUtil.wordsToBeginFromUpperCase(metaSqlParameter.getParameterKeyword().getText())
-                        + "Step";
+        return "Set" + StringUtil.wordsToBeginFromUpperCase(metaSqlParameter.getParameterKeyword().getText()) + "Step";
     }
 
     private static String buildParamSetter(MetaSqlParameter metaSqlParameter) {
-        return "set"
-                + StringUtil.wordsToBeginFromUpperCase(metaSqlParameter.getParameterKeyword().getText());
+        return "set" + StringUtil.wordsToBeginFromUpperCase(metaSqlParameter.getParameterKeyword().getText());
     }
 
     private static String buildExecutionMethod(MetaSqlParameter metaSqlParameter, JavaInterfaceSource executionInterface) {
-        return
-                executionInterface.getName()
-                        + " set"
-                        + StringUtil.wordsToBeginFromUpperCase(metaSqlParameter.getParameterKeyword().getText())
-                        + "("
-                        + metaSqlParameter.getParameterType().getText()
-                        + " value" + ");";
+        return executionInterface.getName() + " set" + StringUtil.wordsToBeginFromUpperCase(metaSqlParameter.getParameterKeyword().getText()) + "(" + metaSqlParameter.getParameterType().getText() + " value" + ");";
     }
 
     private static String normalizeClassSource(String source) {

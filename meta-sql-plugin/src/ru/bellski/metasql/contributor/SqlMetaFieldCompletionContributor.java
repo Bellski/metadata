@@ -22,31 +22,24 @@ import ru.bellski.metasql.lang.psi.MetadataReference;
 public class SqlMetaFieldCompletionContributor extends CompletionContributor {
 
     public SqlMetaFieldCompletionContributor() {
-        extend(
-                CompletionType.BASIC,
-                PlatformPatterns
-                        .psiElement(SqlStringTokenElement.class),
-                new CompletionProvider<CompletionParameters>() {
-                    @Override
-                    protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
-                        final MetaSqlFile metaSql = MetaSqlFilesCache
-                                .getInstance(parameters.getPosition().getProject())
-                                .findMetaSqlFile((SqlFile) parameters.getOriginalFile());
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement(SqlStringTokenElement.class), new CompletionProvider<CompletionParameters>() {
+            @Override
+            protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
+                final MetaSqlFile metaSql = MetaSqlFilesCache.getInstance(parameters.getPosition().getProject()).findMetaSqlFile((SqlFile) parameters.getOriginalFile());
 
-                        final MetadataReference metadataReference = PsiTreeUtil.findChildOfType(metaSql, MetadataReference.class);
+                final MetadataReference metadataReference = PsiTreeUtil.findChildOfType(metaSql, MetadataReference.class);
 
-                        if (metadataReference != null) {
-                            final PsiClass metadataClass = (PsiClass) metadataReference.resolve();
+                if (metadataReference != null) {
+                    final PsiClass metadataClass = (PsiClass) metadataReference.resolve();
 
-                            if (metadataClass != null) {
-                                 for (PsiField psiField : metadataClass.getFields()) {
-                                    result.addElement(LookupElementBuilder.create(psiField.getInitializer().getText().replaceAll("\"", "")));
-                                }
-                            }
+                    if (metadataClass != null) {
+                        for (PsiField psiField : metadataClass.getFields()) {
+                            result.addElement(LookupElementBuilder.create(psiField.getInitializer().getText().replaceAll("\"", "")));
                         }
                     }
                 }
-        );
+            }
+        });
 
 
     }
