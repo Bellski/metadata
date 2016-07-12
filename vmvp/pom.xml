@@ -13,6 +13,7 @@
     <modules>
         <module>vmvp-core</module>
         <module>vmvp-application</module>
+        <module>vmvp-compiler</module>
     </modules>
 
 </project>
