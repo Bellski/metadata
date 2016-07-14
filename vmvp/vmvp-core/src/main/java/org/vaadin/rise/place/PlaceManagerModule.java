@@ -27,13 +27,13 @@ public class PlaceManagerModule {
 	}
 
 	@Provides @Singleton
-	DefaultPlaceManager providesPlaceManager(RiseEventBus eventBus, TokenFormatter tokenFormatter, Page page) {
-		return new DefaultPlaceManager(eventBus, tokenFormatter, page, defaultPlace, errorPlace, unauthorizedPlace);
+	DefaultPlaceManager providesPlaceManager(TokenFormatter tokenFormatter, Page page) {
+		return new DefaultPlaceManager(tokenFormatter, page, defaultPlace, errorPlace, unauthorizedPlace);
 	}
 
 
 	@Provides @Singleton
-	TokenFormatter providesTokenFormater(PlaceTokenRegistry tokenRegistry) {
+	TokenFormatter providesTokenFormatter(PlaceTokenRegistry tokenRegistry) {
 		return new RouteTokenFormatter(tokenRegistry);
 	}
 }

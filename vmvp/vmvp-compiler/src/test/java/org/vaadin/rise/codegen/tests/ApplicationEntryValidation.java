@@ -60,7 +60,7 @@ public class ApplicationEntryValidation {
 				"/**\n" +
 				" * Created by oem on 7/12/16.\n" +
 				" */\n" +
-				"@ApplicationEntry(view = Object.class, presenter = ApplicationPresenter.class)\n" +
+				"@ApplicationEntry(getView = Object.class, getPresenter = ApplicationPresenter.class)\n" +
 				"public class TestApplicationEntry {\n" +
 				"}"
 		);

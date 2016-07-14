@@ -30,6 +30,6 @@ public class App {
 				.riseCas1Application(new RiseCas1Application())
 				.build();
 
-		app.bootstrap();
+		app.bootstrap();;
 	}
 }

@@ -136,12 +136,6 @@ public class RouteTokenFormatter implements TokenFormatter {
 
     @Override
     public PlaceRequest toPlaceRequest(String placeToken) throws TokenFormatException {
-        /*
-         * To support the native GWT history as well as HTML pushstate a slash is added when needed.
-         */
-        if (!placeTokenIsValid(placeToken)) {
-            return toPlaceRequest("/" + placeToken);
-        }
 
         int split = placeToken.indexOf('?');
         String place = (split != -1) ? placeToken.substring(0, split) : placeToken;

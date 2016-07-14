@@ -15,7 +15,7 @@ import javax.inject.Inject;
 public class RiseCas1ClaimListPresenterPlaceProxy extends ProxyPlaceImpl<ClaimListPresenter>  {
 
     @Inject
-    public RiseCas1ClaimListPresenterPlaceProxy(DefaultPlaceManager placeManager, RiseEventBus eventBus, Lazy<ClaimListPresenter> cas1Presenter) {
-        super(new PlaceImpl("!claimlist"), placeManager, cas1Presenter, eventBus);
+    public RiseCas1ClaimListPresenterPlaceProxy(DefaultPlaceManager placeManager, Lazy<ClaimListPresenter> cas1Presenter) {
+        super(new PlaceImpl("!claimlist"), placeManager, cas1Presenter);
     }
 }

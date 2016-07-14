@@ -15,10 +15,10 @@ public class RevealContentEvent extends Event<RevealContentHandler> {
     private final RisePresenterImpl content;
 
     public RevealContentEvent(NestedSlot type, RisePresenterImpl content) {
-
         this.type = type;
         this.content = content;
     }
+
 
     public static void fire(HasHandlers source, NestedSlot type, RisePresenterImpl content) {
         source.fireEvent(new RevealContentEvent(type, content));
@@ -29,7 +29,7 @@ public class RevealContentEvent extends Event<RevealContentHandler> {
         return type;
     }
 
-    public RisePresenterImpl getContent() {
+    public RisePresenterImpl<?> getContent() {
         return content;
     }
 

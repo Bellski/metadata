@@ -1,54 +1,39 @@
 package org.vaadin.rise.proxy;
 
-import com.google.web.bindery.event.shared.Event;
 import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.core.event.RiseEventBus;
 import org.vaadin.rise.place.Place;
 import org.vaadin.rise.place.PlaceManager;
 import org.vaadin.rise.place.PlaceRequest;
-import org.vaadin.rise.place.event.PlaceRequestInternalEvent;
-import org.vaadin.rise.place.event.PlaceRequestInternalHandler;
 
 public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  implements Proxy<PRESENTER>, ProxyPlace<PRESENTER> {
     private Place place;
     private PlaceManager placeManager;
 
     private final Lazy<PRESENTER> presenter;
-    private final RiseEventBus eventBus;
 
-    public ProxyPlaceImpl(Place place, PlaceManager placeManager, Lazy<PRESENTER> cas1Presenter, RiseEventBus eventBus) {
+    public ProxyPlaceImpl(Place place, PlaceManager placeManager, Lazy<PRESENTER> cas1Presenter) {
         this.place = place;
         this.placeManager = placeManager;
         this.presenter = cas1Presenter;
-        this.eventBus = eventBus;
 
-        eventBus.addHandler(PlaceRequestInternalEvent.getType(), event -> {
-            if (event.isHandled()) {
-                return;
-            }
-            PlaceRequest request = event.getRequest();
-            if (matchesRequest(request)) {
-                event.setHandled();
-                if (canReveal()) {
-                    handleRequest(request, event.shouldUpdateBrowserHistory());
-                } else {
-                    event.setUnauthorized();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void fireEvent(Event<?> event) {
-        eventBus.fireEvent(event);
+        placeManager.addPlaceRequestInternalHandler(event -> {
+			if (event.isHandled()) {
+				return;
+			}
+			PlaceRequest request = event.getRequest();
+			if (matchesRequest(request)) {
+				event.setHandled();
+				if (canReveal()) {
+					handleRequest(request, event.shouldUpdateBrowserHistory());
+				} else {
+					event.setUnauthorized();
+				}
+			}
+		});
     }
 
 
-    @Override
-    public RiseEventBus getEventBus() {
-        return eventBus;
-    }
 
     @Override
     public PRESENTER getPresenter() {
@@ -59,7 +44,7 @@ public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  implements 
         final PRESENTER thatPresenter = presenter.get();
 
         PlaceRequest originalRequest = placeManager.getCurrentPlaceRequest();
-//        presenter.prepareFromRequest(request);
+//        getPresenter.prepareFromRequest(request);
         if (originalRequest == placeManager.getCurrentPlaceRequest()) {
             placeManager.updateHistory(request, updateBrowserUrl);
         }

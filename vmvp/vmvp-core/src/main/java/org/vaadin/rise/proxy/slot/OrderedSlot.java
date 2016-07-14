@@ -16,13 +16,13 @@
 package org.vaadin.rise.proxy.slot;
 
 import org.vaadin.rise.core.RisePresenterComponent;
-import org.vaadin.rise.test.application.mvp.VMVPPresenterComponent;
+
 
 /**
- * A slot for an ordered presenter.
- * The presenter placed in this slot must implement comparable and will
- * be automatically placed in order in the view.
- * @param <T> - The type of presenter, must extend comparable.
+ * A slot for an ordered getPresenter.
+ * The getPresenter placed in this slot must implement comparable and will
+ * be automatically placed in order in the getView.
+ * @param <T> - The type of getPresenter, must extend comparable.
  */
 public class OrderedSlot<T extends RisePresenterComponent<?> & Comparable<T>> extends MultiSlot<T> {
 }

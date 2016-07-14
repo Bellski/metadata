@@ -2,6 +2,7 @@ package generated;
 
 import generated.org.vaadin.rise.test.application.RiseCas1PresenterStandardProxy;
 import generated.org.vaadin.rise.test.application.claimlist.RiseCas1ClaimListPresenterPlaceProxy;
+import org.vaadin.rise.core.RootPresenter;
 import org.vaadin.rise.place.DefaultPlaceManager;
 import org.vaadin.rise.place.PlaceManager;
 
@@ -14,12 +15,12 @@ import javax.inject.Singleton;
 @Singleton
 public class Bootstrap {
 
-	RiseCas1PresenterStandardProxy riseCas1PresenterStandardProxy;
-
-	RiseCas1ClaimListPresenterPlaceProxy riseCas1ClaimListPresenterPlaceProxy;
-
 	@Inject
-	public Bootstrap(DefaultPlaceManager placeManager, RiseCas1PresenterStandardProxy riseCas1PresenterStandardProxy, RiseCas1ClaimListPresenterPlaceProxy riseCas1ClaimListPresenterPlaceProxy) {
+	public Bootstrap(DefaultPlaceManager placeManager,
+					 RiseCas1PresenterStandardProxy riseCas1PresenterStandardProxy,
+					 RiseCas1ClaimListPresenterPlaceProxy riseCas1ClaimListPresenterPlaceProxy,
+					 RootPresenter.RootSlot rootSlot) {
+
 		placeManager.revealDefaultPlace();
 	}
 }

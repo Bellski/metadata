@@ -1,12 +1,8 @@
 package org.vaadin.rise.core;
 
-import com.google.gwt.event.shared.GwtEvent;
-import com.google.web.bindery.event.shared.Event;
 import com.vaadin.ui.Component;
-import org.vaadin.rise.core.event.HasHandlers;
-import org.vaadin.rise.core.event.RiseEventBus;
 import org.vaadin.rise.proxy.slot.*;
-import org.vaadin.rise.test.application.vaadin.IsComponent;
+import org.vaadin.rise.vaadin.IsComponent;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,20 +10,19 @@ import java.util.stream.Collectors;
 /**
  * Created by oem on 7/12/16.
  */
-public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, IsComponent, HasHandlers {
+public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, IsComponent, RisePresenter<VIEW> {
 
     private RisePresenterComponent<?> parent;
     private IsSlot<?> inSlot;
-    private boolean visible;
+    protected boolean visible;
 
-    private final RiseEventBus eventBus;
     private final VIEW view;
 
     private final Set<RisePresenterComponent<?>> children = new HashSet<>();
 
-    protected RisePresenterComponent(RiseEventBus eventBus, VIEW view) {
-        this.eventBus = eventBus;
+    protected RisePresenterComponent(VIEW view) {
         this.view = view;
+        view.setPresenter(this);
     }
 
 
@@ -116,7 +111,7 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
     }
 
     @Override
-    public <T extends RisePresenterComponent<?> & Comparable<T>> List<T> getChildren(OrderedSlot<T> slot) {
+    public <T extends RisePresenterComponent<?> & Comparable<T>> List<T> getOrderedChildren(OrderedSlot<T> slot) {
         List<T> result = new ArrayList<>(getSlotChildren(slot));
         Collections.sort(result);
         return result;
@@ -126,9 +121,6 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
         return inSlot != null && inSlot.isPopup();
     }
 
-    public VIEW getView() {
-        return view;
-    }
 
     IsSlot<?> getInSlot() {
         return inSlot;
@@ -229,8 +221,8 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
         return getView().asComponent();
     }
 
-    @Override
-    public void fireEvent(Event<?> event) {
-        eventBus.fireEvent(event);
+
+    public VIEW getView() {
+        return view;
     }
 }

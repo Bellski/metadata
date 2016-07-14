@@ -14,8 +14,8 @@ public class DefaultPlaceManager extends PlaceManagerImpl {
     private final PlaceRequest errorPlaceRequest;
     private final PlaceRequest unauthorizedPlaceRequest;
 
-    public DefaultPlaceManager(RiseEventBus eventBus, TokenFormatter tokenFormatter, Page page, String defaultPlaceNameToken, String errorPlaceNameToken, String unauthorizedPlaceNameToken) {
-        super(eventBus, tokenFormatter, page);
+    public DefaultPlaceManager(TokenFormatter tokenFormatter, Page page, String defaultPlaceNameToken, String errorPlaceNameToken, String unauthorizedPlaceNameToken) {
+        super(tokenFormatter, page);
 
         defaultPlaceRequest = new PlaceRequest.Builder().nameToken(defaultPlaceNameToken).build();
         errorPlaceRequest = new PlaceRequest.Builder().nameToken(errorPlaceNameToken).build();
@@ -24,7 +24,11 @@ public class DefaultPlaceManager extends PlaceManagerImpl {
 
     @Override
     public void revealDefaultPlace() {
-        revealPlace(defaultPlaceRequest, false);
+        if (getBrowserHistoryToken() == null || getBrowserHistoryToken().isEmpty()) {
+            revealPlace(defaultPlaceRequest, false);
+        } else {
+            doRevealPlace(new PlaceRequest.Builder().nameToken(getBrowserHistoryToken()).build(), false);
+        }
     }
 
     @Override

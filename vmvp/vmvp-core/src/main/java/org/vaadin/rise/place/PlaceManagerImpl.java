@@ -1,10 +1,8 @@
 package org.vaadin.rise.place;
 
-import com.google.web.bindery.event.shared.Event;
 import com.vaadin.server.Page;
-import org.vaadin.rise.core.event.HasHandlers;
-import org.vaadin.rise.core.event.RiseEventBus;
 import org.vaadin.rise.place.event.PlaceRequestInternalEvent;
+import org.vaadin.rise.place.event.PlaceRequestInternalHandler;
 import org.vaadin.rise.place.token.TokenFormatException;
 import org.vaadin.rise.place.token.TokenFormatter;
 
@@ -14,10 +12,10 @@ import java.util.List;
 /**
  * Created by oem on 7/12/16.
  */
-public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedListener, HasHandlers {
-	private final RiseEventBus eventBus;
+public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedListener {
+	private final List<PlaceRequestInternalHandler> placeRequestInternalHandlers = new ArrayList<>(1);
 	private final TokenFormatter tokenFormatter;
-	private final Page page;
+	protected final Page page;
 
 	private String currentHistoryToken = "";
 	private boolean internalError;
@@ -30,8 +28,7 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 
 	private List<PlaceRequest> placeHierarchy = new ArrayList<>();
 
-	public PlaceManagerImpl(RiseEventBus eventBus, TokenFormatter tokenFormatter, Page page) {
-		this.eventBus = eventBus;
+	public PlaceManagerImpl(TokenFormatter tokenFormatter, Page page) {
 		this.tokenFormatter = tokenFormatter;
 		this.page = page;
 
@@ -83,7 +80,7 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 	protected void doRevealPlace(PlaceRequest request, boolean updateBrowserUrl) {
 		PlaceRequestInternalEvent requestEvent = new PlaceRequestInternalEvent(request,
 				updateBrowserUrl);
-		fireEvent(requestEvent);
+		firePlaceRequestInternalEvent(requestEvent);
 		if (!requestEvent.isHandled()) {
 			unlock();
 			error(tokenFormatter.toHistoryToken(placeHierarchy));
@@ -91,6 +88,11 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 			unlock();
 			illegalAccess(tokenFormatter.toHistoryToken(placeHierarchy));
 		}
+	}
+
+	private void firePlaceRequestInternalEvent(PlaceRequestInternalEvent requestEvent) {
+		placeRequestInternalHandlers
+			.forEach(placeRequestInternalHandler -> placeRequestInternalHandler.onPlaceRequest(requestEvent));
 	}
 
 	private void illegalAccess(String historyToken) {
@@ -132,10 +134,6 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 		}
 	}
 
-	@Override
-	public RiseEventBus getEventBus() {
-		return eventBus;
-	}
 
 	@Override
 	public int getHierarchyDepth() {
@@ -292,6 +290,11 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 	}
 
 	@Override
+	public void addPlaceRequestInternalHandler(PlaceRequestInternalHandler placeRequestInternalHandler) {
+		placeRequestInternalHandlers.add(placeRequestInternalHandler);
+	}
+
+	@Override
 	public void uriFragmentChanged(Page.UriFragmentChangedEvent event) {
 		handleTokenChange(event.getUriFragment());
 	}
@@ -337,8 +340,5 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 		}
 	}
 
-	@Override
-	public void fireEvent(Event<?> event) {
-		eventBus.fireEvent(event);
-	}
+
 }

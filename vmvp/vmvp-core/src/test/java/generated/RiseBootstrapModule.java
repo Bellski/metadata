@@ -4,6 +4,9 @@ package generated;
 import com.google.gwt.thirdparty.guava.common.collect.ImmutableSet;
 import dagger.Module;
 import dagger.Provides;
+import org.vaadin.rise.core.Root;
+import org.vaadin.rise.core.RootPresenter;
+import org.vaadin.rise.core.RootView;
 import org.vaadin.rise.place.token.PlaceTokenRegistry;
 
 import javax.inject.Singleton;
@@ -17,13 +20,24 @@ public class RiseBootstrapModule {
 
     @Provides @Singleton
     PlaceTokenRegistry providesPlaceTokenRegistry() {
-        return new PlaceTokenRegistry() {
-            @Override
-            public Set<String> getAllPlaceTokens() {
-                return ImmutableSet.<String>builder()
-                        .add("!claimlist")
-                        .build();
-            }
-        };
+        return () ->
+            ImmutableSet.<String>builder()
+                .add("!claimlist")
+				.build();
+    }
+
+    @Provides @Singleton
+    RootPresenter.RootSlot providesRootSlot(RootPresenter.RiseRootSlot rootSlot) {
+        return rootSlot;
+    }
+
+    @Provides @Singleton
+    Root.Presenter providesRootPresenter(RootPresenter rootPresenter) {
+        return rootPresenter;
+    }
+
+    @Provides @Singleton
+    Root.View providesRootView(RootView rootView) {
+        return rootView;
     }
 }

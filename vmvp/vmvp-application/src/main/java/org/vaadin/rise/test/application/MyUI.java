@@ -5,12 +5,13 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import org.vaadin.rise.test.application.application.Application;
-import org.vaadin.rise.test.application.application.ApplicationBootstrapModule;
-import org.vaadin.rise.test.application.application.DaggerApplication;
-import org.vaadin.rise.test.application.application.home.HomeModule;
-import org.vaadin.rise.test.application.mvp.root.RootModule;
-
+import generated.RiseBootstrapModule;
+import generated.org.vaadin.rise.test.application.Cas1Component;
+import generated.org.vaadin.rise.test.application.DaggerCas1Component;
+import generated.org.vaadin.rise.test.application.RiseCas1Application;
+import generated.org.vaadin.rise.test.application.claimlist.RiseClaimListModule;
+import org.vaadin.rise.place.PlaceManagerModule;
+import org.vaadin.rise.vaadin.VaadinModule;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -26,16 +27,16 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        Application daggerApp = DaggerApplication
+        final Cas1Component app = DaggerCas1Component
             .builder()
+            .riseBootstrapModule(new RiseBootstrapModule())
+            .riseClaimListModule(new RiseClaimListModule())
+            .placeManagerModule(new PlaceManagerModule("!claimlist", "!error", "!claimlist"))
             .vaadinModule(new VaadinModule(this))
-            .applicationBootstrapModule(new ApplicationBootstrapModule())
-            .rootModule(new RootModule())
-            .homeModule(new HomeModule())
+            .riseCas1Application(new RiseCas1Application())
             .build();
 
-        daggerApp.instantinateProxies();
-        daggerApp.bootstrap();
+        app.bootstrap();
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

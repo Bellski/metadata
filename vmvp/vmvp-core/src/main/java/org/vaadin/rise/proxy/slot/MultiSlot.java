@@ -17,7 +17,7 @@ package org.vaadin.rise.proxy.slot;
 
 
 import org.vaadin.rise.core.RisePresenterComponent;
-import org.vaadin.rise.test.application.mvp.VMVPPresenterComponent;
+
 
 public abstract class MultiSlot<T extends RisePresenterComponent<?>> implements RemovableSlot<T> {
     @Override

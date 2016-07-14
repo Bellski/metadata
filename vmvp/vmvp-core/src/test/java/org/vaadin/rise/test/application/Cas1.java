@@ -8,11 +8,11 @@ import org.vaadin.rise.proxy.slot.NestedSlot;
  * Created by oem on 7/12/16.
  */
 public interface Cas1 {
-	interface View extends RiseView {
+	interface View extends RiseView<Presenter> {
 
 	}
 
-	interface Presenter extends RisePresenter {
+	interface Presenter extends RisePresenter<View> {
 
 	}
 }

@@ -1,18 +1,17 @@
 package org.vaadin.rise.proxy.slot.event;
 
 import com.google.web.bindery.event.shared.Event;
+import org.vaadin.rise.core.RisePresenterComponent;
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.event.HasHandlers;
-import org.vaadin.rise.core.event.RiseEvent;
-import org.vaadin.rise.test.application.mvp.VMVPPresenterImpl;
-import org.vaadin.rise.test.application.proxy.events.VMVPEvent;
+
 
 public final class RevealRootContentEvent extends Event<RevealRootContentHandler> {
     private static final Type<RevealRootContentHandler> TYPE = new Type<>();
 
-    private final RisePresenterImpl<?> content;
+    private final RisePresenterComponent<?> content;
 
-    public RevealRootContentEvent(RisePresenterImpl<?> content) {
+    public RevealRootContentEvent(RisePresenterComponent<?> content) {
         this.content = content;
     }
 
@@ -21,8 +20,12 @@ public final class RevealRootContentEvent extends Event<RevealRootContentHandler
     }
 
 
-    public RisePresenterImpl<?> getContent() {
+    public RisePresenterComponent<?> getContent() {
         return content;
+    }
+
+    public static Type<RevealRootContentHandler> getType() {
+        return TYPE;
     }
 
     @Override

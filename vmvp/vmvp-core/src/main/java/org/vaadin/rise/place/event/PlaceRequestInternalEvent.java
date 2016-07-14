@@ -1,5 +1,6 @@
 package org.vaadin.rise.place.event;
 
+
 import com.google.web.bindery.event.shared.Event;
 import org.vaadin.rise.core.event.HasHandlers;
 import org.vaadin.rise.place.PlaceRequest;
@@ -75,7 +76,7 @@ public class PlaceRequestInternalEvent extends Event<PlaceRequestInternalHandler
 
     /**
      * Indicates that the event was handled but that the user was not authorized
-     * to view the request page.
+     * to getView the request page.
      */
     public void setUnauthorized() {
         authorized = false;

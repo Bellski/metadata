@@ -28,5 +28,5 @@ public interface HasSlots {
 
     <T extends RisePresenterComponent<?>> Set<T> getChildren(Slot<T> slot);
 
-    <T extends RisePresenterComponent<?> & Comparable<T>> List<T> getChildren(OrderedSlot<T> slot);
+    <T extends RisePresenterComponent<?> & Comparable<T>> List<T> getOrderedChildren(OrderedSlot<T> slot);
 }

@@ -3,9 +3,10 @@ package org.vaadin.rise.core;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.SingleComponentContainer;
-import org.vaadin.rise.test.application.mvp.slots.IsSingleSlot;
-import org.vaadin.rise.test.application.mvp.slots.OrderedSlot;
-import org.vaadin.rise.test.application.vaadin.IsComponent;
+import com.vaadin.ui.UI;
+import org.vaadin.rise.proxy.slot.IsSingleSlot;
+import org.vaadin.rise.proxy.slot.OrderedSlot;
+import org.vaadin.rise.vaadin.IsComponent;;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,14 +16,21 @@ import java.util.Map;
 /**
  * Created by oem on 7/12/16.
  */
-public class RiseViewImpl<PRESENTER extends RisePresenter> implements RiseView {
+public class RiseViewImpl<PRESENTER extends RisePresenter<?>> implements RiseView<PRESENTER> {
     private final Map<Object, SingleComponentContainer> oneComponentSlots = new HashMap<>();
     private final Map<Object, ComponentContainer> componentContainerSlots = new HashMap<>();
     private final Map<OrderedSlot<?>, List<Comparable<Comparable<?>>>> orderedSlots
             = new HashMap<>();
 
-    private Component component;
+    private final UI ui;
 
+    private Component component;
+    private PRESENTER presenter;
+
+
+    public RiseViewImpl(UI ui) {
+        this.ui = ui;
+    }
 
     protected void initComponent(Component component) {
         this.component = component;
@@ -75,8 +83,6 @@ public class RiseViewImpl<PRESENTER extends RisePresenter> implements RiseView {
                 }
             }
         }
-
-        String s = "";
     }
 
     protected void bindSlot(IsSingleSlot<?> slot, Object container) {
@@ -97,5 +103,20 @@ public class RiseViewImpl<PRESENTER extends RisePresenter> implements RiseView {
         } else {
             throw new IllegalArgumentException("Containers must implement either HasOneWidget or HasWidgets.");
         }
+    }
+
+
+    public PRESENTER getPresenter() {
+        return presenter;
+    }
+
+
+    @Override
+    public void setPresenter(PRESENTER presenter) {
+        this.presenter = presenter;
+    }
+
+    protected UI getUI() {
+        return ui;
     }
 }

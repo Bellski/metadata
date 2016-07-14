@@ -1,6 +1,6 @@
 package org.vaadin.rise.place;
 
-import org.vaadin.rise.core.event.RiseEventBus;
+import org.vaadin.rise.place.event.PlaceRequestInternalHandler;
 
 import java.util.List;
 
@@ -14,7 +14,6 @@ public interface PlaceManager {
     String buildRelativeHistoryToken(PlaceRequest request, int level);
     List<PlaceRequest> getCurrentPlaceHierarchy();
     PlaceRequest getCurrentPlaceRequest();
-    RiseEventBus getEventBus();
     int getHierarchyDepth();
     void navigateBack();
     void updateHistory(PlaceRequest request, boolean updateBrowserUrl);
@@ -31,4 +30,5 @@ public interface PlaceManager {
     void revealRelativePlace(PlaceRequest request, int level);
     void unlock();
     boolean hasPendingNavigation();
+    void addPlaceRequestInternalHandler(PlaceRequestInternalHandler placeRequestInternalHandler);
 }
