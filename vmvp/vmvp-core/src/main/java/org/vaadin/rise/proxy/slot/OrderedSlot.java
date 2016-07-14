@@ -15,6 +15,7 @@
  */
 package org.vaadin.rise.proxy.slot;
 
+import org.vaadin.rise.core.RisePresenterComponent;
 import org.vaadin.rise.test.application.mvp.VMVPPresenterComponent;
 
 /**
@@ -23,5 +24,5 @@ import org.vaadin.rise.test.application.mvp.VMVPPresenterComponent;
  * be automatically placed in order in the view.
  * @param <T> - The type of presenter, must extend comparable.
  */
-public class OrderedSlot<T extends VMVPPresenterComponent<?> & Comparable<T>> extends MultiSlot<T> {
+public class OrderedSlot<T extends RisePresenterComponent<?> & Comparable<T>> extends MultiSlot<T> {
 }

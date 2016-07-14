@@ -3,8 +3,12 @@ package org.vaadin.rise.test;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
-import org.vaadin.rise.test.application.generated.org.vaadin.rise.test.application.Cas1Component;
-import org.vaadin.rise.test.application.generated.org.vaadin.rise.test.application.DaggerCas1Component;
+import generated.RiseBootstrapModule;
+import generated.org.vaadin.rise.test.application.Cas1Component;
+import generated.org.vaadin.rise.test.application.DaggerCas1Component;
+import generated.org.vaadin.rise.test.application.RiseCas1Application;
+import generated.org.vaadin.rise.test.application.claimlist.RiseClaimListModule;
+import org.vaadin.rise.place.PlaceManagerModule;
 import org.vaadin.rise.vaadin.VaadinModule;
 
 /**
@@ -13,16 +17,19 @@ import org.vaadin.rise.vaadin.VaadinModule;
 public class App {
 	public static void main(String[] args) {
 		final Cas1Component app = DaggerCas1Component
-			.builder()
-			.vaadinModule(new VaadinModule(new UI() {
-				@Override
-				protected void init(VaadinRequest request) {
+				.builder()
+				.riseBootstrapModule(new RiseBootstrapModule())
+				.riseClaimListModule(new RiseClaimListModule())
+				.placeManagerModule(new PlaceManagerModule("!claimlist", "!claimlist", "!claimlist"))
+				.vaadinModule(new VaadinModule(new UI() {
+					@Override
+					protected void init(VaadinRequest request) {
 
-				}
-			}))
-			.build();
+					}
+				}))
+				.riseCas1Application(new RiseCas1Application())
+				.build();
 
-		app.bootstrap();
 		app.bootstrap();
 	}
 }

@@ -1,5 +1,6 @@
 package org.vaadin.rise.vaadin;
 
+import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import dagger.Module;
 import dagger.Provides;
@@ -21,5 +22,10 @@ public class VaadinModule {
 	@Singleton @Provides
 	UI providesUI() {
 		return ui;
+	}
+
+	@Singleton @Provides
+	Page providesPage() {
+		return ui.getPage();
 	}
 }

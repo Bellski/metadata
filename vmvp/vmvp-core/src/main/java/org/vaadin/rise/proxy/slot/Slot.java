@@ -16,6 +16,7 @@
 package org.vaadin.rise.proxy.slot;
 
 
+import org.vaadin.rise.core.RisePresenterComponent;
 import org.vaadin.rise.test.application.mvp.VMVPPresenterComponent;
 
 /**
@@ -23,5 +24,5 @@ import org.vaadin.rise.test.application.mvp.VMVPPresenterComponent;
  *
  * @param <T> - The type of presenter this slot can take.
  */
-public class Slot<T extends VMVPPresenterComponent<?>> extends MultiSlot<T> {
+public class Slot<T extends RisePresenterComponent<?>> extends MultiSlot<T> {
 }
