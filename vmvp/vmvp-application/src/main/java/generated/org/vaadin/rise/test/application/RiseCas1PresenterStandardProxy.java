@@ -16,7 +16,6 @@ import javax.inject.Singleton;
 public class RiseCas1PresenterStandardProxy implements Proxy<Cas1Presenter> {
 
 	static class NestedSlot1 extends NestedSlot<Cas1Presenter> implements Cas1Presenter.Slot1 {
-
 		@Inject
 		public NestedSlot1(Lazy<Cas1Presenter> presenter) {
 			super(presenter);

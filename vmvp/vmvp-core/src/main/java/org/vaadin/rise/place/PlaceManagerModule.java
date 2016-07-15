@@ -15,20 +15,10 @@ import javax.inject.Singleton;
  */
 @Module
 public class PlaceManagerModule {
-	private final String defaultPlace;
-	private final String errorPlace;
-	private final String unauthorizedPlace;
-
-	public PlaceManagerModule(String defaultPlace, String errorPlace, String unauthorizedPlace) {
-
-		this.defaultPlace = defaultPlace;
-		this.errorPlace = errorPlace;
-		this.unauthorizedPlace = unauthorizedPlace;
-	}
 
 	@Provides @Singleton
 	DefaultPlaceManager providesPlaceManager(TokenFormatter tokenFormatter, Page page) {
-		return new DefaultPlaceManager(tokenFormatter, page, defaultPlace, errorPlace, unauthorizedPlace);
+		return new DefaultPlaceManager(tokenFormatter, page, "", "", "");
 	}
 
 

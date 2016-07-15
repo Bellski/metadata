@@ -6,9 +6,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by oem on 7/12/16.
+ * Created by oem on 7/15/16.
  */
 @Target(ElementType.TYPE )
 @Retention(RetentionPolicy.CLASS )
-public @interface StandardProxy {
+public @interface ThisIsNestedSlot {
 }

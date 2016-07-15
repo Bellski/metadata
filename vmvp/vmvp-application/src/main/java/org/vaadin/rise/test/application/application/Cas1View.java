@@ -16,7 +16,8 @@ import javax.inject.Singleton;
 public class Cas1View extends RiseViewImpl<Cas1.Presenter> implements Cas1.View {
 
 	private final VerticalLayout vRoot = new VerticalLayout();
-	private final Panel panel = new Panel();
+	private final VerticalLayout panel = new VerticalLayout();
+
 
 	@Inject
 	public Cas1View(UI ui, Cas1Presenter.Slot1 slot1) {

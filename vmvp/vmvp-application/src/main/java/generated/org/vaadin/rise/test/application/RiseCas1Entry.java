@@ -2,6 +2,9 @@ package generated.org.vaadin.rise.test.application;
 
 import dagger.Module;
 import dagger.Provides;
+import generated.org.vaadin.rise.test.application.claiminfo.RiseClaimInfoModule;
+import generated.org.vaadin.rise.test.application.claimlist.RiseClaimListModule;
+import generated.org.vaadin.rise.test.application.error.RiseErrorModule;
 import org.vaadin.rise.test.application.application.Cas1;
 import org.vaadin.rise.test.application.application.Cas1Entry;
 import org.vaadin.rise.test.application.application.Cas1Presenter;
@@ -13,7 +16,11 @@ import javax.inject.Singleton;
 /**
  * Created by oem on 7/12/16.
  */
-@Module
+@Module(includes = {
+    RiseClaimListModule.class,
+    RiseClaimInfoModule.class,
+    RiseErrorModule.class
+})
 public class RiseCas1Entry extends Cas1Entry {
 
     @Provides

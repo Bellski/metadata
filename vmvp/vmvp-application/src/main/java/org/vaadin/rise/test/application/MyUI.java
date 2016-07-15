@@ -5,11 +5,9 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import generated.RiseBootstrapModule;
+import generated.org.vaadin.rise.test.application.Cas1Bootstrap;
 import generated.org.vaadin.rise.test.application.Cas1Component;
 import generated.org.vaadin.rise.test.application.DaggerCas1Component;
-import generated.org.vaadin.rise.test.application.RiseCas1Entry;
-import generated.org.vaadin.rise.test.application.claimlist.RiseClaimListModule;
 import org.vaadin.rise.place.PlaceManagerModule;
 import org.vaadin.rise.vaadin.VaadinModule;
 
@@ -27,13 +25,7 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final Cas1Component app = DaggerCas1Component
-            .builder()
-            .placeManagerModule(new PlaceManagerModule("!claimlist", "!error", "!claimlist"))
-            .vaadinModule(new VaadinModule(this))
-            .build();
-
-        app.bootstrap();
+        Cas1Bootstrap.bootstrap(this);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

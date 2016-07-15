@@ -1,4 +1,4 @@
-package generated;
+package generated.rise;
 
 
 import com.google.gwt.thirdparty.guava.common.collect.ImmutableSet;
@@ -7,14 +7,16 @@ import dagger.Provides;
 import org.vaadin.rise.core.Root;
 import org.vaadin.rise.core.RootPresenter;
 import org.vaadin.rise.core.RootView;
+import org.vaadin.rise.place.PlaceManagerModule;
 import org.vaadin.rise.place.token.PlaceTokenRegistry;
+import org.vaadin.rise.vaadin.VaadinModule;
 
 import javax.inject.Singleton;
 
 /**
  * Created by Aleksandr on 13.07.2016.
  */
-@Module
+@Module(includes = {VaadinModule.class, PlaceManagerModule.class})
 public class RiseBootstrapModule {
 
     @Provides @Singleton
