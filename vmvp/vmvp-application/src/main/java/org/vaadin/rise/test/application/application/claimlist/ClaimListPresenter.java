@@ -1,6 +1,7 @@
 package org.vaadin.rise.test.application.application.claimlist;
 
 import org.vaadin.rise.core.RisePresenterImpl;
+import org.vaadin.rise.core.annotation.Presenter;
 import org.vaadin.rise.proxy.annotation.PlaceProxy;
 import org.vaadin.rise.test.application.application.Cas1Presenter;
 
@@ -9,7 +10,7 @@ import javax.inject.Inject;
 /**
  * Created by Aleksandr on 12.07.2016.
  */
-@PlaceProxy(placeName = "!claimlist")
+@Presenter(placeName = "!claimlist")
 public class ClaimListPresenter extends RisePresenterImpl<ClaimList.View> implements ClaimList.Presenter {
 
     @Inject

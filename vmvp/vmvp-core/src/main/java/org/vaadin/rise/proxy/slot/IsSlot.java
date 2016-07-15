@@ -6,6 +6,4 @@ public interface IsSlot<PRESENTER extends RisePresenterComponent<?>> {
 	boolean isPopup();
 
     boolean isRemovable();
-
-    Object getRawSlot();
 }

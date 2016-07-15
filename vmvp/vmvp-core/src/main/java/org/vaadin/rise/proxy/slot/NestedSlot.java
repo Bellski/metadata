@@ -1,26 +1,12 @@
 package org.vaadin.rise.proxy.slot;
 
-import com.google.web.bindery.event.shared.Event;
-import org.vaadin.rise.core.RisePresenterComponent;
-import org.vaadin.rise.proxy.slot.handler.RevealContentHandler;
+import dagger.Lazy;
+import org.vaadin.rise.core.RisePresenterImpl;
 
 
-public abstract class NestedSlot extends Event.Type<RevealContentHandler> implements IsSingleSlot<RisePresenterComponent<?>>, RemovableSlot<RisePresenterComponent<?>> {
+public class NestedSlot<PRESENTER extends RisePresenterImpl<?>> extends SingleSlot<PRESENTER>  {
 
-    @Override
-    public boolean isPopup() {
-        return false;
+    public NestedSlot(Lazy<PRESENTER> presenter) {
+        super(presenter);
     }
-
-    @Override
-    public boolean isRemovable() {
-        return true;
-    }
-
-    @Override
-    public Object getRawSlot() {
-        return this;
-    }
-
-
 }

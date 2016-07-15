@@ -29,9 +29,4 @@ public abstract class MultiSlot<T extends RisePresenterComponent<?>> implements 
     public boolean isPopup() {
         return false;
     }
-
-    @Override
-    public Object getRawSlot() {
-        return this;
-    }
 }

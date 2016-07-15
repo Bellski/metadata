@@ -1,11 +1,16 @@
 package org.vaadin.rise.proxy.slot;
 
-import com.google.web.bindery.event.shared.Event;
+import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterComponent;
 import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.proxy.slot.handler.RevealContentHandler;
 
-public class SingleSlot<T extends RisePresenterImpl<?>> extends Event.Type<RevealContentHandler> implements IsSingleSlot<T>, RemovableSlot<T> {
+public class SingleSlot<PRESENTER extends RisePresenterImpl<?>> extends Slot<PRESENTER> implements IsSingleSlot<PRESENTER>, RemovableSlot<PRESENTER> {
+
+
+    public SingleSlot(Lazy<PRESENTER> presenter) {
+        super(presenter);
+    }
+
     @Override
     public boolean isPopup() {
         return false;
@@ -14,13 +19,11 @@ public class SingleSlot<T extends RisePresenterImpl<?>> extends Event.Type<Revea
     public boolean isRemovable() {
         return true;
     }
-    @Override
-    public Object getRawSlot() {
-        return this;
-    }
 
     @Override
-    public <T1 extends RisePresenterComponent<?>> void setContent(T1 content) {
-
+    public <PRESENTER_COMPONENT extends RisePresenterComponent<?>> void setContent(PRESENTER_COMPONENT content) {
+        final PRESENTER presenter_ = presenter.get();
+        presenter_.forceReveal();
+        presenter_.setInSlot(this, (PRESENTER) content);
     }
 }

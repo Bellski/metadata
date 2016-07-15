@@ -16,13 +16,27 @@
 package org.vaadin.rise.proxy.slot;
 
 
+import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterComponent;
 
 
-/**
- * A slot that can take one or many presenters.
- *
- * @param <T> - The type of getPresenter this slot can take.
- */
-public class Slot<T extends RisePresenterComponent<?>> extends MultiSlot<T> {
+
+public class Slot<PRESENTER extends RisePresenterComponent<?>> implements IsSlot<PRESENTER> {
+    protected final Lazy<PRESENTER> presenter;
+
+    public Slot(Lazy<PRESENTER> presenter) {
+        this.presenter = presenter;
+    }
+
+
+
+    @Override
+    public boolean isPopup() {
+        return false;
+    }
+
+    @Override
+    public boolean isRemovable() {
+        return true;
+    }
 }

@@ -2,13 +2,10 @@ package generated.org.vaadin.rise.test.application;
 
 import dagger.Module;
 import dagger.Provides;
-import generated.org.vaadin.rise.test.application.claimlist.RiseClaimListModule;
-import org.vaadin.rise.test.application.Cas1;
-import org.vaadin.rise.test.application.Cas1Application;
-import org.vaadin.rise.test.application.Cas1Presenter;
-import generated.RiseBootstrapModule;
-import org.vaadin.rise.test.application.Cas1View;
-import org.vaadin.rise.vaadin.VaadinModule;
+import org.vaadin.rise.test.application.application.Cas1;
+import org.vaadin.rise.test.application.application.Cas1Entry;
+import org.vaadin.rise.test.application.application.Cas1Presenter;
+import org.vaadin.rise.test.application.application.Cas1View;
 
 import javax.inject.Singleton;
 
@@ -17,7 +14,7 @@ import javax.inject.Singleton;
  * Created by oem on 7/12/16.
  */
 @Module
-public class RiseCas1Application extends Cas1Application {
+public class RiseCas1Entry extends Cas1Entry {
 
     @Provides
     @Singleton

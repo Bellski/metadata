@@ -1,7 +1,7 @@
 package org.vaadin.rise.test.application.application.error;
 
 import org.vaadin.rise.core.annotation.RiseModule;
-import org.vaadin.rise.test.application.application.Cas1Application;
+import org.vaadin.rise.test.application.application.Cas1Entry;
 
 /**
  * Created by Aleksandr on 12.07.2016.
@@ -10,7 +10,7 @@ import org.vaadin.rise.test.application.application.Cas1Application;
 @RiseModule(
         view = ErrorView.class,
         presenter = ErrorPresenter.class,
-        parent = Cas1Application.class
+        parent = Cas1Entry.class
 )
 public class ErrorModule {
 }

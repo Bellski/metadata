@@ -1,6 +1,7 @@
 package org.vaadin.rise.core;
 
 
+import org.vaadin.rise.proxy.slot.IsNested;
 import org.vaadin.rise.proxy.slot.NestedSlot;
 
 import javax.inject.Singleton;
@@ -8,16 +9,15 @@ import javax.inject.Singleton;
 /**
  * Created by oem on 7/12/16.
  */
-@Singleton
 public class RisePresenterImpl<VIEW extends RiseView> extends RisePresenterComponent<VIEW> {
 
-    private NestedSlot slot;
+    private IsNested<?> slot;
 
     protected RisePresenterImpl(VIEW view) {
         this(view, null);
     }
 
-    protected RisePresenterImpl(VIEW view, NestedSlot nestedSlot) {
+    protected RisePresenterImpl(VIEW view, IsNested<?> nestedSlot) {
         super(view);
         this.slot = nestedSlot;
     }

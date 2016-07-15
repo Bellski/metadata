@@ -35,7 +35,7 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
         if (child.getInSlot() != slot && child.getParent() != this) {
             bindChild(slot, child);
             if (!child.isPopup()) {
-                getView().addToSlot(slot.getRawSlot(), child);
+                getView().addToSlot(slot, child);
             }
             if (isVisible()) {
                 child.internalReveal();
@@ -66,7 +66,7 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
         }
 
         if (!child.isPopup()) {
-            getView().removeFromSlot(slot.getRawSlot(), child);
+            getView().removeFromSlot(slot, child);
         }
 
         child.unBindChild();
@@ -85,7 +85,7 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
             internalClearSlot(slot, child);
 
             if (!child.isPopup()) {
-                getView().setInSlot(slot.getRawSlot(), child);
+                getView().setInSlot(slot, child);
             }
 
             if (isVisible()) {

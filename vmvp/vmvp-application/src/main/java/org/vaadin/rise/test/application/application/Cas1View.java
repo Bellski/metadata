@@ -22,7 +22,7 @@ public class Cas1View extends RiseViewImpl<Cas1.Presenter> implements Cas1.View 
 	public Cas1View(UI ui, Cas1Presenter.Slot1 slot1) {
 		super(ui);
 
-		vRoot.addComponent(new Label("Cas1Application"));
+		vRoot.addComponent(new Label("Cas1Entry"));
 		vRoot.addComponent(panel);
 
 		initComponent(vRoot);

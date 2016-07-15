@@ -8,7 +8,7 @@ import com.vaadin.ui.UI;
 import generated.RiseBootstrapModule;
 import generated.org.vaadin.rise.test.application.Cas1Component;
 import generated.org.vaadin.rise.test.application.DaggerCas1Component;
-import generated.org.vaadin.rise.test.application.RiseCas1Application;
+import generated.org.vaadin.rise.test.application.RiseCas1Entry;
 import generated.org.vaadin.rise.test.application.claimlist.RiseClaimListModule;
 import org.vaadin.rise.place.PlaceManagerModule;
 import org.vaadin.rise.vaadin.VaadinModule;
@@ -29,11 +29,8 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final Cas1Component app = DaggerCas1Component
             .builder()
-            .riseBootstrapModule(new RiseBootstrapModule())
-            .riseClaimListModule(new RiseClaimListModule())
             .placeManagerModule(new PlaceManagerModule("!claimlist", "!error", "!claimlist"))
             .vaadinModule(new VaadinModule(this))
-            .riseCas1Application(new RiseCas1Application())
             .build();
 
         app.bootstrap();
