@@ -95,10 +95,9 @@
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>com.google.dagger</groupId>
-                        <artifactId>dagger-compiler</artifactId>
-                        <version>2.2</version>
-                        <optional>true</optional>
+                        <groupId>ru.bellski.vmvp</groupId>
+                        <artifactId>vmvp-compiler</artifactId>
+                        <version>1.0.0</version>
                     </dependency>
                 </dependencies>
             </plugin>

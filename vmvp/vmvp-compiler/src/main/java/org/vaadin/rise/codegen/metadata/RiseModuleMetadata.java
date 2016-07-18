@@ -13,6 +13,8 @@ public class RiseModuleMetadata implements RiseModuleMetadataApi {
 	private final Element element;
 	private boolean isEntry = false;
 
+	private Element viewElement;
+	private Element presenterElement;
 
 	public RiseModuleMetadata(Element element) {
 		this(element, false);
@@ -45,6 +47,22 @@ public class RiseModuleMetadata implements RiseModuleMetadataApi {
 
 	public String getRiseFqn() {
 		return riseFqn;
+	}
+
+	public Element getViewElement() {
+		return viewElement;
+	}
+
+	public void setViewElement(Element viewElement) {
+		this.viewElement = viewElement;
+	}
+
+	public Element getPresenterElement() {
+		return presenterElement;
+	}
+
+	public void setPresenterElement(Element presenterElement) {
+		this.presenterElement = presenterElement;
 	}
 
 	@Override

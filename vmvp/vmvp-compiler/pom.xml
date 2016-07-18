@@ -74,7 +74,6 @@
             <groupId>com.google.truth</groupId>
             <artifactId>truth</artifactId>
             <version>0.28</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -88,7 +87,6 @@
             <groupId>com.google.testing.compile</groupId>
             <artifactId>compile-testing</artifactId>
             <version>0.9</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -103,6 +101,14 @@
             <artifactId>dagger-compiler</artifactId>
             <version>2.2</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.23</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -125,6 +131,7 @@
                         <annotationProcessor>com.google.auto.value.processor.AutoValueProcessor</annotationProcessor>
                         <annotationProcessor>com.google.auto.service.processor.AutoServiceProcessor</annotationProcessor>
                     </annotationProcessors>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
             </plugin>
         </plugins>

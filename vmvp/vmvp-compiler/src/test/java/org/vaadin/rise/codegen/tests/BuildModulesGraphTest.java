@@ -1,18 +1,24 @@
 package org.vaadin.rise.codegen.tests;
 
+import com.google.common.collect.ImmutableList;
 import com.google.testing.compile.CompileTester;
 import com.google.testing.compile.JavaFileObjects;
+import dagger.internal.codegen.ComponentProcessor;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.vaadin.rise.codegen.RiseProcessor;
+import org.vaadin.rise.codegen.helpers.Compilation;
 
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static com.google.common.truth.Truth.assertAbout;
@@ -25,7 +31,8 @@ public class BuildModulesGraphTest {
 
 
 	@Test
-	public void buildRiseModulesGraph() throws IOException {
+	@Ignore
+	public void buildRiseModulesGraph() throws IOException, URISyntaxException {
 		final List<JavaFileObject> generatedSource = loadSources("/javasource/generated/");
 
 		final RiseProcessor processor = new RiseProcessor();
@@ -38,8 +45,20 @@ public class BuildModulesGraphTest {
 
 	}
 
-	private static List<JavaFileObject> loadSources(String from) throws IOException {
-		final Path path = Paths.get(BuildModulesGraphTest.class.getResource(from).getPath());
+	@Test
+	@Ignore
+	public void testDaggerGeneration() throws IOException, URISyntaxException {
+		final List<JavaFileObject> generatedSource = loadSources("/javasource/generated/");
+
+		System.out.println(generatedSource);
+
+		final ImmutableList<JavaFileObject> sources = Compilation
+				.compile(Collections.singletonList(new ComponentProcessor()), Collections.emptyList(), generatedSource)
+				.generatedSources();
+	}
+
+	private static List<JavaFileObject> loadSources(String from) throws IOException, URISyntaxException {
+		final Path path = Paths.get(BuildModulesGraphTest.class.getResource(from).toURI());
 
 		return Files
 			.walk(path, 1)
@@ -52,6 +71,52 @@ public class BuildModulesGraphTest {
 				}
 			})
 			.collect(Collectors.toList());
+	}
+
+	private static List<JavaFileObject> loadAllSources() throws IOException, URISyntaxException {
+		final Path path = Paths.get(BuildModulesGraphTest.class.getResource("/javasource").toURI());
+
+		return Files
+				.walk(path)
+				.filter(path1 -> path1.toString().endsWith(".java"))
+				.map(path1 -> {
+					try {
+						return JavaFileObjects.forResource(path1.toUri().toURL());
+					} catch (MalformedURLException e) {
+						throw new RuntimeException(e);
+					}
+				})
+				.collect(Collectors.toList());
+	}
+
+	@Test
+	@Ignore
+	public void testGenerate() {
+		JavaFileObject javaFileObject = JavaFileObjects.forSourceString(
+				"ModuleS"
+				,
+				"import dagger.Module;\n" +
+						"import dagger.Provides;\n" +
+						"\n" +
+						"import javax.inject.Singleton;\n" +
+						"\n" +
+						"/**\n" +
+						" * Created by Aleksandr on 16.07.2016.\n" +
+						" */\n" +
+						"@Module\n" +
+						"public class ModuleS {\n" +
+						"\n" +
+						"    @Provides @Singleton\n" +
+						"    public String providesS() {\n" +
+						"        return \"AAA\";\n" +
+						"    }\n" +
+						"}"
+		);
+
+
+		final Compilation.Result compile = Compilation.compile(Collections.singletonList(new ComponentProcessor()), Collections.emptyList(), Collections.singletonList(javaFileObject));
+
+		String s = "";
 	}
 
 }
