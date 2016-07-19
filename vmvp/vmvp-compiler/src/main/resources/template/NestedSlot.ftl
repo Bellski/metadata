@@ -1,8 +1,9 @@
-<#-- @ftlvariable name="" type="org.vaadin.rise.codegen.freemaker.NestedSlotModel" -->
-package ${originalFQN.packageName};
+<#-- @ftlvariable name="" type="org.vaadin.rise.codegen.model.NestedSlotModel" -->
+package ${packageName};
 
-import ${presenterFQN.getFQN()};
-import ${implementsSlotFQN.getFQN()};
+<#list importList as importName>
+import ${importName};
+</#list>
 
 import dagger.Lazy;
 import javax.inject.Inject;
@@ -10,10 +11,10 @@ import javax.inject.Inject;
 import org.vaadin.rise.proxy.slot.NestedSlot;
 
 
-public class ${className} extends NestedSlot<${presenterFQN.className}> implements ${implementsSlotFQN.className} {
+public class ${className} extends NestedSlot<${slotOwner.className}> implements ${extendsSlot.fullClassName} {
 
     @Inject
-    public ${className}(Lazy<${presenterFQN.className}> presenter) {
+    public ${className}(Lazy<${slotOwner.className}> presenter) {
         super(presenter);
     }
 }

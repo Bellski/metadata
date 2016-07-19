@@ -9,7 +9,9 @@ import org.vaadin.rise.test.application.application.Cas1Entry;
 
 @RiseModule(
         view = ClaimListView.class,
+		viewApi = ClaimList.View.class,
         presenter = ClaimListPresenter.class,
+		presenterApi = ClaimList.Presenter.class,
         parent = Cas1Entry.class
 )
 public class ClaimListModule {

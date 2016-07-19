@@ -110,7 +110,7 @@ public class Compilation {
    *
    * <p>Note: It is possible for the {@link Trees} instance contained within a {@code ParseResult}
    * to be invalidated by a call to {@link com.sun.tools.javac.api.JavacTaskImpl#cleanup()}. Though
-   * we do not currently expose the {@link JavacTask} used to create a {@code ParseResult} to
+   * we do not currently expose the {@link JavacTask} used to buildJavaCompatibleFQN a {@code ParseResult} to
    * {@code cleanup()} calls on its underlying implementation, this should be acknowledged as an
    * implementation detail that could cause unexpected behavior when making calls to methods in
    * {@link Trees}.

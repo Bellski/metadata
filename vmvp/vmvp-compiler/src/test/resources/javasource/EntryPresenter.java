@@ -14,12 +14,12 @@ import javax.inject.Inject;
  * Created by oem on 7/15/16.
  */
 @Presenter
-public class EntryPresenter extends RisePresenterImpl<RiseView> implements RisePresenter<RiseView> {
+public class EntryPresenter extends RisePresenterImpl<Entry.View> implements Entry.Presenter {
     @ThisIsNestedSlot
     public interface Slot1 extends IsNested<EntryPresenter> {}
 
     @Inject
-    protected EntryPresenter(RiseView view, RootPresenter.RootSlot rootSlot) {
+    protected EntryPresenter(Entry.View view, RootPresenter.RootSlot rootSlot) {
         super(view, rootSlot);
     }
 }

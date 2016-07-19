@@ -10,7 +10,4 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.TYPE )
 @Retention(RetentionPolicy.CLASS)
-public @interface ApplicationEntry {
-	Class<?> view();
-	Class<?> presenter();
-}
+public @interface ApplicationEntry {}

@@ -199,7 +199,7 @@ public final class JavaFileObjects {
       checkArgument(parts.size() == 2,
           "The jar url separator (!) appeared more than once in the url: %s", jarUrl);
       String pathPart = parts.get(1);
-      checkArgument(!pathPart.endsWith("/"), "cannot create a java file object for a directory: %s",
+      checkArgument(!pathPart.endsWith("/"), "cannot buildJavaCompatibleFQN a java file object for a directory: %s",
           pathPart);
       return URI.create(pathPart);
     }

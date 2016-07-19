@@ -4,21 +4,17 @@ import com.google.auto.common.BasicAnnotationProcessor;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.SetMultimap;
 import com.sun.tools.javac.code.Symbol;
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.vaadin.rise.codegen.freemaker.ElementsUtils;
-import org.vaadin.rise.codegen.freemaker.FQN;
-import org.vaadin.rise.codegen.freemaker.NestedSlotModel;
+import org.vaadin.rise.codegen.generator.NestedSlotGenerator;
+import org.vaadin.rise.codegen.model.FqnHolder;
+import org.vaadin.rise.codegen.model.NestedSlotModel;
 import org.vaadin.rise.proxy.annotation.ThisIsNestedSlot;
 
-import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +26,20 @@ import java.util.Set;
  */
 public class SlotProcessingStep implements BasicAnnotationProcessor.ProcessingStep {
 
-    private Map<FQN, List<NestedSlotModel>> slotGraph;
+    private Map<FqnHolder, List<NestedSlotModel>> slotGraph;
+    private final NestedSlotGenerator nestedSlotGenerator;
+    private List<JavaFileObject> jfosForDaggerGeneration;
     private final Types types;
     private final Elements elements;
-    private final Filer filer;
-    private final Configuration cfg;
 
-    public SlotProcessingStep(Map<FQN, List<NestedSlotModel>> slotGraph, Types types, Elements elements, Filer filer, Configuration cfg) {
+
+    public SlotProcessingStep(Map<FqnHolder, List<NestedSlotModel>> slotGraph, NestedSlotGenerator nestedSlotGenerator, List<JavaFileObject> jfosForDaggerGeneration, Types types, Elements elements) {
         this.slotGraph = slotGraph;
+        this.nestedSlotGenerator = nestedSlotGenerator;
+        this.jfosForDaggerGeneration = jfosForDaggerGeneration;
         this.types = types;
         this.elements = elements;
-        this.filer = filer;
-        this.cfg = cfg;
     }
-
 
 
     @Override
@@ -53,41 +49,40 @@ public class SlotProcessingStep implements BasicAnnotationProcessor.ProcessingSt
 
     @Override
     public Set<Element> process(SetMultimap<Class<? extends Annotation>, Element> elementsByAnnotation) {
+        final List<NestedSlotModel> slotModels = new ArrayList<>();
 
+        for (Element element : elementsByAnnotation.get(ThisIsNestedSlot.class)) {
+            final Symbol symbolSlot = Symbol.class.cast(element);
 
-        elementsByAnnotation.get(ThisIsNestedSlot.class).forEach(element -> {
-            final NestedSlotModel nestedSlotModel =
-                    new NestedSlotModel(
-                            ElementsUtils.toFQN(elements, element),
-                            ElementsUtils.toFQN(elements, Symbol.class.cast(element).owner)
-                    );
+            final String packageName = symbolSlot.packge().getQualifiedName().toString();
+            final String slotFqn = symbolSlot.getQualifiedName().toString();
 
+            final NestedSlotModel nestedSlotModel = new NestedSlotModel
+                (
+                    slotFqn.substring(packageName.length() + 1).replaceAll("\\.", ""),
+                    packageName,
+                    FqnHolder.buildJavaCompatibleFQN(element)
+                );
 
-            List<NestedSlotModel> slots = slotGraph.get(nestedSlotModel.getPresenterFQN());
+            nestedSlotModel.setSlotOwner(FqnHolder.buildJavaCompatibleFQN(symbolSlot.owner));
+
+            List<NestedSlotModel> slots = slotGraph.get(nestedSlotModel.getSlotOwner());
 
             if (slots == null) {
                 slots = new ArrayList<>();
-                slotGraph.put(nestedSlotModel.getPresenterFQN(), slots);
+                slotGraph.put(nestedSlotModel.getSlotOwner(), slots);
             }
 
             slots.add(nestedSlotModel);
+            slotModels.add(nestedSlotModel);
+        }
 
-            try {
-                final Template template = cfg.getTemplate("NestedSlot.ftl");
+        try {
+            jfosForDaggerGeneration.addAll(nestedSlotGenerator.generate(slotModels));
+        } catch (IOException | TemplateException e) {
+            e.printStackTrace();
+        }
 
-                JavaFileObject source = filer.createSourceFile(nestedSlotModel.getFQNClassName());
-
-                try(Writer out = source.openWriter()) {
-                    template.process(nestedSlotModel, out);
-                } catch (TemplateException e) {
-                    e.printStackTrace();
-                }
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
         return ImmutableSet.of();
     }

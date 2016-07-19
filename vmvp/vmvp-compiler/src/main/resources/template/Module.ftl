@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="" type="org.vaadin.rise.codegen.freemaker.ModuleModel" -->
+<#-- @ftlvariable name="" type="org.vaadin.rise.codegen.model.ModuleModel" -->
 
 package ${packageName};
 
@@ -7,29 +7,39 @@ import dagger.Provides;
 
 import javax.inject.Singleton;
 
-<#list imports as importName>
+<#list importList as importName>
 import ${importName};
 </#list>
 
+import org.vaadin.rise.proxy.Proxy;
+
 @Module<#if hasIncludes()>(includes = {${joinedIncludes}})</#if>
-public class ${className} extends ${extendsModule} {
+public class ${className} extends ${extendsModule.className} {
 
     <#if hasSlots()>
     <#list slots as slot>
     @Provides @Singleton
-    ${slot.apiName} provides${slot.implName}(${slot.implName} slot) {
+    ${slot.providesImpl.fullClassName} ${slot.methodName}(${slot.providesImpl.className} slot) {
         return slot;
     }
     </#list>
     </#if>
 
-    @Provides @Singleton
-    ${providesView.apiName} provides${providesView.implName}(${providesView.implName} view) {
+    @Provides
+    @Singleton
+    Proxy<${daggerProvidesProxyMethodModel.providesInterface.className}> ${daggerProvidesProxyMethodModel.methodName}(${daggerProvidesProxyMethodModel.providesImpl.className} proxy) {
+        return proxy;
+    }
+
+    @Provides
+    @Singleton
+    ${daggerProvidesMethodViewModel.providesInterface.fullClassName} ${daggerProvidesMethodViewModel.methodName}(${daggerProvidesMethodViewModel.providesImpl.className} view) {
         return view;
     }
 
-    @Provides @Singleton
-    ${providesPresenter.apiName} provides${providesPresenter.implName}(${providesPresenter.implName} presenter) {
+    @Provides
+    @Singleton
+    ${daggerProvidesMethodPresenterModel.providesInterface.fullClassName} ${daggerProvidesMethodPresenterModel.methodName}(${daggerProvidesMethodPresenterModel.providesImpl.className} presenter) {
         return presenter;
     }
 }

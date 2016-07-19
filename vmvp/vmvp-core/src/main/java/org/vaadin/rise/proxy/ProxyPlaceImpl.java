@@ -6,13 +6,15 @@ import org.vaadin.rise.place.Place;
 import org.vaadin.rise.place.PlaceManager;
 import org.vaadin.rise.place.PlaceRequest;
 
-public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  implements Proxy<PRESENTER>, ProxyPlace<PRESENTER> {
+public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  extends BaseProxy<PRESENTER> implements ProxyPlace<PRESENTER> {
     private Place place;
     private PlaceManager placeManager;
 
     private final Lazy<PRESENTER> presenter;
 
     public ProxyPlaceImpl(Place place, PlaceManager placeManager, Lazy<PRESENTER> cas1Presenter) {
+		super(cas1Presenter);
+
         this.place = place;
         this.placeManager = placeManager;
         this.presenter = cas1Presenter;
@@ -31,13 +33,6 @@ public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  implements 
 				}
 			}
 		});
-    }
-
-
-
-    @Override
-    public PRESENTER getPresenter() {
-        return presenter.get();
     }
 
     private void handleRequest(final PlaceRequest request, final boolean updateBrowserUrl) {

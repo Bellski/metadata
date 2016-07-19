@@ -2,7 +2,6 @@ package org.vaadin.rise.place.token;
 
 import org.vaadin.rise.place.PlaceRequest;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.*;
 
@@ -91,7 +90,7 @@ public class RouteTokenFormatter implements TokenFormatter {
     private final PlaceTokenRegistry allRegisteredPlaceTokens;
 
 
-    @Inject
+
     public RouteTokenFormatter(PlaceTokenRegistry tokenRegistry) {
         this.allRegisteredPlaceTokens = tokenRegistry;
     }

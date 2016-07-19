@@ -1,10 +1,7 @@
 package org.vaadin.rise.place;
 
 import com.vaadin.server.Page;
-import org.vaadin.rise.core.event.RiseEventBus;
-import org.vaadin.rise.place.token.TokenFormatter;
-
-import javax.inject.Inject;
+import org.vaadin.rise.place.token.RouteTokenFormatter;
 
 /**
  * Created by Aleksandr on 13.07.2016.
@@ -14,7 +11,8 @@ public class DefaultPlaceManager extends PlaceManagerImpl {
     private final PlaceRequest errorPlaceRequest;
     private final PlaceRequest unauthorizedPlaceRequest;
 
-    public DefaultPlaceManager(TokenFormatter tokenFormatter, Page page, String defaultPlaceNameToken, String errorPlaceNameToken, String unauthorizedPlaceNameToken) {
+
+    public DefaultPlaceManager(RouteTokenFormatter tokenFormatter, Page page, String defaultPlaceNameToken, String errorPlaceNameToken, String unauthorizedPlaceNameToken) {
         super(tokenFormatter, page);
 
         defaultPlaceRequest = new PlaceRequest.Builder().nameToken(defaultPlaceNameToken).build();

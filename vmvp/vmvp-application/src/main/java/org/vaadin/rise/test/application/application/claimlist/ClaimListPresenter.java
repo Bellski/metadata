@@ -10,7 +10,10 @@ import javax.inject.Inject;
 /**
  * Created by Aleksandr on 12.07.2016.
  */
-@Presenter(placeName = "!claimlist")
+@Presenter(
+    placeName = "!claimlist",
+    defaultPlace = true
+)
 public class ClaimListPresenter extends RisePresenterImpl<ClaimList.View> implements ClaimList.Presenter {
 
     @Inject

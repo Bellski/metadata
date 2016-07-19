@@ -5,7 +5,8 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import generated.org.vaadin.rise.test.application.Cas1Bootstrap;
+import org.vaadin.rise.test.application.application.DaggerRiseCas1EntryComponent;
+import org.vaadin.rise.vaadin.VaadinModule;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -21,7 +22,11 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        Cas1Bootstrap.bootstrap(this);
+        DaggerRiseCas1EntryComponent
+            .builder()
+            .vaadinModule(new VaadinModule(this))
+            .build()
+            .bootstrap();
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

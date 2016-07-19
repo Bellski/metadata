@@ -1,5 +1,7 @@
 package javasource;
 
+import org.vaadin.rise.core.RisePresenter;
+import org.vaadin.rise.core.RiseView;
 import org.vaadin.rise.core.annotation.RiseModule;
 
 /**
@@ -7,7 +9,9 @@ import org.vaadin.rise.core.annotation.RiseModule;
  */
 @RiseModule(
 	view = SubSubEntryView.class,
+	viewApi = SubSubEntry.View.class,
 	presenter = SubSubEntryPresenter.class,
+	presenterApi = SubSubEntry.Presenter.class,
 	parent = EntryModule.class
 )
 public class SubSubEntryModule {

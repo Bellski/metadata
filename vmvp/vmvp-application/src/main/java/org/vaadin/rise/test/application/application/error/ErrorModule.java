@@ -9,7 +9,9 @@ import org.vaadin.rise.test.application.application.Cas1Entry;
 
 @RiseModule(
         view = ErrorView.class,
+		viewApi = Error.View.class,
         presenter = ErrorPresenter.class,
+		presenterApi = Error.Presenter.class,
         parent = Cas1Entry.class
 )
 public class ErrorModule {

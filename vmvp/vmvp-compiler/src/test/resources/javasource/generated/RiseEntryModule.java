@@ -5,13 +5,17 @@ import dagger.Provides;
 
 import javax.inject.Singleton;
 
-import javasource.NestedSlotEntryPresenterSlot1;
 import javasource.RiseSubEntryModule;
+import javasource.Entry.View;
 import javasource.EntryModule;
+import javasource.RiseEntryPresenterProxy;
 import javasource.EntryPresenter;
 import javasource.EntryPresenter.Slot1;
 import javasource.RiseSubSubEntryModule;
+import javasource.Entry.Presenter;
 import javasource.EntryView;
+
+import org.vaadin.rise.proxy.Proxy;
 
 
 @Module(
@@ -24,17 +28,23 @@ public class RiseEntryModule extends EntryModule {
 
 	@Provides
 	@Singleton
-	EntryPresenter.Slot1 providesNestedSlotEntryPresenterSlot1(NestedSlotEntryPresenterSlot1 slot) {
+	EntryPresenter.Slot1 providesEntryPresenterSlot1(EntryPresenterSlot1 slot) {
 		return slot;
 	}
 
+	@Provides
+	@Singleton
+	Proxy<EntryPresenter> providesRiseEntryPresenterProxy(RiseEntryPresenterProxy proxy) {
+		return proxy;
+	}
+
 	@Provides @Singleton
-	EntryView providesEntryView(EntryView view) {
+	Entry.View providesEntryView(EntryView view) {
 		return view;
 	}
 
 	@Provides @Singleton
-	EntryPresenter providesEntryPresenter(EntryPresenter presenter) {
+	Entry.Presenter providesEntryPresenter(EntryPresenter presenter) {
 		return presenter;
 	}
 }

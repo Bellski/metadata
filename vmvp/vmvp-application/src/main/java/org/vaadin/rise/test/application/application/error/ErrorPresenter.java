@@ -12,7 +12,8 @@ import javax.inject.Inject;
  */
 @Presenter(
         placeName = "!error",
-        errorPlace = true
+        errorPlace = true,
+        authorizePlace = true
 )
 public class ErrorPresenter extends RisePresenterImpl<Error.View> implements Error.Presenter {
 
