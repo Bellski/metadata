@@ -26,7 +26,7 @@ public class MyUI extends UI {
             .builder()
             .vaadinModule(new VaadinModule(this))
             .build()
-            .bootstrap();
+            .bootstrap().doBootstrap();
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

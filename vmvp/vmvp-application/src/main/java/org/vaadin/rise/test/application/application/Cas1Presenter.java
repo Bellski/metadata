@@ -5,7 +5,6 @@ import org.vaadin.rise.core.RootPresenter;
 import org.vaadin.rise.core.annotation.Presenter;
 import org.vaadin.rise.proxy.annotation.ThisIsNestedSlot;
 import org.vaadin.rise.proxy.slot.IsNested;
-import org.vaadin.rise.proxy.slot.IsSlot;
 
 import javax.inject.Inject;
 
@@ -22,5 +21,6 @@ public class Cas1Presenter extends RisePresenterImpl<Cas1.View> implements Cas1.
 	@Inject
 	protected Cas1Presenter(Cas1.View view, RootPresenter.RootSlot rootSlot) {
 		super(view, rootSlot);
+		System.out.println("Cas1Presenter");
 	}
 }

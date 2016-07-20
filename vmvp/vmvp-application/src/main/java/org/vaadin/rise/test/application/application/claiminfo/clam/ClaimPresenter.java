@@ -9,7 +9,7 @@ import javax.inject.Inject;
 /**
  * Created by Aleksandr on 12.07.2016.
  */
-@Presenter(placeName = "!claiminfo/claim")
+@Presenter(placeName = "!claim")
 public class ClaimPresenter extends RisePresenterImpl<Claim.View> implements Claim.Presenter {
 
     @Inject

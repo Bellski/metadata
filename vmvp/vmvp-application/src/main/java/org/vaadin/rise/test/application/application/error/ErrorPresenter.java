@@ -2,7 +2,6 @@ package org.vaadin.rise.test.application.application.error;
 
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.annotation.Presenter;
-import org.vaadin.rise.proxy.annotation.PlaceProxy;
 import org.vaadin.rise.test.application.application.Cas1Presenter;
 
 import javax.inject.Inject;
@@ -12,7 +11,6 @@ import javax.inject.Inject;
  */
 @Presenter(
         placeName = "!error",
-        errorPlace = true,
         authorizePlace = true
 )
 public class ErrorPresenter extends RisePresenterImpl<Error.View> implements Error.Presenter {

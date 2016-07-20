@@ -4,16 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.bellski</groupId>
-    <artifactId>vmvp</artifactId>
+    <groupId>org.vaadin.rise</groupId>
+    <artifactId>rise</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
 
     <modules>
-        <module>vmvp-core</module>
-        <module>vmvp-application</module>
-        <module>vmvp-compiler</module>
+        <module>rise-core</module>
+        <!--<module>vmvp-application</module>-->
+        <module>rise-compiler</module>
     </modules>
 
 </project>
