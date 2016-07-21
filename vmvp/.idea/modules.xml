@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/rise.iml" filepath="$PROJECT_DIR$/rise.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rise-compiler/rise-compiler.iml" filepath="$PROJECT_DIR$/rise-compiler/rise-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rise-core/rise-core.iml" filepath="$PROJECT_DIR$/rise-core/rise-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vmvp-application/vmvp-application.iml" filepath="$PROJECT_DIR$/vmvp-application/vmvp-application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rise-compiler/vmvp-compiler.iml" filepath="$PROJECT_DIR$/rise-compiler/vmvp-compiler.iml" />
+    </modules>
+  </component>
+</project>

@@ -7,6 +7,7 @@ public class PlaceManagerModuleModel extends JFOModel {
 	private String defaultPlaceNameToken;
 	private String errorPlaceNameToken;
 	private String unauthorizedPlaceNameToken;
+	private String contextRoot;
 
 	public PlaceManagerModuleModel(String packageName) {
 		super("PlaceManagerModule", "PlaceManagerModule", packageName);
@@ -34,5 +35,13 @@ public class PlaceManagerModuleModel extends JFOModel {
 
 	public String getUnauthorizedPlaceNameToken() {
 		return unauthorizedPlaceNameToken;
+	}
+
+	public void setContextRoot(String contextRoot) {
+		this.contextRoot = contextRoot;
+	}
+
+	public String getContextRoot() {
+		return contextRoot;
 	}
 }

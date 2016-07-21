@@ -90,7 +90,6 @@ public class RouteTokenFormatter implements TokenFormatter {
     private final PlaceTokenRegistry allRegisteredPlaceTokens;
 
 
-
     public RouteTokenFormatter(PlaceTokenRegistry tokenRegistry) {
         this.allRegisteredPlaceTokens = tokenRegistry;
     }

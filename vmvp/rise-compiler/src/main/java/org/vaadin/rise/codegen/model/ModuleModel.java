@@ -8,6 +8,7 @@ import javax.lang.model.util.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.vaadin.rise.core.annotation.RiseModuleHelper.*;
@@ -19,12 +20,14 @@ public class ModuleModel extends JFOModel {
     private final FqnHolder extendsModule;
     private final Element extendsModuleElement;
 
-    private List<ModuleModel> includes = new ArrayList<>(2);
-    private List<DaggerProvidesMethodModel> slots = new ArrayList<>(2);
+    private final List<ModuleModel> includes = new ArrayList<>(2);
+    private final List<DaggerProvidesMethodModel> slots = new ArrayList<>(2);
     private DaggerProvidesMethodModel daggerProvidesProxyMethodModel;
 
     private DaggerProvidesMethodModel daggerProvidesMethodViewModel;
     private DaggerProvidesMethodModel daggerProvidesMethodPresenterModel;
+
+    private final List<ParameterModel> constructorParameters = new ArrayList<>(2);
 
 
     public ModuleModel(String className, String packageName, Element extendsModuleElement) {
@@ -118,6 +121,30 @@ public class ModuleModel extends JFOModel {
         addImport(daggerProvidesProxyMethodModel.getProvidesInterface());
     }
 
+    public String getJoinedConstructorParameters() {
+        return constructorParameters
+            .stream()
+            .map(parameterModel -> parameterModel.getFqnHolder().getClassName() + " " +parameterModel.getName())
+            .collect(Collectors.joining(","));
+
+    }
+
+    public String getJoinedConstructorParameterNames() {
+        return constructorParameters
+            .stream()
+            .map(ParameterModel::getName)
+            .collect(Collectors.joining(","));
+    }
+
+    public boolean hasConstructor() {
+        return !constructorParameters.isEmpty();
+    }
+
+    public void addConstructorParameter(ParameterModel parameterModel) {
+        constructorParameters.add(parameterModel);
+        addImport(parameterModel.getFqnHolder());
+    }
+
     public static ModuleModel create(Types elements, Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, ProxyModel> proxyModels, Element moduleElement) {
         final String moduleName = moduleElement.getSimpleName().toString();
         final String modulePackage = Symbol.class.cast(moduleElement).packge().toString();
@@ -196,6 +223,25 @@ public class ModuleModel extends JFOModel {
                 )
         );
 
+        final Optional<? extends Element> optionalConstructor = moduleElement
+            .getEnclosedElements()
+            .stream()
+            .filter(enclosedElement -> Symbol.class.cast(enclosedElement).isConstructor())
+            .findFirst();
+
+        if (optionalConstructor.isPresent()) {
+            final Symbol.MethodSymbol constructorElement = (Symbol.MethodSymbol) optionalConstructor.get();
+            for (Symbol.VarSymbol varSymbol : constructorElement.getParameters()) {
+                final String typeName = varSymbol.type.asElement().getSimpleName().toString();
+                final String typePackage = varSymbol.type.asElement().packge().toString();
+
+                final String parameterName = varSymbol.name.toString();
+
+                moduleModel.addConstructorParameter(new ParameterModel(parameterName, new FqnHolder(typeName, typeName, typePackage)));
+            }
+        }
+
         return moduleModel;
     }
+
 }

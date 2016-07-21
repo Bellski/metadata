@@ -3,6 +3,8 @@ package javasource;
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.annotation.Presenter;
 
+import javasource.SubEntryGateKeeper;
+
 import javax.inject.Inject;
 
 /**
@@ -10,6 +12,7 @@ import javax.inject.Inject;
  */
 @Presenter(
 	placeName = "sub",
+	useGateKeeper = SubEntryGateKeeper.class,
 	defaultPlace = true,
 	errorPlace = true,
 	authorizePlace = true

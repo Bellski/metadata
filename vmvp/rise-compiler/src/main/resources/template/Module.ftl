@@ -16,6 +16,12 @@ import org.vaadin.rise.proxy.Proxy;
 @Module<#if hasIncludes()>(includes = {${joinedIncludes}})</#if>
 public class ${className} extends ${extendsModule.className} {
 
+    <#if hasConstructor()>
+    public ${className}(${joinedConstructorParameters}) {
+        super(${joinedConstructorParameterNames});
+    }
+    </#if>
+
     <#if hasSlots()>
     <#list slots as slot>
     @Provides @Singleton

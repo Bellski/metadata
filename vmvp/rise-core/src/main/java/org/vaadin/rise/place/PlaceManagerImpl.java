@@ -18,6 +18,7 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 	protected final Page page;
 
 	private String currentHistoryToken = "";
+	private String contextRoot = null;
 	private boolean internalError;
 	private String onLeaveQuestion;
 //	private Command defferedNavigation;
@@ -28,9 +29,15 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 
 	private List<PlaceRequest> placeHierarchy = new ArrayList<>();
 
-	public PlaceManagerImpl(TokenFormatter tokenFormatter, Page page) {
+	public PlaceManagerImpl(TokenFormatter tokenFormatter, Page page, String contextRoot) {
 		this.tokenFormatter = tokenFormatter;
 		this.page = page;
+
+		if (contextRoot.charAt(contextRoot.length() -1) != '/') {
+			contextRoot += "/";
+		}
+
+		this.contextRoot = contextRoot;
 
 		page.addUriFragmentChangedListener(this);
 	}
@@ -171,16 +178,27 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 	}
 
 	void setBrowserHistoryToken(String historyToken, boolean issueEvent) {
-		page.setUriFragment(historyToken, issueEvent);
+		page.setUriFragment(contextRoot + historyToken, issueEvent);
 	}
 
 	private void saveHistoryToken(String historyToken) {
-		currentHistoryToken = historyToken;
+		currentHistoryToken = contextRoot + historyToken;
 	}
 
 	@Override
 	public void revealCurrentPlace() {
-		handleTokenChange(page.getUriFragment());
+		String uriFragment = page.getUriFragment();
+
+		if (uriFragment == null) {
+			page.setUriFragment("!/");
+			return;
+		}
+
+		if (uriFragment.charAt(uriFragment.length() -1) != '/') {
+			uriFragment += "/";
+		}
+
+		handleTokenChange(uriFragment.substring(contextRoot.length()));
 	}
 
 	@Override
@@ -296,7 +314,11 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 
 	@Override
 	public void uriFragmentChanged(Page.UriFragmentChangedEvent event) {
-		handleTokenChange(event.getUriFragment());
+		final String uriFragment = event.getUriFragment();
+
+		if (uriFragment.startsWith(contextRoot)) {
+			handleTokenChange(uriFragment.substring(contextRoot.length()));
+		}
 	}
 
 	private List<PlaceRequest> truncatePlaceHierarchy(int level) {
@@ -326,7 +348,7 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 //			return;
 //		}
 		try {
-			if (historyToken.trim().isEmpty()) {
+			if (historyToken.trim().isEmpty() || historyToken.equals(contextRoot) || contextRoot.equals(historyToken + "/")) {
 				unlock();
 				revealDefaultPlace();
 			} else {

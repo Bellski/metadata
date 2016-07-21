@@ -3,6 +3,10 @@ package javasource;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import javasource.RiseSubEntryPresenterProxy;
+import javasource.RiseEntryPresenterProxy;
+import javasource.RiseSubSubEntryPresenterProxy;
+
 
 
 @Singleton

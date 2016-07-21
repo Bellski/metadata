@@ -2,9 +2,21 @@ package javasource;
 
 import dagger.Module;
 import dagger.Provides;
-import org.vaadin.rise.proxy.Proxy;
 
 import javax.inject.Singleton;
+
+import javasource.RiseSubEntryModule;
+import javasource.Entry.View;
+import javasource.EntryModule;
+import javasource.RiseEntryPresenterProxy;
+import javasource.EntryPresenter;
+import javasource.EntryPresenter.Slot1;
+import javasource.RiseSubSubEntryModule;
+import javasource.Entry.Presenter;
+import javasource.EntryView;
+import java.lang.String;
+
+import org.vaadin.rise.proxy.Proxy;
 
 
 @Module(
@@ -14,6 +26,10 @@ import javax.inject.Singleton;
 	}
 )
 public class RiseEntryModule extends EntryModule {
+
+	public RiseEntryModule(String something) {
+		super(something);
+	}
 
 	@Provides
 	@Singleton

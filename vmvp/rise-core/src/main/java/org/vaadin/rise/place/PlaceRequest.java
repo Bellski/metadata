@@ -33,7 +33,6 @@ public class PlaceRequest {
         this.params = null;
     }
 
-
     private PlaceRequest(String nameToken, Map<String, String> params) {
         this.nameToken = nameToken;
         this.params = params;

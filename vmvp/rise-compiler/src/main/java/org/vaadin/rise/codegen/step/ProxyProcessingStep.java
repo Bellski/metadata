@@ -5,18 +5,25 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.SetMultimap;
 import com.sun.tools.javac.code.Symbol;
 import freemarker.template.TemplateException;
+import org.vaadin.rise.annotation.ApplicationEntry;
 import org.vaadin.rise.codegen.generator.*;
 import org.vaadin.rise.codegen.helpers.PackageNameHolder;
 import org.vaadin.rise.codegen.model.*;
+import org.vaadin.rise.core.annotation.NoGateKeeper;
 import org.vaadin.rise.core.annotation.Presenter;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.type.MirroredTypeException;
+import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.Collections.singletonList;
 
@@ -63,7 +70,7 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
 
     @Override
     public Set<? extends Class<? extends Annotation>> annotations() {
-        return ImmutableSet.of(Presenter.class);
+        return ImmutableSet.of(Presenter.class, ApplicationEntry.class);
     }
 
     @Override
@@ -71,6 +78,17 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
         final Set<Element> presenterElements = elementsByAnnotation.get(Presenter.class);
 
         final PlaceManagerModuleModel placeManagerModuleModel = new PlaceManagerModuleModel(packageEntry.getPackageName());
+
+        final Set<Element> applicationEntries = elementsByAnnotation.get(ApplicationEntry.class);
+
+        if (applicationEntries != null) {
+            final ApplicationEntry appAnnotation = applicationEntries
+                .iterator()
+                .next()
+                .getAnnotation(ApplicationEntry.class);
+
+            placeManagerModuleModel.setContextRoot(appAnnotation.contextRoot());
+        }
 
         List<ProxyModel> proxyModelList = new ArrayList<>();
 
@@ -93,6 +111,22 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
                 if (!placeName.isEmpty()) {
                     proxyModel.setPlaceName(placeName);
                     places.add(placeName);
+
+                    final TypeMirror NO_GATEKEEPER = elements.getTypeElement(NoGateKeeper.class.getName()).asType();
+
+                    try {
+                        presenterAnnotation.useGateKeeper();
+                    } catch (MirroredTypeException gateKeeperTypeMirror) {
+                        if (!types.isSameType(gateKeeperTypeMirror.getTypeMirror(), NO_GATEKEEPER)) {
+                            proxyModel
+                                .setGateKeeper(
+                                    FqnHolder
+                                        .buildJavaCompatibleFQN(
+                                            types.asElement(gateKeeperTypeMirror.getTypeMirror())
+                                        )
+                                );
+                        }
+                    }
                 }
 
                 if (presenterAnnotation.defaultPlace()) {

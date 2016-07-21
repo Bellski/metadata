@@ -12,8 +12,13 @@ public class DefaultPlaceManager extends PlaceManagerImpl {
     private final PlaceRequest unauthorizedPlaceRequest;
 
 
-    public DefaultPlaceManager(RouteTokenFormatter tokenFormatter, Page page, String defaultPlaceNameToken, String errorPlaceNameToken, String unauthorizedPlaceNameToken) {
-        super(tokenFormatter, page);
+    public DefaultPlaceManager(RouteTokenFormatter tokenFormatter,
+                               Page page,
+                               String defaultPlaceNameToken,
+                               String errorPlaceNameToken,
+                               String unauthorizedPlaceNameToken,
+                               String contextRoot) {
+        super(tokenFormatter, page, contextRoot);
 
         defaultPlaceRequest = new PlaceRequest.Builder().nameToken(defaultPlaceNameToken).build();
         errorPlaceRequest = new PlaceRequest.Builder().nameToken(errorPlaceNameToken).build();

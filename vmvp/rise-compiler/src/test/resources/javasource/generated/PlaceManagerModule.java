@@ -6,6 +6,7 @@ import dagger.Provides;
 import org.vaadin.rise.place.token.PlaceTokenRegistry;
 import org.vaadin.rise.place.token.RouteTokenFormatter;
 
+
 import javax.inject.Singleton;
 
 
@@ -14,7 +15,7 @@ public class PlaceManagerModule {
 
 	@Provides @Singleton
 	DefaultPlaceManager providesPlaceManager(RouteTokenFormatter tokenFormatter, Page page) {
-		return new DefaultPlaceManager(tokenFormatter, page, "sub", "sub", "sub");
+		return new DefaultPlaceManager(tokenFormatter, page, "sub", "sub", "sub", "!/");
 	}
 
 

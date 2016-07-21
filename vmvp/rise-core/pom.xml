@@ -9,14 +9,29 @@
 
     <artifactId>rise-core</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
 
     <name>rise-core</name>
     <url>http://maven.apache.org</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven-bundle-plugin.version>2.5.4</maven-bundle-plugin.version>
+        <osgi.version>6.0.0</osgi.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>cas2dev-maven</id>
+            <url>http://nexus.ae-inf.ru:8081/nexus/content/repositories/cas2</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>cas2dev-maven</id>
+            <url>http://nexus.ae-inf.ru:8081/nexus/content/repositories/cas2</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -62,6 +77,46 @@
                         <optional>true</optional>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${maven-bundle-plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Export-Package>org.vaadin.rise.*</Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>ru.aeinf.cas.tool</groupId>
+                <artifactId>cas2-properties-plugin</artifactId>
+                <version>1.0.64</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

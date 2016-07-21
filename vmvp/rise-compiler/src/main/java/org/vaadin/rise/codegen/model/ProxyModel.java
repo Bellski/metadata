@@ -6,6 +6,7 @@ package org.vaadin.rise.codegen.model;
 public class ProxyModel extends JFOModel {
 	private final FqnHolder proxyTarget;
 	private String placeName;
+	private FqnHolder gateKeeper;
 
 	public ProxyModel(String className, String packageName, FqnHolder proxyTarget) {
 		super("Rise" + className + "Proxy", "Rise" + className + "Proxy", packageName);
@@ -27,5 +28,18 @@ public class ProxyModel extends JFOModel {
 
 	public boolean isProxyPlace() {
 		return placeName != null;
+	}
+
+	public void setGateKeeper(FqnHolder gateKeeper) {
+		this.gateKeeper = gateKeeper;
+		addImport(gateKeeper);
+	}
+
+	public FqnHolder getGateKeeper() {
+		return gateKeeper;
+	}
+
+	public boolean hasGateKeeper() {
+		return gateKeeper != null;
 	}
 }

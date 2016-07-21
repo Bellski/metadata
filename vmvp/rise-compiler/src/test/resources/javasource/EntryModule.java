@@ -14,4 +14,6 @@ import org.vaadin.rise.core.annotation.RiseModule;
 	presenterApi = Entry.Presenter.class
 )
 public class EntryModule {
+	public EntryModule(String something) {
+	}
 }

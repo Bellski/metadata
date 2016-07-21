@@ -2,9 +2,17 @@ package javasource;
 
 import dagger.Module;
 import dagger.Provides;
-import org.vaadin.rise.proxy.Proxy;
 
 import javax.inject.Singleton;
+
+import javasource.SubEntry.Presenter;
+import javasource.SubEntryView;
+import javasource.SubEntryModule;
+import javasource.RiseSubEntryPresenterProxy;
+import javasource.SubEntry.View;
+import javasource.SubEntryPresenter;
+
+import org.vaadin.rise.proxy.Proxy;
 
 @Module
 public class RiseSubEntryModule extends SubEntryModule {
