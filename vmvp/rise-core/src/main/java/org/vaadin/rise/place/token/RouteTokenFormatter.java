@@ -46,6 +46,8 @@ public class RouteTokenFormatter implements TokenFormatter {
             this.allMatches = new TreeSet<>();
             this.placeParts = placeToken.split("/");
 
+
+
             for (String route : allRegisteredPlaceTokens.getAllPlaceTokens()) {
                 RouteMatch match = matchRoute(route);
                 if (match != null) {

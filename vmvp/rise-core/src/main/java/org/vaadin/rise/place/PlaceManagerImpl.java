@@ -33,10 +33,6 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 		this.tokenFormatter = tokenFormatter;
 		this.page = page;
 
-		if (contextRoot.charAt(contextRoot.length() -1) != '/') {
-			contextRoot += "/";
-		}
-
 		this.contextRoot = contextRoot;
 
 		page.addUriFragmentChangedListener(this);
@@ -178,11 +174,11 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 	}
 
 	void setBrowserHistoryToken(String historyToken, boolean issueEvent) {
-		page.setUriFragment(contextRoot + historyToken, issueEvent);
+		page.setUriFragment(historyToken, issueEvent);
 	}
 
 	private void saveHistoryToken(String historyToken) {
-		currentHistoryToken = contextRoot + historyToken;
+		currentHistoryToken = historyToken;
 	}
 
 	@Override
@@ -194,11 +190,7 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 			return;
 		}
 
-		if (uriFragment.charAt(uriFragment.length() -1) != '/') {
-			uriFragment += "/";
-		}
-
-		handleTokenChange(uriFragment.substring(contextRoot.length()));
+		handleTokenChange(uriFragment);
 	}
 
 	@Override
@@ -348,7 +340,7 @@ public class PlaceManagerImpl implements PlaceManager, Page.UriFragmentChangedLi
 //			return;
 //		}
 		try {
-			if (historyToken.trim().isEmpty() || historyToken.equals(contextRoot) || contextRoot.equals(historyToken + "/")) {
+			if (historyToken.trim().isEmpty() || historyToken.equals(contextRoot)) {
 				unlock();
 				revealDefaultPlace();
 			} else {

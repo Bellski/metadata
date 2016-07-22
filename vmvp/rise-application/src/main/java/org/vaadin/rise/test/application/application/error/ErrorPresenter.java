@@ -10,8 +10,8 @@ import javax.inject.Inject;
  * Created by Aleksandr on 12.07.2016.
  */
 @Presenter(
-        placeName = "!error",
-        authorizePlace = true
+        placeName = "error",
+        errorPlace = true
 )
 public class ErrorPresenter extends RisePresenterImpl<Error.View> implements Error.Presenter {
 

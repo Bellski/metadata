@@ -11,7 +11,7 @@ import javax.inject.Inject;
 /**
  * Created by Aleksandr on 12.07.2016.
  */
-@Presenter(placeName = "!claiminfo")
+@Presenter(placeName = "claiminfo")
 public class ClaimInfoPresenter extends RisePresenterImpl<ClaimInfo.View> implements ClaimInfo.Presenter {
 
     @ThisIsNestedSlot

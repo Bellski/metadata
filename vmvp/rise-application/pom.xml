@@ -2,17 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>vmvp</artifactId>
-        <groupId>ru.bellski</groupId>
+        <artifactId>rise</artifactId>
+        <groupId>org.vaadin.rise</groupId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.bellski.vmvp</groupId>
-    <artifactId>vmvp-application</artifactId>
+    <artifactId>rise-application</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
-    <name>vmvp-application</name>
+    <name>rise-application</name>
 
     <properties>
         <vaadin.version>7.6.7</vaadin.version>
@@ -45,8 +44,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>ru.bellski.vmvp</groupId>
-            <artifactId>vmvp-core</artifactId>
+            <groupId>org.vaadin.rise</groupId>
+            <artifactId>rise-core</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
@@ -94,10 +93,16 @@
                     <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
                 <dependencies>
+                    <!--<dependency>-->
+                        <!--<groupId>org.vaadin.rise</groupId>-->
+                        <!--<artifactId>rise-compiler</artifactId>-->
+                        <!--<version>1.0.0</version>-->
+                    <!--</dependency>-->
                     <dependency>
-                        <groupId>ru.bellski.vmvp</groupId>
-                        <artifactId>vmvp-compiler</artifactId>
-                        <version>1.0.0</version>
+                        <groupId>com.google.dagger</groupId>
+                        <artifactId>dagger-compiler</artifactId>
+                        <version>2.5</version>
+                        <optional>true</optional>
                     </dependency>
                 </dependencies>
             </plugin>

@@ -12,6 +12,6 @@ public class SubEntryGateKeeper implements GatekeeperWithParams {
 
 	@Override
 	public boolean canReveal() {
-		return false;
+		return true;
 	}
 }

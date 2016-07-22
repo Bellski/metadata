@@ -12,7 +12,7 @@
 
     <modules>
         <module>rise-core</module>
-        <!--<module>vmvp-application</module>-->
+        <module>rise-application</module>
         <module>rise-compiler</module>
     </modules>
 
