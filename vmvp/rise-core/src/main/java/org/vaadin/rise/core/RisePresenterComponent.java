@@ -1,7 +1,7 @@
 package org.vaadin.rise.core;
 
 import com.vaadin.ui.Component;
-import org.vaadin.rise.proxy.slot.*;
+import org.vaadin.rise.deprecated.proxy.slot.*;
 import org.vaadin.rise.vaadin.IsComponent;
 
 import java.util.*;

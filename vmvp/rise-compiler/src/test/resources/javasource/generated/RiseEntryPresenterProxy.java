@@ -2,15 +2,13 @@ package javasource;
 
 import javax.inject.Inject;
 
-import javasource.EntryPresenter;
-
-import org.vaadin.rise.proxy.BaseProxy;
-import org.vaadin.rise.proxy.LazyPresenter;
+import org.vaadin.rise.deprecated.proxy.BaseProxy;
+import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
 
 public class RiseEntryPresenterProxy extends BaseProxy<EntryPresenter> {
 
 	@Inject
-	public RiseEntryPresenterProxy(LazyPresenter<EntryPresenter> lazyPresenter) {
+	public RiseEntryPresenterProxy(LazyPlacePresenter<EntryPresenter> lazyPresenter) {
 		super(lazyPresenter);
 	}
 }

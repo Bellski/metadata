@@ -1,8 +1,8 @@
 package org.vaadin.rise.core;
 
 
-import org.vaadin.rise.place.PlaceRequest;
-import org.vaadin.rise.proxy.slot.IsNested;
+import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.deprecated.proxy.slot.IsNested;
 
 /**
  * Created by oem on 7/12/16.

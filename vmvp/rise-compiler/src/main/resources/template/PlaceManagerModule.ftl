@@ -5,8 +5,8 @@ package org.vaadin.rise.place;
 import com.vaadin.server.Page;
 import dagger.Module;
 import dagger.Provides;
-import org.vaadin.rise.place.token.PlaceTokenRegistry;
-import org.vaadin.rise.place.token.RouteTokenFormatter;
+import org.vaadin.rise.place.deprecated.token.PlaceTokenRegistry;
+import org.vaadin.rise.place.deprecated.token.RouteTokenFormatter;
 
 
 import javax.inject.Singleton;

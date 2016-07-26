@@ -8,7 +8,7 @@ import ${importName};
 import dagger.Lazy;
 import javax.inject.Inject;
 
-import org.vaadin.rise.proxy.slot.NestedSlot;
+import org.vaadin.rise.deprecated.proxy.slot.NestedSlot;
 
 
 public class ${className} extends NestedSlot<${slotOwner.className}> implements ${extendsSlot.fullClassName} {

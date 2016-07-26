@@ -30,7 +30,5 @@ public class RootView extends RiseViewImpl<Root.Presenter> implements Root.View 
 		assert slot == rootSlot : "Unknown slot used in the root proxy.";
 
 		getUI().setContent(content.asComponent());
-
-		System.out.println("RootView " + " setRootContent");
 	}
 }

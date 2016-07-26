@@ -3,8 +3,8 @@ package org.vaadin.rise.core;
 import com.vaadin.ui.Component;
 import dagger.Lazy;
 import org.vaadin.rise.core.annotation.Presenter;
-import org.vaadin.rise.proxy.slot.IsNested;
-import org.vaadin.rise.proxy.slot.NestedSlot;
+import org.vaadin.rise.deprecated.proxy.slot.IsNested;
+import org.vaadin.rise.deprecated.proxy.slot.NestedSlot;
 
 import javax.inject.Inject;
 

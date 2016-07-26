@@ -5,18 +5,9 @@ import dagger.Provides;
 
 import javax.inject.Singleton;
 
-import javasource.RiseSubEntryModule;
-import javasource.Entry.View;
-import javasource.EntryModule;
-import javasource.RiseEntryPresenterProxy;
-import javasource.EntryPresenter;
-import javasource.EntryPresenter.Slot1;
-import javasource.RiseSubSubEntryModule;
-import javasource.Entry.Presenter;
-import javasource.EntryView;
 import java.lang.String;
 
-import org.vaadin.rise.proxy.Proxy;
+import org.vaadin.rise.deprecated.proxy.Proxy;
 
 
 @Module(

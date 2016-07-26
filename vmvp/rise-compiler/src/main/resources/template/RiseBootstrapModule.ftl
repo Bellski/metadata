@@ -7,7 +7,7 @@ import dagger.Provides;
 import org.vaadin.rise.core.Root;
 import org.vaadin.rise.core.RootPresenter;
 import org.vaadin.rise.core.RootView;
-import org.vaadin.rise.place.token.PlaceTokenRegistry;
+import org.vaadin.rise.place.deprecated.token.PlaceTokenRegistry;
 import org.vaadin.rise.vaadin.VaadinModule;
 import org.vaadin.rise.place.PlaceManagerModule;
 

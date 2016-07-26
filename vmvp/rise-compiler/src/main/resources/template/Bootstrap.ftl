@@ -3,7 +3,7 @@
 package ${packageName};
 
 import org.vaadin.rise.core.RootPresenter;
-import org.vaadin.rise.place.DefaultPlaceManager;
+import org.vaadin.rise.place.deprecated.DefaultPlaceManager_TODO_TODO;
 
 <#list importList as importName>
 import ${importName};
@@ -18,7 +18,7 @@ import javax.inject.Singleton;
 @Singleton
 public class Bootstrap {
     @Inject
-    DefaultPlaceManager placeManager;
+    DefaultPlaceManager placeManagerTODO;
 
     @Inject
     ${eagerProxiesModel.className} eagerProxies;
@@ -31,6 +31,6 @@ public class Bootstrap {
     }
 
     public void doBootstrap() {
-        placeManager.revealCurrentPlace();
+        placeManagerTODO.revealCurrentPlace();
     }
 }

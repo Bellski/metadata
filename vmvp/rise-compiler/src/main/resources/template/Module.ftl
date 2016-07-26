@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 import ${importName};
 </#list>
 
-import org.vaadin.rise.proxy.Proxy;
+import org.vaadin.rise.deprecated.proxy.Proxy;
 
 @Module<#if hasIncludes()>(includes = {${joinedIncludes}})</#if>
 public class ${className} extends ${extendsModule.className} {

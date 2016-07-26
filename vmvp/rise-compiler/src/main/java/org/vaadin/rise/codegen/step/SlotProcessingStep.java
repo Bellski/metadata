@@ -8,7 +8,7 @@ import freemarker.template.TemplateException;
 import org.vaadin.rise.codegen.generator.NestedSlotGenerator;
 import org.vaadin.rise.codegen.model.FqnHolder;
 import org.vaadin.rise.codegen.model.NestedSlotModel;
-import org.vaadin.rise.proxy.annotation.ThisIsNestedSlot;
+import org.vaadin.rise.deprecated.proxy.annotation.ThisIsNestedSlot;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.util.Elements;

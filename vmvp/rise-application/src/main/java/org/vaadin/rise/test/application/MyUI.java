@@ -5,9 +5,12 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import org.vaadin.rise.test.application.application.DaggerRiseCas1EntryComponent;
+import dagger.Component;
+import org.vaadin.rise.place.api.PlaceManager;
+import org.vaadin.rise.test.application.application.ApplicationModule;
 import org.vaadin.rise.vaadin.VaadinModule;
 
+import javax.inject.Singleton;
 import javax.servlet.annotation.WebServlet;
 
 /**
@@ -20,13 +23,20 @@ import javax.servlet.annotation.WebServlet;
 @Theme("valo")
 public class MyUI extends UI {
 
+
+    @Singleton
+    @Component(modules = ApplicationModule.class)
+    public interface ApplicationComponent {
+        PlaceManager PLACE_MANAGER();
+    }
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        DaggerRiseCas1EntryComponent
-            .builder()
-            .vaadinModule(new VaadinModule(this))
-            .build()
-            .bootstrap().doBootstrap();
+        DaggerMyUI_ApplicationComponent
+                .builder()
+                .vaadinModule(new VaadinModule(this))
+                .build()
+                .PLACE_MANAGER().revealCurrentPlace();
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)

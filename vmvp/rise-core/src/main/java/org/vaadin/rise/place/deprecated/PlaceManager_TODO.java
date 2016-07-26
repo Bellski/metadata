@@ -1,0 +1,34 @@
+package org.vaadin.rise.place.deprecated;
+
+import org.vaadin.rise.place.deprecated.event.PlaceRequestInternalHandler;
+
+import java.util.List;
+
+/**
+ * Created by oem on 7/12/16.
+ */
+public interface PlaceManager_TODO {
+    String buildHistoryToken(PlaceRequest request);
+    String buildRelativeHistoryToken(int level);
+    String buildRelativeHistoryToken(PlaceRequest request);
+    String buildRelativeHistoryToken(PlaceRequest request, int level);
+    List<PlaceRequest> getCurrentPlaceHierarchy();
+    PlaceRequest getCurrentPlaceRequest();
+    int getHierarchyDepth();
+    void navigateBack();
+    void updateHistory(PlaceRequest request, boolean updateBrowserUrl);
+    void revealCurrentPlace();
+    void revealDefaultPlace();
+    void revealErrorPlace(String invalidHistoryToken);
+    void revealUnauthorizedPlace(String unauthorizedHistoryToken);
+    void setOnLeaveConfirmation(String question);
+    void revealPlace(PlaceRequest request);
+    void revealPlace(PlaceRequest request, boolean updateBrowserUrl);
+    void revealPlaceHierarchy(List<PlaceRequest> placeRequestHierarchy);
+    void revealRelativePlace(int level);
+    void revealRelativePlace(PlaceRequest request);
+    void revealRelativePlace(PlaceRequest request, int level);
+    void unlock();
+    boolean hasPendingNavigation();
+    void addPlaceRequestInternalHandler(PlaceRequestInternalHandler placeRequestInternalHandler);
+}

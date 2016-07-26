@@ -8,8 +8,8 @@ import ${importName};
 </#list>
 
 <#if !isProxyPlace()>
-import org.vaadin.rise.proxy.BaseProxy;
-import org.vaadin.rise.proxy.LazyPresenter;
+import org.vaadin.rise.deprecated.proxy.BaseProxy;
+import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
 
 public class ${className} extends BaseProxy<${proxyTarget.className}> {
 
@@ -21,29 +21,29 @@ public class ${className} extends BaseProxy<${proxyTarget.className}> {
 </#if>
 
 <#if isProxyPlace()>
-import org.vaadin.rise.place.DefaultPlaceManager;
-import org.vaadin.rise.place.PlaceImpl;
-import org.vaadin.rise.proxy.ProxyPlaceImpl;
+import org.vaadin.rise.place.deprecated.DefaultPlaceManager_TODO_TODO;
+import org.vaadin.rise.place.deprecated.PlaceImpl;
+import org.vaadin.rise.deprecated.proxy.ProxyPlaceImpl;
 
 <#if hasGateKeeper()>
-import org.vaadin.rise.place.PlaceWithGatekeeper;
+import org.vaadin.rise.place.deprecated.PlaceWithGatekeeper;
 import org.vaadin.rise.security.Gatekeeper;
 </#if>
 
-import org.vaadin.rise.proxy.LazyPresenter;
+import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
 
 public class ${className} extends ProxyPlaceImpl<${proxyTarget.className}> {
 
     <#if hasGateKeeper()>
     @Inject
-    public ${className}(${gateKeeper.className} gateKeeper, DefaultPlaceManager placeManager, LazyPresenter<${proxyTarget.className}> lazyPresenter) {
-        super(new PlaceWithGatekeeper("${placeName}", gateKeeper), placeManager, lazyPresenter);
+    public ${className}(${gateKeeper.className} gateKeeper, DefaultPlaceManager placeManagerTODO, LazyPresenter<${proxyTarget.className}> lazyPresenter) {
+        super(new PlaceWithGatekeeper("${placeName}", gateKeeper), placeManagerTODO, lazyPresenter);
     }
 
     <#else>
     @Inject
-    public ${className}(DefaultPlaceManager placeManager, LazyPresenter<${proxyTarget.className}> lazyPresenter) {
-        super(new PlaceImpl("${placeName}"), placeManager, lazyPresenter);
+    public ${className}(DefaultPlaceManager placeManagerTODO, LazyPresenter<${proxyTarget.className}> lazyPresenter) {
+        super(new PlaceImpl("${placeName}"), placeManagerTODO, lazyPresenter);
     }
     </#if>
 }

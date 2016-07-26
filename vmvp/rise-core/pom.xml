@@ -20,18 +20,18 @@
         <osgi.version>6.0.0</osgi.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>cas2dev-maven</id>
-            <url>http://nexus.ae-inf.ru:8081/nexus/content/repositories/cas2</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>cas2dev-maven</id>
-            <url>http://nexus.ae-inf.ru:8081/nexus/content/repositories/cas2</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>cas2dev-maven</id>-->
+            <!--<url>http://nexus.ae-inf.ru:8081/nexus/content/repositories/cas2</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+    <!--<pluginRepositories>-->
+        <!--<pluginRepository>-->
+            <!--<id>cas2dev-maven</id>-->
+            <!--<url>http://nexus.ae-inf.ru:8081/nexus/content/repositories/cas2</url>-->
+        <!--</pluginRepository>-->
+    <!--</pluginRepositories>-->
 
     <dependencies>
         <dependency>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -91,19 +91,19 @@
                     </instructions>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>ru.aeinf.cas.tool</groupId>
-                <artifactId>cas2-properties-plugin</artifactId>
-                <version>1.0.64</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>ru.aeinf.cas.tool</groupId>-->
+                <!--<artifactId>cas2-properties-plugin</artifactId>-->
+                <!--<version>1.0.64</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>validate</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>read-project-properties</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>

@@ -3,8 +3,9 @@ package org.vaadin.rise.place;
 import com.vaadin.server.Page;
 import dagger.Module;
 import dagger.Provides;
-import org.vaadin.rise.place.token.PlaceTokenRegistry;
-import org.vaadin.rise.place.token.RouteTokenFormatter;
+import org.vaadin.rise.place.deprecated.DefaultPlaceManager_TODO_TODO;
+import org.vaadin.rise.place.deprecated.token.PlaceTokenRegistry;
+import org.vaadin.rise.place.deprecated.token.RouteTokenFormatter;
 
 
 import javax.inject.Singleton;
@@ -14,8 +15,8 @@ import javax.inject.Singleton;
 public class PlaceManagerModule {
 
 	@Provides @Singleton
-	DefaultPlaceManager providesPlaceManager(RouteTokenFormatter tokenFormatter, Page page) {
-		return new DefaultPlaceManager(tokenFormatter, page, "sub", "sub", "sub", "!/");
+	DefaultPlaceManager_TODO_TODO providesPlaceManager(RouteTokenFormatter tokenFormatter, Page page) {
+		return new DefaultPlaceManager_TODO_TODO(tokenFormatter, page, "sub", "sub", "sub", "!/");
 	}
 
 
