@@ -1,6 +1,5 @@
 package javasource;
 
-import org.vaadin.rise.security.Gatekeeper;
 import org.vaadin.rise.security.GatekeeperWithParams;
 
 public class SubEntryGateKeeper implements GatekeeperWithParams {

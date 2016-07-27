@@ -3,25 +3,35 @@ package org.vaadin.rise.place;
 import com.vaadin.server.Page;
 import dagger.Module;
 import dagger.Provides;
-import org.vaadin.rise.place.deprecated.DefaultPlaceManager_TODO_TODO;
-import org.vaadin.rise.place.deprecated.token.PlaceTokenRegistry;
-import org.vaadin.rise.place.deprecated.token.RouteTokenFormatter;
-
+import javasource.EntryPlaceBus;
+import org.vaadin.rise.place.annotation.Places;
+import org.vaadin.rise.place.api.Place;
+import org.vaadin.rise.place.api.PlaceManager;
+import org.vaadin.rise.place.api.UriFragmentSource;
 
 import javax.inject.Singleton;
+import java.util.Map;
 
 
 @Module
 public class PlaceManagerModule {
 
 	@Provides @Singleton
-	DefaultPlaceManager_TODO_TODO providesPlaceManager(RouteTokenFormatter tokenFormatter, Page page) {
-		return new DefaultPlaceManager_TODO_TODO(tokenFormatter, page, "sub", "sub", "sub", "!/");
+	PlaceManager providesPlaceManager(@Places Map<String, Place> placeMap,
+									  UriFragmentSource uriFragmentSource,
+									  EntryPlaceBus bus) {
+		return new DefaultPlaceManager(
+			placeMap,
+			ApplicationNameTokens.nameTokens,
+			bus,
+			uriFragmentSource,
+			"sub",
+			"sub",
+			"sub"
+		);
 	}
 
-
-	@Provides @Singleton
-	RouteTokenFormatter providesTokenFormatter(PlaceTokenRegistry tokenRegistry) {
-		return new RouteTokenFormatter(tokenRegistry);
+	@Provides @Singleton static UriFragmentSource uriFragmentSource(PageUriFragmentSource pageUriFragmentSource) {
+		return pageUriFragmentSource;
 	}
 }

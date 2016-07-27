@@ -30,9 +30,9 @@ import static java.util.Collections.singletonList;
 /**
  * Created by Aleksandr on 17.07.2016.
  */
-public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingStep {
+public class PlaceProcessingStep implements BasicAnnotationProcessor.ProcessingStep {
     private PackageNameHolder packageEntry;
-    private final Map<FqnHolder, ProxyModel> proxyModels;
+    private final Map<FqnHolder, PlaceModel> proxyModels;
     private final Set<String> places;
     private final ProxyGenerator proxyGenerator;
     private final PlaceManagerModuleGenerator placeManagerModuleGenerator;
@@ -43,8 +43,8 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
     private final Types types;
     private final Elements elements;
 
-    public ProxyProcessingStep(PackageNameHolder packageEntry,
-                               Map<FqnHolder, ProxyModel> proxyModels,
+    public PlaceProcessingStep(PackageNameHolder packageEntry,
+                               Map<FqnHolder, PlaceModel> proxyModels,
                                Set<String> places,
                                ProxyGenerator proxyGenerator,
                                PlaceManagerModuleGenerator placeManagerModuleGenerator,
@@ -87,10 +87,10 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
                 .next()
                 .getAnnotation(ApplicationEntry.class);
 
-            placeManagerModuleModel.setContextRoot(appAnnotation.contextRoot());
+
         }
 
-        List<ProxyModel> proxyModelList = new ArrayList<>();
+        List<PlaceModel> proxyModelList = new ArrayList<>();
 
         if (presenterElements != null) {
             for (Element presenterElement : presenterElements) {
@@ -99,7 +99,7 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
                 final String presenterPackage = Symbol.class.cast(presenterElement).packge().getQualifiedName().toString();
                 final String presenterName = presenterElement.getSimpleName().toString();
 
-                final ProxyModel proxyModel = new ProxyModel
+                final PlaceModel proxyModel = new PlaceModel
                     (
                         presenterName,
                         presenterPackage,
@@ -158,37 +158,8 @@ public class ProxyProcessingStep implements BasicAnnotationProcessor.ProcessingS
                 )
             );
 
-            final EagerProxiesModel eagerProxyModel = new EagerProxiesModel(
-                proxyModelList,
-                packageEntry.getPackageName()
-            );
 
-            jfosForDaggerGeneration.addAll(
-                eagerProxiesGenerator.generate(
-                    singletonList(
-                        eagerProxyModel
-                    )
-                )
-            );
 
-            jfosForDaggerGeneration.addAll(
-                riseBootstrapModuleGenerator.generate(
-                    singletonList(
-                        new RiseBootstrapModuleModel(
-                            places,
-                            packageEntry.getPackageName()
-                        )
-                    )
-                )
-            );
-
-            jfosForDaggerGeneration.addAll(
-                bootstrapGenerator.generate(
-                    singletonList(
-                        new BootstrapModel(eagerProxyModel)
-                    )
-                )
-            );
 
         } catch (IOException | TemplateException e) {
             e.printStackTrace();

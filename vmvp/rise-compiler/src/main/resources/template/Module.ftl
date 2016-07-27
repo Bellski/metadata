@@ -31,11 +31,6 @@ public class ${className} extends ${extendsModule.className} {
     </#list>
     </#if>
 
-    @Provides
-    @Singleton
-    Proxy<${daggerProvidesProxyMethodModel.providesInterface.className}> ${daggerProvidesProxyMethodModel.methodName}(${daggerProvidesProxyMethodModel.providesImpl.className} proxy) {
-        return proxy;
-    }
 
     @Provides
     @Singleton

@@ -145,7 +145,7 @@ public class ModuleModel extends JFOModel {
         addImport(parameterModel.getFqnHolder());
     }
 
-    public static ModuleModel create(Types elements, Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, ProxyModel> proxyModels, Element moduleElement) {
+    public static ModuleModel create(Types elements, Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, PlaceModel> proxyModels, Element moduleElement) {
         final String moduleName = moduleElement.getSimpleName().toString();
         final String modulePackage = Symbol.class.cast(moduleElement).packge().toString();
 
@@ -212,7 +212,7 @@ public class ModuleModel extends JFOModel {
                      PROVIDES PROXY
          */
 
-        final ProxyModel proxy = proxyModels.get(presenterImpl);
+        final PlaceModel proxy = proxyModels.get(presenterImpl);
 
         moduleModel.setDaggerProvidesProxyMethodModel(
             new DaggerProvidesMethodModel

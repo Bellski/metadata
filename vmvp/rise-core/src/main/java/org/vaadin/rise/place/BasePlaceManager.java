@@ -5,31 +5,29 @@ import org.vaadin.rise.place.api.*;
 import org.vaadin.rise.place.deprecated.PlaceRequest;
 import org.vaadin.rise.place.deprecated.token.TokenFormatException;
 import org.vaadin.rise.place.deprecated.token.UrlUtils;
+import org.vaadin.rise.place.util.PlaceUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Aleksandr on 25.07.2016.
  */
 public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener {
-    private final Map<Place, Place> placeMap;
-    private final Map<String, String> nameTokenMap;
+    private final Map<String, Place> placeMap;
+    private final Set<String> nameTokens;
     private final PlaceBus placeBus;
     private final UriFragmentSource uriFragmentSource;
     private List<PlaceRequest> placeHierarchy = new ArrayList<>();
 
     private String currentHistoryToken;
 
-    public BasePlaceManager(Map<Place, Place> placeMap, Map<String, String> nameTokenMap, UriFragmentSource uriFragmentSource) {
-       this(placeMap, nameTokenMap, null, uriFragmentSource);
+    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource) {
+       this(placeMap, nameTokens, null, uriFragmentSource);
     }
 
-    public BasePlaceManager(Map<Place, Place> placeMap, Map<String, String> nameTokenMap, PlaceBus placeBus, UriFragmentSource uriFragmentSource) {
+    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, PlaceBus placeBus, UriFragmentSource uriFragmentSource) {
         this.placeMap = placeMap;
-        this.nameTokenMap = nameTokenMap;
+        this.nameTokens = nameTokens;
         this.placeBus = placeBus;
         this.uriFragmentSource = uriFragmentSource;
         this.uriFragmentSource.setUriFragmentChangeListener(this);
@@ -37,7 +35,13 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
 
     @Override
     public void onUriFragmentChanged(String fragmentUri) {
-        Place place = placeMap.get(new CompareToPlace(fragmentUri, nameTokenMap));
+
+        if (fragmentUri.charAt(fragmentUri.length() -1) == '/') {
+            setBrowserHistoryToken(fragmentUri.substring(0, fragmentUri.length() -1), true);
+            return;
+        }
+
+        Place place = placeMap.get(PlaceUtils.convertToPlaceString(fragmentUri, nameTokens));
 
         if (place == null && placeBus != null) {
             place = placeBus.getPlace(fragmentUri);
@@ -97,6 +101,19 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
     @Override
     public void revealCurrentPlace() {
         onUriFragmentChanged(uriFragmentSource.getUriFragment());
+    }
+
+    @Override
+    public void revealPlace(PlaceRequest request, boolean updateBrowserUrl) {
+        placeHierarchy.clear();
+        placeHierarchy.add(request);
+
+        doRevealPlace(request, placeMap.get(request.getNameToken()), updateBrowserUrl);
+    }
+
+    @Override
+    public void revealUnauthorizedPlace(String unauthorizedHistoryToken) {
+        revealErrorPlace(unauthorizedHistoryToken);
     }
 
     @Override

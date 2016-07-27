@@ -2,10 +2,9 @@ package org.vaadin.rise.test.application;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.multibindings.ElementsIntoSet;
 import org.vaadin.rise.place.BasePlaceManager;
 import org.vaadin.rise.place.PageUriFragmentSource;
-import org.vaadin.rise.place.annotation.Places;
+import org.vaadin.rise.place.annotation.NameTokens;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceManager;
 import org.vaadin.rise.place.api.UriFragmentSource;
@@ -13,7 +12,6 @@ import org.vaadin.rise.test.application.plugins.PluginBus;
 import org.vaadin.rise.test.application.plugins.PluginBusModule;
 
 import javax.inject.Singleton;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,21 +29,7 @@ public class PlaceManagerModule {
         return placeMap;
     }
 
-    @Provides @Singleton @Places
-    static Map<String, String> placesMap(Set<String> places) {
-        Map<String, String> placeMap = new LinkedHashMap<>(places.size());
-        for (String entry : places) {
-            placeMap.put(entry, entry);
-        }
-        return placeMap;
-    }
-
-    @Provides @Singleton @ElementsIntoSet
-    static Set<String> places() {
-        return Collections.emptySet();
-    }
-
-    @Provides @Singleton static PlaceManager placeManager(Map<Place, Place> placeMap, @Places Map<String, String> places, UriFragmentSource uriFragmentSource, PluginBus pluginBus) {
+    @Provides @Singleton static PlaceManager placeManager(Map<Place, Place> placeMap, @NameTokens Map<String, String> places, UriFragmentSource uriFragmentSource, PluginBus pluginBus) {
         return new BasePlaceManager(
                 placeMap,
                 places,

@@ -32,13 +32,13 @@ public class ModulesProcessingStep implements BasicAnnotationProcessor.Processin
 	private final ModuleGenerator moduleGenerator;
 	private List<JavaFileObject> forDaggerGeneration;
 	private EntryComponentGenerator entryComponentGenerator;
-	private Map<FqnHolder, ProxyModel> proxyModels;
+	private Map<FqnHolder, PlaceModel> proxyModels;
 	private List<JavaFileObject> jfosForDaggerGeneration;
 	private final Types types;
 	private final Elements elements;
 	private ModuleModel entryModuleModel;
 
-	public ModulesProcessingStep(Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, ProxyModel> proxyModels, List<JavaFileObject> jfosForDaggerGeneration, Types types, Elements elements, ModuleGenerator moduleGenerator, List<JavaFileObject> forDaggerGeneration, EntryComponentGenerator entryComponentGenerator) {
+	public ModulesProcessingStep(Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, PlaceModel> proxyModels, List<JavaFileObject> jfosForDaggerGeneration, Types types, Elements elements, ModuleGenerator moduleGenerator, List<JavaFileObject> forDaggerGeneration, EntryComponentGenerator entryComponentGenerator) {
 		this.slotGraph = slotGraph;
 		this.proxyModels = proxyModels;
 		this.jfosForDaggerGeneration = jfosForDaggerGeneration;

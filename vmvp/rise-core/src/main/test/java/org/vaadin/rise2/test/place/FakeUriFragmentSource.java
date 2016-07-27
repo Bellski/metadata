@@ -14,6 +14,6 @@ public class FakeUriFragmentSource extends BaseUriFragmentSource  {
 
     @Override
     public void setUriFragment(String historyToken, boolean update) {
-
+        fireUriFragmentChange(historyToken);
     }
 }

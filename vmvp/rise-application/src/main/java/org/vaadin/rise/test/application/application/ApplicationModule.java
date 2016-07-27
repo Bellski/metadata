@@ -6,30 +6,31 @@ import dagger.multibindings.IntoSet;
 import org.vaadin.rise.core.dagger.RootModule;
 import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
 import org.vaadin.rise.place.PresenterPlace;
+import org.vaadin.rise.place.annotation.NameTokens;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.test.application.PlaceManagerModule;
-import org.vaadin.rise.test.application.application.all.AllModule;
 import org.vaadin.rise.test.application.application.plugin.PluginModule;
-import org.vaadin.rise.test.application.application.plugin.PluginPresenter;
 import org.vaadin.rise.test.application.plugins.PluginBusModule;
 import org.vaadin.rise.vaadin.VaadinModule;
 
 import javax.inject.Singleton;
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Aleksandr on 26.07.2016.
  */
-@Module(includes = {VaadinModule.class, PlaceManagerModule.class, RootModule.class, AllModule.class, PluginModule.class, PluginBusModule.class})
+@Module(includes = {VaadinModule.class, PlaceManagerModule.class, RootModule.class, PluginModule.class, PluginBusModule.class})
 public class ApplicationModule {
 
-    @Provides @IntoSet @Singleton String startUriPlace(PluginPresenter.PluginSlot pluginSlot) {
-        return "!";
-    }
+    @Provides @Singleton @NameTokens Map<String, String> nameTokenMap() {
+        final Map<String, String> nameTokenMap = new HashMap<>();
+        nameTokenMap.put("!", "!");
+        nameTokenMap.put("plugins", "plugins");
+        nameTokenMap.put("all", "all");
 
-    @Provides @IntoSet @Singleton String pluginsPlace() {
-        return "plugins";
+        return nameTokenMap;
     }
 
     @Provides @Singleton @IntoSet Map.Entry<Place, Place> place(LazyPlacePresenter<ApplicationPresenter> lazyPlacePresenter) {

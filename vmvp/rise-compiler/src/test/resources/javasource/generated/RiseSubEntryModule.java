@@ -5,15 +5,30 @@ import dagger.Provides;
 
 import javax.inject.Singleton;
 
+import dagger.multibindings.IntoMap;
+import dagger.multibindings.StringKey;
+import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
 import org.vaadin.rise.deprecated.proxy.Proxy;
+import org.vaadin.rise.place.PresenterPlace;
+import org.vaadin.rise.place.annotation.Places;
+import org.vaadin.rise.place.api.Place;
 
 @Module
 public class RiseSubEntryModule extends SubEntryModule {
 
     @Provides
     @Singleton
-    Proxy<SubEntryPresenter> providesRiseSubEntryPresenterProxy(RiseSubEntryPresenterProxy proxy) {
-        return proxy;
+    @IntoMap
+    @Places
+    @StringKey("!/sub")
+    Place placeValue(LazyPlacePresenter<SubEntryPresenter> lazyPlacePresenter) {
+        return new PresenterPlace<>(
+            lazyPlacePresenter,
+            "!/sub",
+            "!/sub",
+            null,
+            null
+        );
     }
 
     @Provides @Singleton

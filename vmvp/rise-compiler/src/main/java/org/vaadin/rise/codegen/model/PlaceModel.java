@@ -3,12 +3,12 @@ package org.vaadin.rise.codegen.model;
 /**
  * Created by oem on 7/19/16.
  */
-public class ProxyModel extends JFOModel {
+public class PlaceModel extends JFOModel {
 	private final FqnHolder proxyTarget;
 	private String placeName;
 	private FqnHolder gateKeeper;
 
-	public ProxyModel(String className, String packageName, FqnHolder proxyTarget) {
+	public PlaceModel(String className, String packageName, FqnHolder proxyTarget) {
 		super("Rise" + className + "Proxy", "Rise" + className + "Proxy", packageName);
 		this.proxyTarget = proxyTarget;
 		addImport(proxyTarget);

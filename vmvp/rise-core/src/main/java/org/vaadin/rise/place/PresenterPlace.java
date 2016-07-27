@@ -11,26 +11,17 @@ public class PresenterPlace<Presenter_ extends RisePresenterImpl<?>> extends Bas
 
     public PresenterPlace(LazyPlacePresenter<Presenter_> lazyPresenter,
                           String nameToken,
-                          String[] nameTokenParts,
-                          String[] nameTokens,
-                          int[] nameTokensIndexes,
+                          String nameTokenWithHiddenParams,
                           String[] paramNames,
                           int[] paramIndexes) {
 
         super (
                 nameToken,
-                nameTokenParts,
-                nameTokens,
-                nameTokensIndexes,
+                nameTokenWithHiddenParams,
                 paramNames,
                 paramIndexes
         );
 
-        this.lazyPresenter = lazyPresenter;
-    }
-
-    public PresenterPlace(PlaceDataBuilder placeDataBuilder, LazyPlacePresenter<Presenter_> lazyPresenter) {
-        super(placeDataBuilder);
         this.lazyPresenter = lazyPresenter;
     }
 

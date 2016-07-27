@@ -8,7 +8,7 @@ import org.vaadin.rise.codegen.generator.*;
 import org.vaadin.rise.codegen.helpers.PackageNameHolder;
 import org.vaadin.rise.codegen.model.FqnHolder;
 import org.vaadin.rise.codegen.model.NestedSlotModel;
-import org.vaadin.rise.codegen.model.ProxyModel;
+import org.vaadin.rise.codegen.model.PlaceModel;
 import org.vaadin.rise.codegen.step.*;
 
 import javax.annotation.processing.Filer;
@@ -25,7 +25,7 @@ import java.util.*;
 @AutoService(Processor.class)
 public class RiseProcessor extends BasicAnnotationProcessor implements EntryPackageProcessingStepCallBack, DaggerJFOSGenerateCallBack {
 	private final Map<FqnHolder, List<NestedSlotModel>> slotGraph = new HashMap<>();
-	private final Map<FqnHolder, ProxyModel> proxyModelMap = new HashMap<>();
+	private final Map<FqnHolder, PlaceModel> proxyModelMap = new HashMap<>();
 	private final Set<String> places = new HashSet<>();
 
 	private PackageNameHolder packageEntry = new PackageNameHolder();
@@ -58,7 +58,7 @@ public class RiseProcessor extends BasicAnnotationProcessor implements EntryPack
 		return ImmutableList.of(
 				new EntryPackageProcessingStep(this),
 				new SlotProcessingStep(slotGraph, nestedSlotGenerator, jfosForDaggerGeneration, types, elements),
-				new ProxyProcessingStep(packageEntry, proxyModelMap, places, proxyGenerator, placeManagerModuleGenerator, eagerProxiesGenerator, bootstrapGenerator, riseBootstrapModuleGenerator, jfosForDaggerGeneration, types, elements),
+				new PlaceProcessingStep(packageEntry, proxyModelMap, places, proxyGenerator, placeManagerModuleGenerator, eagerProxiesGenerator, bootstrapGenerator, riseBootstrapModuleGenerator, jfosForDaggerGeneration, types, elements),
 				new ModulesProcessingStep(slotGraph, proxyModelMap, jfosForDaggerGeneration, types, elements, moduleGenerator, jfosForDaggerGeneration, entryComponentGenerator)
 		);
 	}

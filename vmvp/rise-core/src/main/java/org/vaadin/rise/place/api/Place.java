@@ -6,12 +6,6 @@ import org.vaadin.rise.core.RisePresenterImpl;
  * Created by Aleksandr on 25.07.2016.
  */
 public interface Place extends ComparablePlace {
-    String[] getNameTokenParts();
-
-    String[] getNameTokens();
-
-    int[] getNameTokenIndexes();
-
     String[] getParamNames();
 
     int[] getParamIndexes();

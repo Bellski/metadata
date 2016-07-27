@@ -1,4 +1,4 @@
-<#-- @ftlvariable name="" type="org.vaadin.rise.codegen.model.ProxyModel" -->
+<#-- @ftlvariable name="" type="org.vaadin.rise.codegen.model.PlaceModel" -->
 package ${packageName};
 
 import javax.inject.Inject;
