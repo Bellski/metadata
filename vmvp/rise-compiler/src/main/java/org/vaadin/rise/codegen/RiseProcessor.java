@@ -4,11 +4,14 @@ import com.google.auto.common.BasicAnnotationProcessor;
 import com.google.auto.service.AutoService;
 import com.google.common.collect.ImmutableList;
 import freemarker.template.Configuration;
-import org.vaadin.rise.codegen.generator.*;
+import org.vaadin.rise.codegen.generator.ModuleGenerator;
+import org.vaadin.rise.codegen.generator.NameTokensGenerator;
+import org.vaadin.rise.codegen.generator.NestedSlotGenerator;
+import org.vaadin.rise.codegen.generator.PlaceManagerModuleGenerator;
 import org.vaadin.rise.codegen.helpers.PackageNameHolder;
 import org.vaadin.rise.codegen.model.FqnHolder;
 import org.vaadin.rise.codegen.model.NestedSlotModel;
-import org.vaadin.rise.codegen.model.PlaceModel;
+import org.vaadin.rise.codegen.model.aNewOne.PresenterData;
 import org.vaadin.rise.codegen.step.*;
 
 import javax.annotation.processing.Filer;
@@ -25,11 +28,13 @@ import java.util.*;
 @AutoService(Processor.class)
 public class RiseProcessor extends BasicAnnotationProcessor implements EntryPackageProcessingStepCallBack, DaggerJFOSGenerateCallBack {
 	private final Map<FqnHolder, List<NestedSlotModel>> slotGraph = new HashMap<>();
-	private final Map<FqnHolder, PlaceModel> proxyModelMap = new HashMap<>();
+	private final Map<String, FqnHolder> presenterByPlace = new HashMap<>();
 	private final Set<String> places = new HashSet<>();
 
 	private PackageNameHolder packageEntry = new PackageNameHolder();
 	private List<JavaFileObject> jfosForDaggerGeneration = new ArrayList<>();
+
+	private Map<FqnHolder, PresenterData> presenterDatas = new HashMap<>();
 
 
 	@Override
@@ -46,20 +51,28 @@ public class RiseProcessor extends BasicAnnotationProcessor implements EntryPack
 
 
 		final NestedSlotGenerator nestedSlotGenerator = new NestedSlotGenerator(cfg, filer);
-		final ProxyGenerator proxyGenerator = new ProxyGenerator(cfg, filer);
 		final PlaceManagerModuleGenerator placeManagerModuleGenerator = new PlaceManagerModuleGenerator(cfg, filer);
-		final EagerProxiesGenerator eagerProxiesGenerator = new EagerProxiesGenerator(cfg, filer);
-		final RiseBootstrapModuleGenerator riseBootstrapModuleGenerator = new RiseBootstrapModuleGenerator(cfg, filer);
-		final EntryComponentGenerator entryComponentGenerator = new EntryComponentGenerator(cfg, filer);
-		final BootstrapGenerator bootstrapGenerator = new BootstrapGenerator(cfg, filer);
 		final ModuleGenerator moduleGenerator = new ModuleGenerator(cfg, filer);
+		final NameTokensGenerator nameTokensGenerator = new NameTokensGenerator(cfg, filer);
 
 
 		return ImmutableList.of(
-				new EntryPackageProcessingStep(this),
+
+				new CollectPresentersData(elements, types, presenterDatas, places),
 				new SlotProcessingStep(slotGraph, nestedSlotGenerator, jfosForDaggerGeneration, types, elements),
-				new PlaceProcessingStep(packageEntry, proxyModelMap, places, proxyGenerator, placeManagerModuleGenerator, eagerProxiesGenerator, bootstrapGenerator, riseBootstrapModuleGenerator, jfosForDaggerGeneration, types, elements),
-				new ModulesProcessingStep(slotGraph, proxyModelMap, jfosForDaggerGeneration, types, elements, moduleGenerator, jfosForDaggerGeneration, entryComponentGenerator)
+				new RiseModuleProcessingStep(slotGraph, moduleGenerator, places, nameTokensGenerator, jfosForDaggerGeneration, types, elements),
+				new ModulesProcessingStep(
+					slotGraph,
+					jfosForDaggerGeneration,
+					nameTokensGenerator,
+					placeManagerModuleGenerator,
+					places,
+					types,
+					elements,
+					moduleGenerator,
+					jfosForDaggerGeneration,
+					presenterDatas
+				)
 		);
 	}
 

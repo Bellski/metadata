@@ -1,9 +1,9 @@
-package org.vaadin.rise.place;
+package javasource;
 
-import com.vaadin.server.Page;
 import dagger.Module;
 import dagger.Provides;
-import javasource.EntryPlaceBus;
+import org.vaadin.rise.place.DefaultPlaceManager;
+import org.vaadin.rise.place.PageUriFragmentSource;
 import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceManager;
@@ -13,21 +13,23 @@ import javax.inject.Singleton;
 import java.util.Map;
 
 
+import javasource.NameTokenParts;
+
+
 @Module
 public class PlaceManagerModule {
 
-	@Provides @Singleton
-	PlaceManager providesPlaceManager(@Places Map<String, Place> placeMap,
-									  UriFragmentSource uriFragmentSource,
-									  EntryPlaceBus bus) {
+	@Provides
+	@Singleton
+	PlaceManager providesPlaceManager(@Places Map<String, Place> placeMap, UriFragmentSource uriFragmentSource, DefaultEntryGatekeeper gateKeeper) {
 		return new DefaultPlaceManager(
 			placeMap,
-			ApplicationNameTokens.nameTokens,
-			bus,
+			NameTokenParts.parts,
 			uriFragmentSource,
-			"sub",
-			"sub",
-			"sub"
+			gateKeeper,
+			"!/sub",
+			"!/sub",
+			"!/subsub"
 		);
 	}
 

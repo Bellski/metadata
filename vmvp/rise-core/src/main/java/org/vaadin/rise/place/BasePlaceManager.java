@@ -6,6 +6,7 @@ import org.vaadin.rise.place.deprecated.PlaceRequest;
 import org.vaadin.rise.place.deprecated.token.TokenFormatException;
 import org.vaadin.rise.place.deprecated.token.UrlUtils;
 import org.vaadin.rise.place.util.PlaceUtils;
+import org.vaadin.rise.security.Gatekeeper;
 
 import java.util.*;
 
@@ -17,35 +18,50 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
     private final Set<String> nameTokens;
     private final PlaceBus placeBus;
     private final UriFragmentSource uriFragmentSource;
+    private final Gatekeeper gatekeeper;
     private List<PlaceRequest> placeHierarchy = new ArrayList<>();
 
     private String currentHistoryToken;
 
     public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource) {
-       this(placeMap, nameTokens, null, uriFragmentSource);
+       this(placeMap, nameTokens, null, uriFragmentSource, null);
+    }
+
+    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource, Gatekeeper gatekeeper) {
+        this(placeMap, nameTokens, null, uriFragmentSource, gatekeeper);
     }
 
     public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, PlaceBus placeBus, UriFragmentSource uriFragmentSource) {
+        this(placeMap, nameTokens, placeBus, uriFragmentSource, null);
+    }
+
+    public BasePlaceManager(Map<String, Place> placeMap,
+                            Set<String> nameTokens,
+                            PlaceBus placeBus,
+                            UriFragmentSource uriFragmentSource,
+                            Gatekeeper gatekeeper) {
         this.placeMap = placeMap;
         this.nameTokens = nameTokens;
         this.placeBus = placeBus;
         this.uriFragmentSource = uriFragmentSource;
+        this.gatekeeper = gatekeeper;
         this.uriFragmentSource.setUriFragmentChangeListener(this);
     }
 
     @Override
     public void onUriFragmentChanged(String fragmentUri) {
 
-        if (fragmentUri.charAt(fragmentUri.length() -1) == '/') {
-            setBrowserHistoryToken(fragmentUri.substring(0, fragmentUri.length() -1), true);
+//        if (fragmentUri.charAt(fragmentUri.length() -1) == '/') {
+//            setBrowserHistoryToken(fragmentUri.substring(0, fragmentUri.length() -1), true);
+//            return;
+//        }
+
+        if (fragmentUri.trim().isEmpty() || fragmentUri.equals("!/") || fragmentUri.equals("!")) {
+            revealDefaultPlace();
             return;
         }
 
-        Place place = placeMap.get(PlaceUtils.convertToPlaceString(fragmentUri, nameTokens));
-
-        if (place == null && placeBus != null) {
-            place = placeBus.getPlace(fragmentUri);
-        }
+        final Place place = fragmentUriToPlace(fragmentUri);
 
         if (place != null) {
             handleTokenChange(fragmentUri, place);
@@ -54,19 +70,65 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
         }
     }
 
+    private Place fragmentUriToPlace(String fragmentUri) {
+        Place place = placeMap.get(PlaceUtils.convertToPlaceString(fragmentUri, nameTokens));
+
+        if (place == null && placeBus != null) {
+            place = placeBus.getPlace(fragmentUri);
+        }
+
+        return place;
+    }
+
     private void handleTokenChange(final String historyToken, Place place) {
-        try {
+
+        if (canRevealPlace(place)) {
             if (historyToken.trim().isEmpty()) {
                 revealDefaultPlace();
             } else {
                 placeHierarchy = toPlaceRequestHierarchy(historyToken, place);
                 doRevealPlace(getCurrentPlaceRequest(), place, true);
             }
-        } catch (TokenFormatException ignored) {
-            //TODO: later
         }
     }
 
+
+    private boolean canRevealPlace(Place place) {
+        String fallBack = null;
+
+        if (gatekeeper != null) {
+            final CanReveal canReveal = gatekeeper.canReveal();
+
+            if (canReveal.can()) {
+                final CanReveal placeCanReveal = place.canReveal();
+
+                if (!placeCanReveal.can()) {
+                    fallBack = placeCanReveal.getFallBackPlace();
+                }
+
+            } else {
+                fallBack = canReveal.getFallBackPlace();
+            }
+        } else {
+            final CanReveal canReveal = place.canReveal();
+
+            if (!canReveal.can()) {
+                fallBack = canReveal.getFallBackPlace();
+            }
+        }
+
+        if (fallBack != null) {
+            revealPlace(
+                toPlaceRequest(
+                    fallBack, fragmentUriToPlace(fallBack)
+                ),
+                true
+            );
+        }
+
+
+        return fallBack == null;
+    }
 
     @Override
     public PlaceRequest getCurrentPlaceRequest() {
@@ -108,7 +170,7 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
         placeHierarchy.clear();
         placeHierarchy.add(request);
 
-        doRevealPlace(request, placeMap.get(request.getNameToken()), updateBrowserUrl);
+        doRevealPlace(request, fragmentUriToPlace(request.getNameToken()), updateBrowserUrl);
     }
 
     @Override

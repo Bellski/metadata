@@ -1,5 +1,6 @@
 package org.vaadin.rise.place.deprecated;
 
+import org.vaadin.rise.place.CanReveal;
 import org.vaadin.rise.security.Gatekeeper;
 
 public class PlaceWithGatekeeper extends PlaceImpl {
@@ -20,7 +21,7 @@ public class PlaceWithGatekeeper extends PlaceImpl {
     }
 
     @Override
-    public boolean canReveal() {
+    public CanReveal canReveal() {
         return gatekeeper.canReveal();
     }
 }

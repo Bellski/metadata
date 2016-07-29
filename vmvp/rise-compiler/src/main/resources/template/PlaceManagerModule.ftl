@@ -1,10 +1,10 @@
 <#-- @ftlvariable name="" type="org.vaadin.rise.codegen.model.PlaceManagerModuleModel" -->
 
-package org.vaadin.rise.place;
+package ${packageName};
 
 import dagger.Module;
 import dagger.Provides;
-import org.vaadin.rise.place.BasePlaceManager;
+import org.vaadin.rise.place.DefaultPlaceManager;
 import org.vaadin.rise.place.PageUriFragmentSource;
 import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
@@ -18,18 +18,21 @@ import java.util.Map;
 import ${placeBus.fullyQualifiedName};
 </#if>
 
+import ${packageName}.NameTokenParts;
+
 @Module
 public class PlaceManagerModule {
 
     @Provides @Singleton
-    DefaultPlaceManager providesPlaceManager(@Places Map<String, Place> placeMap,
-                                             UriFragmentSource uriFragmentSource <#if hasPlaceBus()>,</#if>
-                          <#if hasPlaceBus()>${placeBus.className} bus</#if>) {
-        return new BasePlaceManager(
+    PlaceManager providesPlaceManager(@Places Map<String, Place> placeMap, UriFragmentSource uriFragmentSource <#if defaultGateKeeper??>, ${defaultGateKeeper.className} gateKeeper </#if><#if hasPlaceBus()>,${placeBus.className} bus</#if>) {
+        return new DefaultPlaceManager(
             placeMap,
-            ApplicationNameTokens.nameTokens,
-            bus,
-            uriFragmentSource
+            NameTokenParts.parts, <#if hasPlaceBus()>bus,</#if>
+            uriFragmentSource,
+            <#if defaultGateKeeper??>gateKeeper, </#if>
+            "${defaultPlaceNameToken! }",
+            "${errorPlaceNameToken! }",
+            "${unauthorizedPlaceNameToken! }"
         );
     }
 

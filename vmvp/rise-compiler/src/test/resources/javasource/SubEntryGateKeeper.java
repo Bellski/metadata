@@ -1,5 +1,6 @@
 package javasource;
 
+import org.vaadin.rise.place.CanReveal;
 import org.vaadin.rise.security.GatekeeperWithParams;
 
 public class SubEntryGateKeeper implements GatekeeperWithParams {
@@ -10,7 +11,7 @@ public class SubEntryGateKeeper implements GatekeeperWithParams {
 	}
 
 	@Override
-	public boolean canReveal() {
-		return true;
+	public CanReveal canReveal() {
+		return new CanReveal(true, null);
 	}
 }

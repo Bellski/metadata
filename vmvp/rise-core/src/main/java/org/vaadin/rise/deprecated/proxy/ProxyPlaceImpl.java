@@ -1,6 +1,7 @@
 package org.vaadin.rise.deprecated.proxy;
 
 import org.vaadin.rise.core.RisePresenterImpl;
+import org.vaadin.rise.place.CanReveal;
 import org.vaadin.rise.place.deprecated.Place;
 import org.vaadin.rise.place.deprecated.PlaceManager_TODO;
 import org.vaadin.rise.place.deprecated.PlaceRequest;
@@ -25,11 +26,11 @@ public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  extends Bas
 			PlaceRequest request = event.getRequest();
 			if (matchesRequest(request)) {
 				event.setHandled();
-				if (canReveal()) {
-					handleRequest(request, event.shouldUpdateBrowserHistory());
-				} else {
-					event.setUnauthorized();
-				}
+//				if (canReveal()) {
+//					handleRequest(request, event.shouldUpdateBrowserHistory());
+//				} else {
+//					event.setUnauthorized();
+//				}
 			}
 		});
     }
@@ -69,7 +70,7 @@ public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  extends Bas
     }
 
     @Override
-    public boolean canReveal() {
+    public CanReveal canReveal() {
         return place.canReveal();
     }
 

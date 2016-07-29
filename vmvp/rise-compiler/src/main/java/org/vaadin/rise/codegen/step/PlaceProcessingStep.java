@@ -4,65 +4,46 @@ import com.google.auto.common.BasicAnnotationProcessor;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.SetMultimap;
 import com.sun.tools.javac.code.Symbol;
-import freemarker.template.TemplateException;
 import org.vaadin.rise.annotation.ApplicationEntry;
-import org.vaadin.rise.codegen.generator.*;
+import org.vaadin.rise.codegen.generator.PlaceManagerModuleGenerator;
 import org.vaadin.rise.codegen.helpers.PackageNameHolder;
-import org.vaadin.rise.codegen.model.*;
-import org.vaadin.rise.core.annotation.NoGateKeeper;
+import org.vaadin.rise.codegen.model.FqnHolder;
+import org.vaadin.rise.codegen.model.PlaceManagerModuleModel;
 import org.vaadin.rise.core.annotation.Presenter;
 
 import javax.lang.model.element.Element;
-import javax.lang.model.type.MirroredTypeException;
-import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
-import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import static java.util.Collections.singletonList;
 
 /**
  * Created by Aleksandr on 17.07.2016.
  */
 public class PlaceProcessingStep implements BasicAnnotationProcessor.ProcessingStep {
     private PackageNameHolder packageEntry;
-    private final Map<FqnHolder, PlaceModel> proxyModels;
+    private final Map<String, FqnHolder> presenterByPlace;
     private final Set<String> places;
-    private final ProxyGenerator proxyGenerator;
     private final PlaceManagerModuleGenerator placeManagerModuleGenerator;
-    private EagerProxiesGenerator eagerProxiesGenerator;
-    private BootstrapGenerator bootstrapGenerator;
-    private RiseBootstrapModuleGenerator riseBootstrapModuleGenerator;
     private List<JavaFileObject> jfosForDaggerGeneration;
     private final Types types;
     private final Elements elements;
 
     public PlaceProcessingStep(PackageNameHolder packageEntry,
-                               Map<FqnHolder, PlaceModel> proxyModels,
+                               Map<String, FqnHolder> presenterByPlace,
                                Set<String> places,
-                               ProxyGenerator proxyGenerator,
                                PlaceManagerModuleGenerator placeManagerModuleGenerator,
-                               EagerProxiesGenerator eagerProxiesGenerator,
-                               BootstrapGenerator bootstrapGenerator,
-                               RiseBootstrapModuleGenerator riseBootstrapModuleGenerator,
                                List<JavaFileObject> jfosForDaggerGeneration,
                                Types types,
                                Elements elements) {
 
         this.packageEntry = packageEntry;
-        this.proxyModels = proxyModels;
+        this.presenterByPlace = presenterByPlace;
         this.places = places;
-        this.proxyGenerator = proxyGenerator;
         this.placeManagerModuleGenerator = placeManagerModuleGenerator;
-        this.eagerProxiesGenerator = eagerProxiesGenerator;
-        this.bootstrapGenerator = bootstrapGenerator;
-        this.riseBootstrapModuleGenerator = riseBootstrapModuleGenerator;
         this.jfosForDaggerGeneration = jfosForDaggerGeneration;
         this.types = types;
         this.elements = elements;
@@ -86,11 +67,7 @@ public class PlaceProcessingStep implements BasicAnnotationProcessor.ProcessingS
                 .iterator()
                 .next()
                 .getAnnotation(ApplicationEntry.class);
-
-
         }
-
-        List<PlaceModel> proxyModelList = new ArrayList<>();
 
         if (presenterElements != null) {
             for (Element presenterElement : presenterElements) {
@@ -99,71 +76,11 @@ public class PlaceProcessingStep implements BasicAnnotationProcessor.ProcessingS
                 final String presenterPackage = Symbol.class.cast(presenterElement).packge().getQualifiedName().toString();
                 final String presenterName = presenterElement.getSimpleName().toString();
 
-                final PlaceModel proxyModel = new PlaceModel
-                    (
-                        presenterName,
-                        presenterPackage,
-                        FqnHolder.buildJavaCompatibleFQN(presenterElement)
-                    );
 
-                String placeName = presenterAnnotation.placeName();
-
-                if (!placeName.isEmpty()) {
-                    proxyModel.setPlaceName(placeName);
-                    places.add(placeName);
-
-                    final TypeMirror NO_GATEKEEPER = elements.getTypeElement(NoGateKeeper.class.getName()).asType();
-
-                    try {
-                        presenterAnnotation.useGateKeeper();
-                    } catch (MirroredTypeException gateKeeperTypeMirror) {
-                        if (!types.isSameType(gateKeeperTypeMirror.getTypeMirror(), NO_GATEKEEPER)) {
-                            proxyModel
-                                .setGateKeeper(
-                                    FqnHolder
-                                        .buildJavaCompatibleFQN(
-                                            types.asElement(gateKeeperTypeMirror.getTypeMirror())
-                                        )
-                                );
-                        }
-                    }
-                }
-
-                if (presenterAnnotation.defaultPlace()) {
-                    placeManagerModuleModel.setDefaultPlaceNameToken(placeName);
-                }
-
-                if (presenterAnnotation.errorPlace()) {
-                    placeManagerModuleModel.setErrorPlaceNameToken(placeName);
-                }
-
-                if (presenterAnnotation.authorizePlace()) {
-                    placeManagerModuleModel.setUnauthorizedPlaceNameToken(placeName);
-                }
-
-                proxyModelList.add(proxyModel);
-                proxyModels.put(FqnHolder.buildJavaCompatibleFQN(presenterElement), proxyModel);
             }
         }
 
 
-        try {
-            jfosForDaggerGeneration.addAll(
-                proxyGenerator.generate(proxyModelList)
-            );
-
-            jfosForDaggerGeneration.addAll(
-                placeManagerModuleGenerator.generate(
-                    singletonList(placeManagerModuleModel)
-                )
-            );
-
-
-
-
-        } catch (IOException | TemplateException e) {
-            e.printStackTrace();
-        }
 
         return ImmutableSet.of();
     }

@@ -9,7 +9,8 @@ import javax.inject.Inject;
  * Created by oem on 7/15/16.
  */
 @Presenter(
-	placeName = "subsub"
+	placeName = "!/subsub",
+	authorizePlace = true
 )
 public class SubSubEntryPresenter extends RisePresenterImpl<SubSubEntry.View> implements SubSubEntry.Presenter {
 

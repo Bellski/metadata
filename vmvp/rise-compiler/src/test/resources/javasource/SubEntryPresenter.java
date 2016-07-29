@@ -11,11 +11,10 @@ import javax.inject.Inject;
  * Created by oem on 7/15/16.
  */
 @Presenter(
-	placeName = "sub",
+	placeName = "!/sub",
 	useGateKeeper = SubEntryGateKeeper.class,
 	defaultPlace = true,
-	errorPlace = true,
-	authorizePlace = true
+	errorPlace = true
 )
 public class SubEntryPresenter extends RisePresenterImpl<SubEntry.View> implements SubEntry.Presenter {
 

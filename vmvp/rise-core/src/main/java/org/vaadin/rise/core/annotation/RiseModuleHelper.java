@@ -61,4 +61,15 @@ public class RiseModuleHelper {
 		//Never happened;
 		return null;
 	}
+
+	public static TypeMirror gateKeeperValue(Presenter presenter) {
+		try {
+			presenter.useGateKeeper();
+		} catch (MirroredTypeException e) {
+			return e.getTypeMirror();
+		}
+
+		//Never happened;
+		return null;
+	}
 }

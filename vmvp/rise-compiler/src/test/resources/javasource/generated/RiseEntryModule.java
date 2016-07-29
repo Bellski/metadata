@@ -2,15 +2,18 @@ package javasource;
 
 import dagger.Module;
 import dagger.Provides;
-import dagger.multibindings.IntoMap;
-import dagger.multibindings.StringKey;
-import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
-import org.vaadin.rise.place.PresenterPlace;
-import org.vaadin.rise.place.annotation.Places;
-import org.vaadin.rise.place.api.Place;
+
 
 import javax.inject.Singleton;
 
+import javasource.RiseSubEntryModule;
+import javasource.Entry.View;
+import javasource.EntryModule;
+import javasource.EntryPresenter;
+import javasource.EntryPresenter.Slot1;
+import javasource.RiseSubSubEntryModule;
+import javasource.Entry.Presenter;
+import javasource.EntryView;
 import java.lang.String;
 
 @Module(

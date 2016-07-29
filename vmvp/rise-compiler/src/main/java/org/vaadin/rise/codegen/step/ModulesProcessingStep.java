@@ -6,22 +6,28 @@ import com.google.common.collect.SetMultimap;
 import dagger.internal.codegen.ComponentProcessor;
 import freemarker.template.TemplateException;
 import org.vaadin.rise.annotation.ApplicationEntry;
-import org.vaadin.rise.codegen.generator.EntryComponentGenerator;
 import org.vaadin.rise.codegen.generator.ModuleGenerator;
+import org.vaadin.rise.codegen.generator.NameTokensGenerator;
+import org.vaadin.rise.codegen.generator.PlaceManagerModuleGenerator;
 import org.vaadin.rise.codegen.helpers.Compilation;
-import org.vaadin.rise.codegen.model.*;
-import org.vaadin.rise.core.annotation.NoParent;
-import org.vaadin.rise.core.annotation.RiseModule;
-import org.vaadin.rise.core.annotation.RiseModuleHelper;
+import org.vaadin.rise.codegen.model.FqnHolder;
+import org.vaadin.rise.codegen.model.ModuleModel;
+import org.vaadin.rise.codegen.model.NestedSlotModel;
+import org.vaadin.rise.codegen.model.PlaceManagerModuleModel;
+import org.vaadin.rise.codegen.model.aNewOne.PresenterData;
+import org.vaadin.rise.security.annotation.DefaultGateKeeper;
 
 import javax.lang.model.element.Element;
-import javax.lang.model.type.TypeMirror;
+import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by oem on 7/15/16.
@@ -31,44 +37,74 @@ public class ModulesProcessingStep implements BasicAnnotationProcessor.Processin
 	private final Map<FqnHolder, List<NestedSlotModel>> slotGraph;
 	private final ModuleGenerator moduleGenerator;
 	private List<JavaFileObject> forDaggerGeneration;
-	private EntryComponentGenerator entryComponentGenerator;
-	private Map<FqnHolder, PlaceModel> proxyModels;
+	private Map<FqnHolder, PresenterData> presenterDatas;
 	private List<JavaFileObject> jfosForDaggerGeneration;
+	private final NameTokensGenerator nameTokensGenerator;
+	private PlaceManagerModuleGenerator placeManagerModuleGenerator;
+	private final Set<String> places;
 	private final Types types;
 	private final Elements elements;
 	private ModuleModel entryModuleModel;
 
-	public ModulesProcessingStep(Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, PlaceModel> proxyModels, List<JavaFileObject> jfosForDaggerGeneration, Types types, Elements elements, ModuleGenerator moduleGenerator, List<JavaFileObject> forDaggerGeneration, EntryComponentGenerator entryComponentGenerator) {
+
+	public ModulesProcessingStep(Map<FqnHolder, List<NestedSlotModel>> slotGraph, List<JavaFileObject> jfosForDaggerGeneration, NameTokensGenerator nameTokensGenerator, PlaceManagerModuleGenerator placeManagerModuleGenerator, Set<String> places, Types types, Elements elements, ModuleGenerator moduleGenerator, List<JavaFileObject> forDaggerGeneration, Map<FqnHolder, PresenterData> presenterDatas) {
 		this.slotGraph = slotGraph;
-		this.proxyModels = proxyModels;
 		this.jfosForDaggerGeneration = jfosForDaggerGeneration;
+		this.nameTokensGenerator = nameTokensGenerator;
+		this.placeManagerModuleGenerator = placeManagerModuleGenerator;
+		this.places = places;
 		this.types = types;
 		this.elements = elements;
 		this.moduleGenerator = moduleGenerator;
 		this.forDaggerGeneration = forDaggerGeneration;
-		this.entryComponentGenerator = entryComponentGenerator;
+		this.presenterDatas = presenterDatas;
 	}
 
 	@Override
 	public Set<? extends Class<? extends Annotation>> annotations() {
 		return ImmutableSet.of(
 			ApplicationEntry.class,
-			RiseModule.class
+			DefaultGateKeeper.class
 		);
 	}
 
 	@Override
 	public Set<Element> process(SetMultimap<Class<? extends Annotation>, Element> elementsByAnnotation) {
-		final Map<ModuleModel, List<ModuleModel>> moduleModelGraph = buildModuleGraph(elementsByAnnotation);
-		moduleModelGraph.forEach(ModuleModel::include);
+		final Element applicatioEntryElement = elementsByAnnotation.get(ApplicationEntry.class).iterator().next();
+
+		final ModuleModel applicationModuleModel = ModuleModel.create(elements, types, slotGraph, applicatioEntryElement, null);
+
+		final PlaceManagerModuleModel placeManagerModuleModel = new PlaceManagerModuleModel(applicationModuleModel.getPackageName());
+
+		if (elementsByAnnotation.containsKey(DefaultGateKeeper.class)) {
+			placeManagerModuleModel.setDefaultGateKeeper(FqnHolder.buildJavaCompatibleFQN(elementsByAnnotation.get(DefaultGateKeeper.class).iterator().next()));
+		}
+
+		for (PresenterData presenterData : presenterDatas.values()) {
+			if (presenterData.isDefaultPlace()) {
+				placeManagerModuleModel.setDefaultPlaceNameToken(presenterData.getPlace());
+			}
+
+			if (presenterData.isAuthorizePlace()) {
+				placeManagerModuleModel.setUnauthorizedPlaceNameToken(presenterData.getPlace());
+			}
+
+			if (presenterData.isErrorPlace()) {
+				placeManagerModuleModel.setErrorPlaceNameToken(presenterData.getPlace());
+			}
+
+			if (presenterData.isPlaceBus()) {
+				try {
+					applicatioEntryElement.getAnnotation(ApplicationEntry.class).usePlaceBus();
+				} catch (MirroredTypeException e) {
+					placeManagerModuleModel.setPlaceBus(FqnHolder.buildJavaCompatibleFQN(types.asElement(e.getTypeMirror())));
+				}
+			}
+		}
+
 
 		try {
-			jfosForDaggerGeneration.addAll(moduleGenerator.generate(new ArrayList<>(moduleModelGraph.keySet())));
-			jfosForDaggerGeneration.addAll(
-				entryComponentGenerator.generate(
-					Collections.singletonList(new EntryComponentModel(entryModuleModel))
-				)
-			);
+			jfosForDaggerGeneration.addAll(placeManagerModuleGenerator.generate(Collections.singletonList(placeManagerModuleModel)));
 		} catch (IOException | TemplateException e) {
 			e.printStackTrace();
 		}
@@ -77,48 +113,5 @@ public class ModulesProcessingStep implements BasicAnnotationProcessor.Processin
 
 		return ImmutableSet.of();
 	}
-
-	private Map<ModuleModel, List<ModuleModel>> buildModuleGraph(SetMultimap<Class<? extends Annotation>, Element> elementsByAnnotation) {
-		final Map<ModuleModel, List<ModuleModel>> moduleModelGraph = new HashMap<>();
-
-		for (Element riseModuleElement : elementsByAnnotation.get(RiseModule.class)) {
-
-			final ModuleModel moduleModel = ModuleModel.create(types, slotGraph, proxyModels, riseModuleElement);
-
-			if (riseModuleElement.getAnnotation(ApplicationEntry.class) != null) {
-				entryModuleModel = moduleModel;
-			}
-
-			moduleModelGraph.put(moduleModel, new ArrayList<>());
-		}
-
-		for (ModuleModel module : moduleModelGraph.keySet()) {
-			final ModuleModel parent = getParentModule(module);
-			if (parent != null) {
-				List<ModuleModel> parentChildren = moduleModelGraph.get(parent);
-				parentChildren.add(module);
-			}
-		}
-
-		return moduleModelGraph;
-	}
-
-	public ModuleModel getParentModule(ModuleModel module) {
-		final TypeMirror NO_PARENT = elements.getTypeElement(NoParent.class.getName()).asType();
-
-		final RiseModule riseModuleAnnotation = module.getExtendsModuleElement().getAnnotation(RiseModule.class);
-
-		ModuleModel parent = null;
-
-		final TypeMirror parentType = RiseModuleHelper.parentValue(riseModuleAnnotation);
-
-		if (!types.isSameType(parentType, NO_PARENT)) {
-			final Element parentElement = types.asElement(parentType);
-			parent = ModuleModel.create(types, slotGraph, proxyModels, parentElement);
-		}
-
-		return parent;
-	}
-
 
 }

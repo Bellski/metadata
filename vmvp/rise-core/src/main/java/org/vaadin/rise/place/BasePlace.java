@@ -1,6 +1,7 @@
 package org.vaadin.rise.place;
 
 import org.vaadin.rise.place.api.Place;
+import org.vaadin.rise.security.Gatekeeper;
 
 /**
  * Created by Aleksandr on 25.07.2016.
@@ -43,8 +44,13 @@ public abstract class BasePlace implements Place {
     }
 
     @Override
-    public boolean canReveal() {
-        return false;
+    public CanReveal canReveal() {
+        return new CanReveal(true, null);
+    }
+
+    @Override
+    public void replaceGateKeeper(Gatekeeper gatekeeper) {
+
     }
 
     @Override

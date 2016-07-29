@@ -3,8 +3,6 @@ package javasource;
 import org.vaadin.rise.annotation.ApplicationEntry;
 import org.vaadin.rise.core.annotation.RiseModule;
 
-import javasource.EntryPlaceBus;
-
 /**
  * Created by oem on 7/15/16.
  */

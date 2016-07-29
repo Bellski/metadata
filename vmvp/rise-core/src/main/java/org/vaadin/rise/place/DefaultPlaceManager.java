@@ -4,6 +4,7 @@ import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 import org.vaadin.rise.place.api.UriFragmentSource;
 import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.security.Gatekeeper;
 
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,7 @@ public class DefaultPlaceManager extends BasePlaceManager {
 	public DefaultPlaceManager(Map<String, Place> placeMap,
 							   Set<String> nameTokens,
 							   UriFragmentSource uriFragmentSource,
+							   Gatekeeper gatekeeper,
 							   String defaultPlaceNameToken,
 							   String errorPlaceNameToken,
 							   String unauthorizedPlaceNameToken) {
@@ -28,6 +30,27 @@ public class DefaultPlaceManager extends BasePlaceManager {
 			nameTokens,
 			null,
 			uriFragmentSource,
+			gatekeeper,
+			defaultPlaceNameToken,
+			errorPlaceNameToken,
+			unauthorizedPlaceNameToken
+		);
+	}
+
+
+	public DefaultPlaceManager(Map<String, Place> placeMap,
+							   Set<String> nameTokens,
+							   UriFragmentSource uriFragmentSource,
+							   String defaultPlaceNameToken,
+							   String errorPlaceNameToken,
+							   String unauthorizedPlaceNameToken) {
+
+		this(
+			placeMap,
+			nameTokens,
+			null,
+			uriFragmentSource,
+			null,
 			defaultPlaceNameToken,
 			errorPlaceNameToken,
 			unauthorizedPlaceNameToken
@@ -38,11 +61,12 @@ public class DefaultPlaceManager extends BasePlaceManager {
 							   Set<String> nameTokens,
 							   PlaceBus placeBus,
 							   UriFragmentSource uriFragmentSource,
+							   Gatekeeper gatekeeper,
 							   String defaultPlaceNameToken,
 							   String errorPlaceNameToken,
 							   String unauthorizedPlaceNameToken) {
 
-		super(placeMap, nameTokens, placeBus, uriFragmentSource);
+		super(placeMap, nameTokens, placeBus, uriFragmentSource, gatekeeper);
 
 		defaultPlaceRequest = new PlaceRequest.Builder().nameToken(defaultPlaceNameToken).build();
 		errorPlaceRequest = new PlaceRequest.Builder().nameToken(errorPlaceNameToken).build();

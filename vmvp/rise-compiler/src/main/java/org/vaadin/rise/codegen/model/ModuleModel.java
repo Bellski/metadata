@@ -1,9 +1,14 @@
 package org.vaadin.rise.codegen.model;
 
 import com.sun.tools.javac.code.Symbol;
+import org.vaadin.rise.core.annotation.NoGateKeeper;
+import org.vaadin.rise.core.annotation.Presenter;
 import org.vaadin.rise.core.annotation.RiseModule;
+import org.vaadin.rise.core.annotation.RiseModuleHelper;
 
 import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +27,13 @@ public class ModuleModel extends JFOModel {
 
     private final List<ModuleModel> includes = new ArrayList<>(2);
     private final List<DaggerProvidesMethodModel> slots = new ArrayList<>(2);
-    private DaggerProvidesMethodModel daggerProvidesProxyMethodModel;
+    private ProvidesPlaceMethod daggerProvidesPlaceMethodModel;
 
     private DaggerProvidesMethodModel daggerProvidesMethodViewModel;
     private DaggerProvidesMethodModel daggerProvidesMethodPresenterModel;
 
     private final List<ParameterModel> constructorParameters = new ArrayList<>(2);
+    private FqnHolder gateKeeper;
 
 
     public ModuleModel(String className, String packageName, Element extendsModuleElement) {
@@ -111,14 +117,17 @@ public class ModuleModel extends JFOModel {
         return !slots.isEmpty();
     }
 
-    public DaggerProvidesMethodModel getDaggerProvidesProxyMethodModel() {
-        return daggerProvidesProxyMethodModel;
+    public ProvidesPlaceMethod getDaggerProvidesPlaceMethodModel() {
+        return daggerProvidesPlaceMethodModel;
     }
 
-    public void setDaggerProvidesProxyMethodModel(DaggerProvidesMethodModel daggerProvidesProxyMethodModel) {
-        this.daggerProvidesProxyMethodModel = daggerProvidesProxyMethodModel;
-        addImport(daggerProvidesProxyMethodModel.getProvidesImpl());
-        addImport(daggerProvidesProxyMethodModel.getProvidesInterface());
+    public boolean hasPlace() {
+        return daggerProvidesPlaceMethodModel != null;
+    }
+
+
+    public void setDaggerProvidesPlaceMethodModel(ProvidesPlaceMethod daggerProvidesPlaceMethodModel) {
+        this.daggerProvidesPlaceMethodModel = daggerProvidesPlaceMethodModel;
     }
 
     public String getJoinedConstructorParameters() {
@@ -145,7 +154,16 @@ public class ModuleModel extends JFOModel {
         addImport(parameterModel.getFqnHolder());
     }
 
-    public static ModuleModel create(Types elements, Map<FqnHolder, List<NestedSlotModel>> slotGraph, Map<FqnHolder, PlaceModel> proxyModels, Element moduleElement) {
+
+    public void setGateKeeper(FqnHolder gateKeeper) {
+        this.gateKeeper = gateKeeper;
+    }
+
+    public FqnHolder getGateKeeper() {
+        return gateKeeper;
+    }
+
+    public static ModuleModel create(Elements elements, Types types, Map<FqnHolder, List<NestedSlotModel>> slotGraph, Element moduleElement, Element defaultGateKeeper) {
         final String moduleName = moduleElement.getSimpleName().toString();
         final String modulePackage = Symbol.class.cast(moduleElement).packge().toString();
 
@@ -162,8 +180,8 @@ public class ModuleModel extends JFOModel {
         /*
                         PROVIDES VIEW, PRESENTER
          */
-        final Element viewElem = elements.asElement(viewValue(riseModuleAnn));
-        final Element viewApiElem = elements.asElement(viewApiValue(riseModuleAnn));
+        final Element viewElem = types.asElement(viewValue(riseModuleAnn));
+        final Element viewApiElem = types.asElement(viewApiValue(riseModuleAnn));
 
         final DaggerProvidesMethodModel daggerProvidesMethodViewModel = new DaggerProvidesMethodModel
             (
@@ -175,8 +193,8 @@ public class ModuleModel extends JFOModel {
 
         moduleModel.setDaggerProvidesMethodViewModel(daggerProvidesMethodViewModel);
 
-        final Element presenterElem = elements.asElement(presenterValue(riseModuleAnn));
-        final Element presenterApiElem = elements.asElement(presenterApiValue(riseModuleAnn));
+        final Element presenterElem = types.asElement(presenterValue(riseModuleAnn));
+        final Element presenterApiElem = types.asElement(presenterApiValue(riseModuleAnn));
 
         final FqnHolder presenterImpl = buildJavaCompatibleFQN(presenterElem);
 
@@ -209,19 +227,24 @@ public class ModuleModel extends JFOModel {
         }
 
         /*
-                     PROVIDES PROXY
+                     PROVIDES PLACE
          */
 
-        final PlaceModel proxy = proxyModels.get(presenterImpl);
+        final Presenter presenterAnnotation = presenterElem.getAnnotation(Presenter.class);
 
-        moduleModel.setDaggerProvidesProxyMethodModel(
-            new DaggerProvidesMethodModel
-                (
-                    proxy.getClassName(),
-                    proxy,
-                    proxy.getProxyTarget()
-                )
-        );
+        if (!presenterAnnotation.placeName().isEmpty() && !presenterAnnotation.placeBus()) {
+            moduleModel.setDaggerProvidesPlaceMethodModel(new ProvidesPlaceMethod(presenterAnnotation.placeName(), FqnHolder.buildJavaCompatibleFQN(presenterElem)));
+
+            final TypeMirror NO_GATEKEEPER = elements.getTypeElement(NoGateKeeper.class.getName()).asType();
+            final TypeMirror gateKeeperType = RiseModuleHelper.gateKeeperValue(presenterAnnotation);
+
+            if (!presenterAnnotation.authorizePlace()) {
+                if (!types.isSameType(gateKeeperType, NO_GATEKEEPER)) {
+                    moduleModel.setGateKeeper(FqnHolder.buildJavaCompatibleFQN(types.asElement(gateKeeperType)));
+                }
+            }
+        }
+
 
         final Optional<? extends Element> optionalConstructor = moduleElement
             .getEnclosedElements()

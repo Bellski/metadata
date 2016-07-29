@@ -1,5 +1,7 @@
 package org.vaadin.rise.place.deprecated;
 
+import org.vaadin.rise.place.CanReveal;
+
 import java.util.Arrays;
 
 public class PlaceImpl implements Place {
@@ -10,8 +12,8 @@ public class PlaceImpl implements Place {
     }
 
     @Override
-    public boolean canReveal() {
-        return true;
+    public CanReveal canReveal() {
+        return new CanReveal(false, null);
     }
 
     @Override

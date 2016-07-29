@@ -3,15 +3,25 @@ package javasource;
 import dagger.Module;
 import dagger.Provides;
 
+
 import javax.inject.Singleton;
+
+import javasource.SubEntry.Presenter;
+import javasource.SubEntryView;
+import javasource.SubEntryModule;
+import javasource.SubEntry.View;
+import javasource.SubEntryPresenter;
+
 
 import dagger.multibindings.IntoMap;
 import dagger.multibindings.StringKey;
-import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
-import org.vaadin.rise.deprecated.proxy.Proxy;
-import org.vaadin.rise.place.PresenterPlace;
 import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
+import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
+import org.vaadin.rise.place.PresenterPlace;
+
+import org.vaadin.rise.place.SecuredPresenterPlace;
+import javasource.SubEntryGateKeeper;
 
 @Module
 public class RiseSubEntryModule extends SubEntryModule {
@@ -21,8 +31,9 @@ public class RiseSubEntryModule extends SubEntryModule {
     @IntoMap
     @Places
     @StringKey("!/sub")
-    Place placeValue(LazyPlacePresenter<SubEntryPresenter> lazyPlacePresenter) {
-        return new PresenterPlace<>(
+    Place placeValue(SubEntryGateKeeper gateKeeper, LazyPlacePresenter<SubEntryPresenter> lazyPlacePresenter) {
+        return new SecuredPresenterPlace<>(
+            gateKeeper,
             lazyPlacePresenter,
             "!/sub",
             "!/sub",

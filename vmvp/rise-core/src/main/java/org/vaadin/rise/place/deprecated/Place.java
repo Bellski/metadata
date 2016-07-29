@@ -1,8 +1,10 @@
 package org.vaadin.rise.place.deprecated;
 
+import org.vaadin.rise.place.CanReveal;
+
 public interface Place {
 
-    boolean canReveal();
+    CanReveal canReveal();
 
     @Override
     boolean equals(Object o);

@@ -19,4 +19,5 @@ public @interface Presenter {
     boolean defaultPlace() default false;
     boolean errorPlace() default false;
     boolean authorizePlace() default false;
+    boolean placeBus() default false;
 }

@@ -93,17 +93,17 @@
                     <forceJavacCompilerUse>true</forceJavacCompilerUse>
                 </configuration>
                 <dependencies>
-                    <!--<dependency>-->
-                        <!--<groupId>org.vaadin.rise</groupId>-->
-                        <!--<artifactId>rise-compiler</artifactId>-->
-                        <!--<version>1.0.0</version>-->
-                    <!--</dependency>-->
                     <dependency>
-                        <groupId>com.google.dagger</groupId>
-                        <artifactId>dagger-compiler</artifactId>
-                        <version>2.5</version>
-                        <optional>true</optional>
+                        <groupId>org.vaadin.rise</groupId>
+                        <artifactId>rise-compiler</artifactId>
+                        <version>1.0.0</version>
                     </dependency>
+                    <!--<dependency>-->
+                        <!--<groupId>com.google.dagger</groupId>-->
+                        <!--<artifactId>dagger-compiler</artifactId>-->
+                        <!--<version>2.5</version>-->
+                        <!--<optional>true</optional>-->
+                    <!--</dependency>-->
                 </dependencies>
             </plugin>
             <plugin>
