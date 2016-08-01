@@ -44,8 +44,13 @@ public abstract class BasePlace implements Place {
     }
 
     @Override
-    public CanReveal canReveal() {
-        return new CanReveal(true, null);
+    public boolean canReveal() {
+        return true;
+    }
+
+    @Override
+    public String getFallBackNamePlace() {
+        return null;
     }
 
     @Override

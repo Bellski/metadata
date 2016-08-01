@@ -7,7 +7,12 @@ import org.vaadin.rise.security.annotation.DefaultGateKeeper;
 @DefaultGateKeeper
 public class DefaultEntryGatekeeper implements Gatekeeper {
 	@Override
-	public CanReveal canReveal() {
-		return new CanReveal(true, null);
+	public boolean canReveal() {
+		return true;
+	}
+
+	@Override
+	public String fallBackNamePlace() {
+		return null;
 	}
 }

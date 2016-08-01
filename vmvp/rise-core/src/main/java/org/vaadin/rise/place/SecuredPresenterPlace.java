@@ -34,7 +34,12 @@ public class SecuredPresenterPlace<Presenter_ extends RisePresenterImpl<?>> exte
 	}
 
 	@Override
-	public CanReveal canReveal() {
+	public boolean canReveal() {
 		return gatekeeper.canReveal();
+	}
+
+	@Override
+	public String getFallBackNamePlace() {
+		return gatekeeper.fallBackNamePlace();
 	}
 }

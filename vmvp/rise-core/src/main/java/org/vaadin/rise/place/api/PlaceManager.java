@@ -21,5 +21,5 @@ public interface PlaceManager {
 
     void revealDefaultPlace();
 
-    void revealErrorPlace(String invalidHistoryToken);
+    void placeNotFound(String invalidHistoryToken);
 }

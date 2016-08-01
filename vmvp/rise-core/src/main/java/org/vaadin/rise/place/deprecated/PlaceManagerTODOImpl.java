@@ -89,7 +89,7 @@ public class PlaceManagerTODOImpl implements PlaceManager_TODO, Page.UriFragment
 	private void startError() {
 		if (this.internalError) {
 			throw new RuntimeException("Encountered repeated errors resulting in an infinite loop. Make sure all users "
-					+ "have access to the pages revealed by revealErrorPlace and revealUnauthorizedPlace. (Note that "
+					+ "have access to the pages revealed by placeNotFound and revealUnauthorizedPlace. (Note that "
 					+ "the default implementations call revealDefaultPlace)");
 		}
 		internalError = true;

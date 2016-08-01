@@ -14,7 +14,9 @@ public interface Place extends ComparablePlace {
 
     boolean hasParameters();
 
-    CanReveal canReveal();
+    boolean canReveal();
+
+    String getFallBackNamePlace();
 
     void replaceGateKeeper(Gatekeeper gatekeeper);
 

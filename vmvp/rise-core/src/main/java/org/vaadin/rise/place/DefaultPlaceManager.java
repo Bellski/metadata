@@ -79,7 +79,7 @@ public class DefaultPlaceManager extends BasePlaceManager {
 	}
 
 	@Override
-	public void revealErrorPlace(String invalidHistoryToken) {
+	public void placeNotFound(String invalidHistoryToken) {
 		revealPlace(errorPlaceRequest, false);
 	}
 

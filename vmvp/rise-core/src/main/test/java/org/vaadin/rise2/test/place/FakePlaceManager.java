@@ -27,7 +27,7 @@ public class FakePlaceManager extends BasePlaceManager {
 
 
     @Override
-    public void revealErrorPlace(String invalidHistoryToken) {
+    public void placeNotFound(String invalidHistoryToken) {
         this.errorPlace = invalidHistoryToken;
     }
 }

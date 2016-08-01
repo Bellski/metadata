@@ -11,7 +11,12 @@ public class SubEntryGateKeeper implements GatekeeperWithParams {
 	}
 
 	@Override
-	public CanReveal canReveal() {
-		return new CanReveal(true, null);
+	public boolean canReveal() {
+		return true;
+	}
+
+	@Override
+	public String fallBackNamePlace() {
+		return null;
 	}
 }

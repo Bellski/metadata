@@ -5,4 +5,5 @@ package org.vaadin.rise.place.api;
  */
 public interface PlaceBus {
     Place getPlace(String compareToPlace) ;
+    boolean containsPlace(String namePlace);
 }

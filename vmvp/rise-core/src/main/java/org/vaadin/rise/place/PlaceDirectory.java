@@ -2,6 +2,7 @@ package org.vaadin.rise.place;
 
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
+import org.vaadin.rise.place.deprecated.PlaceRequest;
 
 import java.util.Map;
 import java.util.Set;
@@ -11,14 +12,29 @@ import java.util.Set;
  */
 public class PlaceDirectory {
 	private final Map<String, Place> placeMap;
-	private final Set<String> nameTokens;
 	private final PlaceBus placeBus;
 
-	public PlaceDirectory(Map<String, Place> placeMap, Set<String> nameTokens, PlaceBus placeBus) {
+	public PlaceDirectory(Map<String, Place> placeMap, PlaceBus placeBus) {
 		this.placeMap = placeMap;
-		this.nameTokens = nameTokens;
 		this.placeBus = placeBus;
 	}
 
+	public Place getPlace(PlaceRequest request) {
+		return getPlace(request.getNameToken());
+	}
+
+	public Place getPlace(String namePlace) {
+		if (namePlace.charAt(namePlace.length() -1) == '/') {
+			namePlace = namePlace.substring(0, namePlace.length() -1);
+		}
+
+		Place place = placeMap.get(namePlace);
+
+		if (placeBus != null && place == null) {
+			place = placeBus.getPlace(namePlace);
+		}
+
+		return place;
+	}
 
 }
