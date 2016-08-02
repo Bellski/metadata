@@ -3,7 +3,7 @@ package org.app;
 import org.app.popup.PopupPresenterComponent;
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.annotation.Presenter;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.PlaceRequest;
 import org.vaadin.rise.place.reveal.Supplier;
 
 import javax.inject.Inject;

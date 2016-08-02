@@ -13,10 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vaadin.rise.deprecated.proxy.slot;
+package org.vaadin.rise.slot;
 
 
 import org.vaadin.rise.core.RisePresenterComponent;
+import org.vaadin.rise.slot.api.RemovableSlot;
 
 
 public abstract class MultiSlot<T extends RisePresenterComponent<?>> implements RemovableSlot<T> {

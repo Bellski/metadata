@@ -4,8 +4,8 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.SingleComponentContainer;
 import com.vaadin.ui.UI;
-import org.vaadin.rise.deprecated.proxy.slot.IsSingleSlot;
-import org.vaadin.rise.deprecated.proxy.slot.OrderedSlot;
+import org.vaadin.rise.slot.api.IsSingleSlot;
+import org.vaadin.rise.slot.OrderedSlot;
 import org.vaadin.rise.vaadin.IsComponent;;
 
 import java.util.Collections;

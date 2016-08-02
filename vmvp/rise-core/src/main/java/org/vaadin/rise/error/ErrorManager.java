@@ -1,7 +1,7 @@
 package org.vaadin.rise.error;
 
 import org.vaadin.rise.place.api.PlaceManager;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.PlaceRequest;
 
 /**
  * Created by oem on 8/2/16.

@@ -2,10 +2,10 @@ package org.vaadin.rise2.test.place;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
+import org.vaadin.rise.place.LazyPlacePresenter;
 import org.vaadin.rise.place.DefaultPlaceManager;
 import org.vaadin.rise.place.api.Place;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.PlaceRequest;
 import org.vaadin.rise2.test.dummy.*;
 
 import java.util.HashMap;

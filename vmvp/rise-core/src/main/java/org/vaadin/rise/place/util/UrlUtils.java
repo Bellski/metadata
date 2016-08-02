@@ -1,4 +1,4 @@
-package org.vaadin.rise.place.deprecated.token;
+package org.vaadin.rise.place.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

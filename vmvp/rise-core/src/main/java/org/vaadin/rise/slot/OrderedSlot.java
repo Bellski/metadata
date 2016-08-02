@@ -13,35 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.vaadin.rise.deprecated.proxy.slot;
+package org.vaadin.rise.slot;
 
-
-import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterComponent;
+import org.vaadin.rise.slot.MultiSlot;
 
 
-
-public class Slot<PRESENTER extends RisePresenterComponent<?>> implements IsSlot<PRESENTER> {
-    protected Lazy<PRESENTER> presenter;
-
-    public Slot() {
-    }
-
-    public Slot(Lazy<PRESENTER> presenter) {
-        this.presenter = presenter;
-    }
-
-    public void setLazyPresenter(Lazy<PRESENTER> presenter) {
-        this.presenter = presenter;
-    }
-
-    @Override
-    public boolean isPopup() {
-        return false;
-    }
-
-    @Override
-    public boolean isRemovable() {
-        return true;
-    }
+/**
+ * A slot for an ordered getPresenter.
+ * The getPresenter placed in this slot must implement comparable and will
+ * be automatically placed in order in the getView.
+ * @param <T> - The type of getPresenter, must extend comparable.
+ */
+public class OrderedSlot<T extends RisePresenterComponent<?> & Comparable<T>> extends MultiSlot<T> {
 }

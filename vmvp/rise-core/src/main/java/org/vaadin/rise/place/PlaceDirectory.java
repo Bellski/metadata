@@ -2,7 +2,6 @@ package org.vaadin.rise.place;
 
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
 import org.vaadin.rise.place.util.PlaceUtils;
 
 import java.util.Map;

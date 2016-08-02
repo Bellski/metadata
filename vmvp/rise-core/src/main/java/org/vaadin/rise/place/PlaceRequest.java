@@ -14,7 +14,7 @@
  * the License.
  */
 
-package org.vaadin.rise.place.deprecated;
+package org.vaadin.rise.place;
 
 
 import java.util.Collections;

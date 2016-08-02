@@ -1,7 +1,7 @@
 package org.some.application.features.api;
 
 import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.deprecated.proxy.slot.IsNested;
+import org.vaadin.rise.slot.api.IsNested;
 
 /**
  * Created by oem on 7/27/16.

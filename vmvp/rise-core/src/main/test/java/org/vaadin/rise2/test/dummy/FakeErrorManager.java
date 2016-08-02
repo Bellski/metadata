@@ -5,7 +5,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.UI;
 import org.vaadin.rise.error.BaseErrorManager;
 import org.vaadin.rise.place.api.PlaceManager;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.PlaceRequest;
 
 /**
  * Created by oem on 8/2/16.

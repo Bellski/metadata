@@ -6,22 +6,14 @@ import dagger.Provides;
 
 import javax.inject.Singleton;
 
-import javasource.SubEntry.Presenter;
-import javasource.SubEntryView;
-import javasource.SubEntryModule;
-import javasource.SubEntry.View;
-import javasource.SubEntryPresenter;
-
 
 import dagger.multibindings.IntoMap;
 import dagger.multibindings.StringKey;
 import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
-import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
-import org.vaadin.rise.place.PresenterPlace;
+import org.vaadin.rise.place.LazyPlacePresenter;
 
 import org.vaadin.rise.place.SecuredPresenterPlace;
-import javasource.SubEntryGateKeeper;
 
 
 @Module

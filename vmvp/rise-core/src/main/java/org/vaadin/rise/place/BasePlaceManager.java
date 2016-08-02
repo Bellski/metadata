@@ -2,9 +2,7 @@ package org.vaadin.rise.place;
 
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.place.api.*;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
-import org.vaadin.rise.place.deprecated.token.TokenFormatException;
-import org.vaadin.rise.place.deprecated.token.UrlUtils;
+import org.vaadin.rise.place.util.UrlUtils;
 import org.vaadin.rise.place.reveal.RevealException;
 import org.vaadin.rise.place.reveal.Supplier;
 import org.vaadin.rise.security.Gatekeeper;
@@ -177,22 +175,18 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
 
     @Override
     public void updateHistory(PlaceRequest request, boolean updateBrowserUrl) {
-        try {
-            // Make sure the request match
-            assert request.hasSameNameToken(getCurrentPlaceRequest()) : "Internal error, PlaceRequest passed to" +
-                    "updateHistory doesn't match the tail of the place hierarchy.";
-            placeHierarchy.set(placeHierarchy.size() - 1, request);
-            if (updateBrowserUrl) {
-                String historyToken = toHistoryToken(placeHierarchy);
-                String browserHistoryToken = uriFragmentSource.getUriFragment();
-                if (browserHistoryToken == null
-                        || !browserHistoryToken.equals(historyToken)) {
-                    setBrowserHistoryToken(historyToken, false);
-                }
-                saveHistoryToken(historyToken);
+        // Make sure the request match
+        assert request.hasSameNameToken(getCurrentPlaceRequest()) : "Internal error, PlaceRequest passed to" +
+                "updateHistory doesn't match the tail of the place hierarchy.";
+        placeHierarchy.set(placeHierarchy.size() - 1, request);
+        if (updateBrowserUrl) {
+            String historyToken = toHistoryToken(placeHierarchy);
+            String browserHistoryToken = uriFragmentSource.getUriFragment();
+            if (browserHistoryToken == null
+                    || !browserHistoryToken.equals(historyToken)) {
+                setBrowserHistoryToken(historyToken, false);
             }
-        } catch (TokenFormatException e) {
-            // Do nothing.
+            saveHistoryToken(historyToken);
         }
     }
 
@@ -211,7 +205,7 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
     }
 
     @Override
-    public String toPlaceToken(PlaceRequest placeRequest) throws TokenFormatException {
+    public String toPlaceToken(PlaceRequest placeRequest) {
         String placeToken = placeRequest.getNameToken();
         StringBuilder queryStringBuilder = new StringBuilder();
         String querySeparator = "";

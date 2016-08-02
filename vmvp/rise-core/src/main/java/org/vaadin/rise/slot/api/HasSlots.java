@@ -1,6 +1,9 @@
-package org.vaadin.rise.deprecated.proxy.slot;
+package org.vaadin.rise.slot.api;
 
 import org.vaadin.rise.core.RisePresenterComponent;
+import org.vaadin.rise.slot.MultiSlot;
+import org.vaadin.rise.slot.OrderedSlot;
+import org.vaadin.rise.slot.Slot;
 
 
 import java.util.List;

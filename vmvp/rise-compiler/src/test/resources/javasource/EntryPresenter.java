@@ -3,8 +3,8 @@ package javasource;
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.RootPresenter;
 import org.vaadin.rise.core.annotation.Presenter;
-import org.vaadin.rise.deprecated.proxy.annotation.ThisIsNestedSlot;
-import org.vaadin.rise.deprecated.proxy.slot.IsNested;
+import org.vaadin.rise.slot.annotation.ThisIsNestedSlot;
+import org.vaadin.rise.slot.api.IsNested;
 
 import javax.inject.Inject;
 

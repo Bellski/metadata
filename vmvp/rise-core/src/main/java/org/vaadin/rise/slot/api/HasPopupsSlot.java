@@ -1,4 +1,4 @@
-package org.vaadin.rise.deprecated.proxy.slot;
+package org.vaadin.rise.slot.api;
 
 import org.vaadin.rise.core.PopupView;
 import org.vaadin.rise.core.RisePresenterComponent;

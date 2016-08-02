@@ -1,8 +1,10 @@
-package org.vaadin.rise.deprecated.proxy.slot;
+package org.vaadin.rise.slot;
 
 import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterComponent;
 import org.vaadin.rise.core.RisePresenterImpl;
+import org.vaadin.rise.slot.api.IsSingleSlot;
+import org.vaadin.rise.slot.api.RemovableSlot;
 
 public class SingleSlot<PRESENTER extends RisePresenterImpl<?>> extends Slot<PRESENTER> implements IsSingleSlot<PRESENTER>, RemovableSlot<PRESENTER> {
 

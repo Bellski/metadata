@@ -1,7 +1,6 @@
 package org.vaadin.rise.place;
 
 import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
 import org.vaadin.rise.security.Gatekeeper;
 
 /**

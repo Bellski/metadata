@@ -1,7 +1,7 @@
 package org.vaadin.rise2.test.dummy;
 
 import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.PlaceRequest;
 import org.vaadin.rise.place.reveal.Supplier;
 
 /**

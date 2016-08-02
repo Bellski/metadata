@@ -5,7 +5,7 @@ import com.vaadin.server.ErrorHandler;
 import com.vaadin.ui.UI;
 import org.vaadin.rise.place.annotation.ErrorPlace;
 import org.vaadin.rise.place.api.PlaceManager;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.PlaceRequest;
 
 import javax.inject.Inject;
 import java.util.logging.Level;

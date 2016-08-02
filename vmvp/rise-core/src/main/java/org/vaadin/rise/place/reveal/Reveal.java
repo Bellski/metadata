@@ -1,7 +1,7 @@
 package org.vaadin.rise.place.reveal;
 
 import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
+import org.vaadin.rise.place.LazyPlacePresenter;
 
 /**
  * Created by oem on 8/2/16.

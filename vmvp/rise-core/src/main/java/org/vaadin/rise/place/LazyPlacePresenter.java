@@ -1,4 +1,4 @@
-package org.vaadin.rise.deprecated.proxy;
+package org.vaadin.rise.place;
 
 import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterImpl;

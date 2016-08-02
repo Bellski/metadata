@@ -4,7 +4,6 @@ import org.vaadin.rise.error.ErrorManager;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 import org.vaadin.rise.place.api.UriFragmentSource;
-import org.vaadin.rise.place.deprecated.PlaceRequest;
 import org.vaadin.rise.security.Gatekeeper;
 
 import java.util.Map;
