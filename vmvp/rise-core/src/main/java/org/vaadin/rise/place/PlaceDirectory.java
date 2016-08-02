@@ -3,6 +3,7 @@ package org.vaadin.rise.place;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.util.PlaceUtils;
 
 import java.util.Map;
 import java.util.Set;
@@ -12,10 +13,12 @@ import java.util.Set;
  */
 public class PlaceDirectory {
 	private final Map<String, Place> placeMap;
+	private Set<String> nameTokens;
 	private final PlaceBus placeBus;
 
-	public PlaceDirectory(Map<String, Place> placeMap, PlaceBus placeBus) {
+	public PlaceDirectory(Map<String, Place> placeMap, Set<String> nameTokens, PlaceBus placeBus) {
 		this.placeMap = placeMap;
+		this.nameTokens = nameTokens;
 		this.placeBus = placeBus;
 	}
 
@@ -24,9 +27,7 @@ public class PlaceDirectory {
 	}
 
 	public Place getPlace(String namePlace) {
-		if (namePlace.charAt(namePlace.length() -1) == '/') {
-			namePlace = namePlace.substring(0, namePlace.length() -1);
-		}
+		namePlace = PlaceUtils.convertToPlaceString(namePlace, nameTokens);
 
 		Place place = placeMap.get(namePlace);
 
@@ -36,5 +37,7 @@ public class PlaceDirectory {
 
 		return place;
 	}
+
+
 
 }

@@ -1,7 +1,7 @@
 package org.vaadin.rise.place.api;
 
-import org.vaadin.rise.core.RisePresenterImpl;
-import org.vaadin.rise.place.CanReveal;
+import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.reveal.Supplier;
 import org.vaadin.rise.security.Gatekeeper;
 
 /**
@@ -20,7 +20,7 @@ public interface Place extends ComparablePlace {
 
     void replaceGateKeeper(Gatekeeper gatekeeper);
 
-    RisePresenterImpl<?> reveal();
+    void reveal(PlaceRequest placeRequest, Supplier supplier);
 
     String getNameToken();
 }

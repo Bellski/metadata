@@ -5,9 +5,13 @@ import org.vaadin.rise.place.api.*;
 import org.vaadin.rise.place.deprecated.PlaceRequest;
 import org.vaadin.rise.place.deprecated.token.TokenFormatException;
 import org.vaadin.rise.place.deprecated.token.UrlUtils;
+import org.vaadin.rise.place.reveal.RevealException;
+import org.vaadin.rise.place.reveal.Supplier;
 import org.vaadin.rise.security.Gatekeeper;
+import org.vaadin.rise.error.ErrorManager;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * Created by Aleksandr on 25.07.2016.
@@ -20,52 +24,59 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
     private final Set<String> nameTokens;
     private List<PlaceRequest> placeHierarchy = new ArrayList<>();
 
+    private static final Logger logger = Logger.getLogger("BasePlaceManager");
+
     private String currentHistoryToken;
 
-    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource) {
-       this(placeMap, nameTokens, null, uriFragmentSource, null);
+    private ErrorManager errorManager;
+
+    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource, ErrorManager errorManager) {
+       this(placeMap, nameTokens, null, uriFragmentSource, null, errorManager);
     }
 
-    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource, Gatekeeper gatekeeper) {
-        this(placeMap, nameTokens, null, uriFragmentSource, gatekeeper);
+    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, UriFragmentSource uriFragmentSource, Gatekeeper gatekeeper, ErrorManager errorManager) {
+        this(placeMap, nameTokens, null, uriFragmentSource, gatekeeper, errorManager);
     }
 
-    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, PlaceBus placeBus, UriFragmentSource uriFragmentSource) {
-        this(placeMap, nameTokens, placeBus, uriFragmentSource, null);
+    public BasePlaceManager(Map<String, Place> placeMap, Set<String> nameTokens, PlaceBus placeBus, UriFragmentSource uriFragmentSource, ErrorManager errorManager) {
+        this(placeMap, nameTokens, placeBus, uriFragmentSource, null, errorManager);
     }
 
     public BasePlaceManager(Map<String, Place> placeMap,
                             Set<String> nameTokens,
                             PlaceBus placeBus,
                             UriFragmentSource uriFragmentSource,
-                            Gatekeeper gatekeeper) {
+                            Gatekeeper gatekeeper,
+                            ErrorManager errorManager) {
         this.nameTokens = nameTokens;
-        this.placeDirectory = new PlaceDirectory(placeMap, placeBus);
+        this.placeDirectory = new PlaceDirectory(placeMap, nameTokens, placeBus);
         this.placeBus = placeBus;
         this.uriFragmentSource = uriFragmentSource;
         this.gatekeeper = gatekeeper;
+        this.errorManager = errorManager;
         this.uriFragmentSource.setUriFragmentChangeListener(this);
+
+        errorManager.setPlaceManager(this);
     }
 
     @Override
     public void onUriFragmentChanged(String fragmentUri) {
+        handleTokenChange(fragmentUri);
+    }
+
+    private void handleTokenChange(final String fragmentUri) {
+        if (fragmentUri.trim().isEmpty()) {
+            revealDefaultPlace();
+            return;
+        }
+
         final Place place = placeDirectory.getPlace(fragmentUri);
 
         if (place != null) {
-            handleTokenChange(fragmentUri, place);
+            placeHierarchy = toPlaceRequestHierarchy(fragmentUri, place);
+            doRevealPlace(getCurrentPlaceRequest(), place, true);
         } else {
-            placeNotFound(fragmentUri);
-        }
-    }
-
-    private void handleTokenChange(final String fragmentUri, Place associatedPlace) {
-        if (canRevealPlace(associatedPlace)) {
-            if (fragmentUri.trim().isEmpty()) {
-                revealDefaultPlace();
-            } else {
-                placeHierarchy = toPlaceRequestHierarchy(fragmentUri, associatedPlace);
-                doRevealPlace(getCurrentPlaceRequest(), associatedPlace, true);
-            }
+            errorManager.onPlaceNotFound(fragmentUri);
         }
     }
 
@@ -84,15 +95,16 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
         }
 
 
-        if (fallBackNamePlace != null) {
+        if (fallBackNamePlace != null && !fallBackNamePlace.equals(place.getNameToken())) {
             revealPlace(
-                    toPlaceRequest(fallBackNamePlace, placeDirectory.getPlace(fallBackNamePlace)),
-                    true
+                toPlaceRequest(fallBackNamePlace, placeDirectory.getPlace(fallBackNamePlace)),
+                false
             );
+
+            return false;
         }
 
-
-        return fallBackNamePlace == null;
+        return true;
     }
 
     @Override
@@ -105,17 +117,31 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
     }
 
     protected void doRevealPlace(PlaceRequest request, Place place, boolean updateBrowser) {
-        final RisePresenterImpl<?> thatPresenter = place.reveal();
+        if (canRevealPlace(place)) {
+            PlaceRequest originalRequest = getCurrentPlaceRequest();
 
-        PlaceRequest originalRequest = getCurrentPlaceRequest();
-        thatPresenter.prepareFromRequest(request);
-        if (originalRequest == getCurrentPlaceRequest()) {
-            updateHistory(request, updateBrowser);
-        }
+            place.reveal(request, new Supplier() {
 
-        if (!thatPresenter.useManualReveal()) {
-            // Automatic reveal
-            manualReveal(thatPresenter);
+                @Override
+                public void onFailure(RevealException e) {
+                    errorManager.onErrorOccurrence(request, e);
+                }
+
+                @Override
+                public void onFailure() {
+                    errorManager.onErrorOccurrence();
+                }
+
+                @Override
+                public void onSuccess(RisePresenterImpl<?> presenter) {
+                    if (originalRequest == getCurrentPlaceRequest()) {
+                        updateHistory(request, updateBrowser);
+                    }
+                    manualReveal(presenter);
+                }
+
+            });
+
         }
     }
 
@@ -127,8 +153,14 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
 
     @Override
     public void revealCurrentPlace() {
-        onUriFragmentChanged(uriFragmentSource.getUriFragment());
+        handleTokenChange(uriFragmentSource.getUriFragment());
     }
+
+    @Override
+    public void revealPlace(PlaceRequest request) {
+        revealPlace(request, true);
+    }
+
 
     @Override
     public void revealPlace(PlaceRequest request, boolean updateBrowserUrl) {
@@ -140,7 +172,7 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
 
     @Override
     public void revealUnauthorizedPlace(String unauthorizedHistoryToken) {
-        placeNotFound(unauthorizedHistoryToken);
+        errorManager.onErrorOccurrence();
     }
 
     @Override
@@ -214,10 +246,6 @@ public class BasePlaceManager implements PlaceManager, UriFragmentChangeListener
 
     }
 
-    @Override
-    public void placeNotFound(String invalidHistoryToken) {
-
-    }
 
     private List<PlaceRequest> toPlaceRequestHierarchy(String historyToken, Place place) {
         List<PlaceRequest> result = new ArrayList<>(); //TODO: надо будет потом упрозднить.

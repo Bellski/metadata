@@ -8,12 +8,24 @@ import org.vaadin.rise.place.api.UriFragmentSource;
  */
 public class BaseUriFragmentSource implements UriFragmentSource {
     private UriFragmentChangeListener uriFragmentChangeListener;
-    protected String currentUriFragment = "";
+    private String currentUriFragment = "";
 
 
     @Override
     public String getUriFragment() {
         return currentUriFragment;
+    }
+
+    protected void setUriFragment(String uriFragment) {
+//        if (uriFragment.equals("!/") || uriFragment.equals("!") ) {
+//            uriFragment = "";
+//        }
+
+        if (!uriFragment.isEmpty() && uriFragment.charAt(uriFragment.length() -1) == '/') {
+            uriFragment = uriFragment.substring(0, uriFragment.length() -1);
+        }
+
+        currentUriFragment = uriFragment;
     }
 
     @Override
@@ -27,14 +39,14 @@ public class BaseUriFragmentSource implements UriFragmentSource {
     }
 
     protected void fireUriFragmentChange(String uriFragment) {
+        setUriFragment(uriFragment);
+
         if (uriFragmentChangeListener == null) {
             throw new NullPointerException(
                     "BaseUriFragmentSource.uriFragmentChangeListener can't be null!"
             );
         }
 
-        currentUriFragment = uriFragment;
-
-        uriFragmentChangeListener.onUriFragmentChanged(uriFragment);
+        uriFragmentChangeListener.onUriFragmentChanged(currentUriFragment);
     }
 }

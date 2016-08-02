@@ -3,6 +3,7 @@ package org.vaadin.rise.core;
 
 import org.vaadin.rise.place.deprecated.PlaceRequest;
 import org.vaadin.rise.deprecated.proxy.slot.IsNested;
+import org.vaadin.rise.place.reveal.Supplier;
 
 /**
  * Created by oem on 7/12/16.
@@ -33,7 +34,7 @@ public class RisePresenterImpl<VIEW extends RiseView> extends RisePresenterCompo
 
 
 
-    public void prepareFromRequest(PlaceRequest request) {
+    public void prepareFromRequest(PlaceRequest request, Supplier supplier) {
 
     }
 

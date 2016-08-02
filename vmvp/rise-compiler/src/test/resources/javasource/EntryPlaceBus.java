@@ -1,5 +1,6 @@
 package javasource;
 
+import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 
@@ -16,5 +17,10 @@ public class EntryPlaceBus implements PlaceBus {
 	@Override
 	public Place getPlace(String compareToPlace) {
 		return null;
+	}
+
+	@Override
+	public boolean containsPlace(String namePlace) {
+		return false;
 	}
 }

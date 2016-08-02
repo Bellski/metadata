@@ -1,15 +1,17 @@
 package org.vaadin.rise.place.annotation;
 
-import java.lang.annotation.ElementType;
+import javax.inject.Qualifier;
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * Created by oem on 7/11/16.
  */
-@Target(ElementType.TYPE )
-@Retention(RetentionPolicy.CLASS )
+@Qualifier
+@Documented
+@Retention(RUNTIME)
 public @interface ErrorPlace {
 
 }

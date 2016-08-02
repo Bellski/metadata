@@ -3,8 +3,6 @@ package javasource;
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.annotation.Presenter;
 
-import javasource.SubEntryGateKeeper;
-
 import javax.inject.Inject;
 
 /**

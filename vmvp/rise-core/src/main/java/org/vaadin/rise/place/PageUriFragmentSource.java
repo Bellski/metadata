@@ -14,18 +14,16 @@ public class PageUriFragmentSource extends BaseUriFragmentSource implements Page
     public PageUriFragmentSource(Page page) {
         this.page = page;
 
+        setUriFragment(page.getUriFragment());
         page.addUriFragmentChangedListener(this);
     }
 
     @Override
     public void setUriFragment(String historyToken, boolean update) {
         page.setUriFragment(historyToken, update);
+        setUriFragment(historyToken);
     }
 
-    @Override
-    public String getUriFragment() {
-        return page.getUriFragment();
-    }
 
     @Override
     public void uriFragmentChanged(Page.UriFragmentChangedEvent event) {

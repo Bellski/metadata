@@ -11,6 +11,7 @@ public class PlaceManagerModuleModel extends JFOModel {
 	private FqnHolder placeBus;
 	private FqnHolder nameTokens;
 	private FqnHolder defaultGateKeeper;
+	private FqnHolder errorManager;
 
 	public PlaceManagerModuleModel(String packageName) {
 		super("PlaceManagerModule", "PlaceManagerModule", packageName);
@@ -58,5 +59,13 @@ public class PlaceManagerModuleModel extends JFOModel {
 
 	public void setDefaultGateKeeper(FqnHolder defaultGateKeeper) {
 		this.defaultGateKeeper = defaultGateKeeper;
+	}
+
+	public void setErrorManager(FqnHolder errorManager) {
+		this.errorManager = errorManager;
+	}
+
+	public FqnHolder getErrorManager() {
+		return errorManager;
 	}
 }

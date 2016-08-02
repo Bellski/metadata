@@ -11,6 +11,8 @@ public interface PlaceManager {
 
     void revealCurrentPlace();
 
+    void revealPlace(PlaceRequest request);
+
     void revealPlace(PlaceRequest request, boolean updateBrowserUrl);
 
     void revealUnauthorizedPlace(String unauthorizedHistoryToken);
@@ -20,6 +22,4 @@ public interface PlaceManager {
     String toPlaceToken(PlaceRequest placeRequest) throws TokenFormatException;
 
     void revealDefaultPlace();
-
-    void placeNotFound(String invalidHistoryToken);
 }

@@ -2,6 +2,9 @@ package org.vaadin.rise.place;
 
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.deprecated.proxy.LazyPlacePresenter;
+import org.vaadin.rise.place.deprecated.PlaceRequest;
+import org.vaadin.rise.place.reveal.RevealException;
+import org.vaadin.rise.place.reveal.Supplier;
 
 /**
  * Created by Aleksandr on 26.07.2016.
@@ -21,12 +24,22 @@ public class PresenterPlace<Presenter_ extends RisePresenterImpl<?>> extends Bas
                 paramNames,
                 paramIndexes
         );
-
         this.lazyPresenter = lazyPresenter;
     }
 
+
     @Override
-    public RisePresenterImpl<?> reveal() {
-        return lazyPresenter.getLazyPresenter();
+    public void reveal(PlaceRequest placeRequest, Supplier supplier) {
+        try {
+            final Presenter_ presenter = lazyPresenter.getLazyPresenter();
+            presenter.prepareFromRequest(placeRequest, supplier);
+
+            if (!presenter.useManualReveal()) {
+                supplier.onSuccess(presenter);
+            }
+
+        } catch (Exception e) {
+            supplier.onFailure(new RevealException(e));
+        }
     }
 }

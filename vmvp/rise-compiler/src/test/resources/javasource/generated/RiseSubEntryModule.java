@@ -23,6 +23,7 @@ import org.vaadin.rise.place.PresenterPlace;
 import org.vaadin.rise.place.SecuredPresenterPlace;
 import javasource.SubEntryGateKeeper;
 
+
 @Module
 public class RiseSubEntryModule extends SubEntryModule {
 

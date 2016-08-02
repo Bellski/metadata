@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Created by oem on 7/12/16.
  */
-public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, IsComponent, RisePresenter<VIEW> {
+public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, HasPopupsSlot, IsComponent, RisePresenter<VIEW> {
 
     private RisePresenterComponent<?> parent;
     private IsSlot<?> inSlot;
@@ -20,15 +20,21 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
 
     private final Set<RisePresenterComponent<?>> children = new HashSet<>();
 
-    private boolean initialized = false;
+    protected PopupSlot<RisePresenterComponent<? extends PopupView<?>> > POPUP_SLOT = new PopupSlot<>();
 
     protected RisePresenterComponent(VIEW view) {
         this.view = view;
         view.setPresenter(this);
     }
 
-    protected void prepare() {
+    @Override
+    public void addToPopupSlot(final RisePresenterComponent<? extends PopupView<?>> child) {
+        addToSlot(POPUP_SLOT, child);
+    }
 
+    @Override
+    public void removeFromPopupSlot(final RisePresenterComponent<? extends PopupView<?>> child) {
+        removeFromSlot(POPUP_SLOT, child);
     }
 
     @Override
@@ -146,12 +152,15 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
     }
 
     void internalReveal() {
-        if (!isVisible()) {
-            onReveal();
-            visible = true;
+        if (isVisible()) {
+            return;
+        }
 
-            new HashSet<>(children)
-                    .forEach(RisePresenterComponent::internalReveal);
+        onReveal();
+        visible = true;
+
+        new HashSet<>(children)
+            .forEach(RisePresenterComponent::internalReveal);
 
 //        if (isPopup()) {
 //            monitorCloseEvent((PresenterWidget<? extends PopupView>) this);
@@ -159,7 +168,6 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
 //        }
 
 //        registerVisibleHandlers();
-        }
     }
 
     void internalHide() {
@@ -226,14 +234,6 @@ public class RisePresenterComponent<VIEW extends RiseView> implements HasSlots, 
         return getView().asComponent();
     }
 
-    public boolean isInitialized() {
-        return initialized;
-    }
-
-    public void setInitialized() {
-        prepare();
-        this.initialized = true;
-    }
 
     public VIEW getView() {
         return view;

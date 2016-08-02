@@ -15,6 +15,8 @@ import org.vaadin.rise.codegen.model.ModuleModel;
 import org.vaadin.rise.codegen.model.NestedSlotModel;
 import org.vaadin.rise.codegen.model.PlaceManagerModuleModel;
 import org.vaadin.rise.codegen.model.aNewOne.PresenterData;
+import org.vaadin.rise.error.BaseErrorManager;
+import org.vaadin.rise.error.DefaultErrorManager;
 import org.vaadin.rise.security.annotation.DefaultGateKeeper;
 
 import javax.lang.model.element.Element;
@@ -64,7 +66,8 @@ public class ModulesProcessingStep implements BasicAnnotationProcessor.Processin
 	public Set<? extends Class<? extends Annotation>> annotations() {
 		return ImmutableSet.of(
 			ApplicationEntry.class,
-			DefaultGateKeeper.class
+			DefaultGateKeeper.class,
+			DefaultErrorManager.class
 		);
 	}
 
@@ -78,6 +81,12 @@ public class ModulesProcessingStep implements BasicAnnotationProcessor.Processin
 
 		if (elementsByAnnotation.containsKey(DefaultGateKeeper.class)) {
 			placeManagerModuleModel.setDefaultGateKeeper(FqnHolder.buildJavaCompatibleFQN(elementsByAnnotation.get(DefaultGateKeeper.class).iterator().next()));
+		}
+
+		if (elementsByAnnotation.containsKey(DefaultErrorManager.class)) {
+			placeManagerModuleModel.setErrorManager(FqnHolder.buildJavaCompatibleFQN(elementsByAnnotation.get(DefaultErrorManager.class).iterator().next()));
+		} else {
+			placeManagerModuleModel.setErrorManager(FqnHolder.buildJavaCompatibleFQN(elements.getTypeElement(BaseErrorManager.class.getName())));
 		}
 
 		for (PresenterData presenterData : presenterDatas.values()) {

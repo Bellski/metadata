@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class PlaceRequest   {
+public class PlaceRequest {
     private final String nameToken;
     private final Map<String, String> params;
 

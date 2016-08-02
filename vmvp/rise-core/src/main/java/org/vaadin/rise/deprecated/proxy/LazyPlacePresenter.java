@@ -19,11 +19,6 @@ public class LazyPlacePresenter<Presenter_ extends RisePresenterImpl<?>> {
 	}
 
 	public Presenter_ getLazyPresenter() {
-		final Presenter_ presenter = lazyPresenter.get();
-		if (!presenter.isInitialized()) {
-			presenter.setInitialized();
-		}
-
-		return presenter;
+		return lazyPresenter.get();
 	}
 }

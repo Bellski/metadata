@@ -1,5 +1,6 @@
 package org.vaadin.rise.place;
 
+import org.vaadin.rise.error.ErrorManager;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 import org.vaadin.rise.place.api.UriFragmentSource;
@@ -14,7 +15,6 @@ import java.util.Set;
  */
 public class DefaultPlaceManager extends BasePlaceManager {
 	private final PlaceRequest defaultPlaceRequest;
-	private final PlaceRequest errorPlaceRequest;
 	private final PlaceRequest unauthorizedPlaceRequest;
 
 	public DefaultPlaceManager(Map<String, Place> placeMap,
@@ -22,8 +22,8 @@ public class DefaultPlaceManager extends BasePlaceManager {
 							   UriFragmentSource uriFragmentSource,
 							   Gatekeeper gatekeeper,
 							   String defaultPlaceNameToken,
-							   String errorPlaceNameToken,
-							   String unauthorizedPlaceNameToken) {
+							   String unauthorizedPlaceNameToken,
+							   ErrorManager errorManager) {
 
 		this(
 			placeMap,
@@ -32,8 +32,8 @@ public class DefaultPlaceManager extends BasePlaceManager {
 			uriFragmentSource,
 			gatekeeper,
 			defaultPlaceNameToken,
-			errorPlaceNameToken,
-			unauthorizedPlaceNameToken
+			unauthorizedPlaceNameToken,
+			errorManager
 		);
 	}
 
@@ -42,8 +42,8 @@ public class DefaultPlaceManager extends BasePlaceManager {
 							   Set<String> nameTokens,
 							   UriFragmentSource uriFragmentSource,
 							   String defaultPlaceNameToken,
-							   String errorPlaceNameToken,
-							   String unauthorizedPlaceNameToken) {
+							   String unauthorizedPlaceNameToken,
+							   ErrorManager errorManager) {
 
 		this(
 			placeMap,
@@ -52,8 +52,8 @@ public class DefaultPlaceManager extends BasePlaceManager {
 			uriFragmentSource,
 			null,
 			defaultPlaceNameToken,
-			errorPlaceNameToken,
-			unauthorizedPlaceNameToken
+			unauthorizedPlaceNameToken,
+			errorManager
 		);
 	}
 
@@ -63,24 +63,18 @@ public class DefaultPlaceManager extends BasePlaceManager {
 							   UriFragmentSource uriFragmentSource,
 							   Gatekeeper gatekeeper,
 							   String defaultPlaceNameToken,
-							   String errorPlaceNameToken,
-							   String unauthorizedPlaceNameToken) {
+							   String unauthorizedPlaceNameToken,
+							   ErrorManager errorManager) {
 
-		super(placeMap, nameTokens, placeBus, uriFragmentSource, gatekeeper);
+		super(placeMap, nameTokens, placeBus, uriFragmentSource, gatekeeper, errorManager);
 
 		defaultPlaceRequest = new PlaceRequest.Builder().nameToken(defaultPlaceNameToken).build();
-		errorPlaceRequest = new PlaceRequest.Builder().nameToken(errorPlaceNameToken).build();
 		unauthorizedPlaceRequest = new PlaceRequest.Builder().nameToken(unauthorizedPlaceNameToken).build();
 	}
 
 	@Override
 	public void revealDefaultPlace() {
 		revealPlace(defaultPlaceRequest, false);
-	}
-
-	@Override
-	public void placeNotFound(String invalidHistoryToken) {
-		revealPlace(errorPlaceRequest, false);
 	}
 
 	@Override

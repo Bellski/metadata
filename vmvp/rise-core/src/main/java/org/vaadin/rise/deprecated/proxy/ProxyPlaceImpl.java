@@ -38,11 +38,7 @@ public class ProxyPlaceImpl<PRESENTER extends RisePresenterImpl<?>>  extends Bas
     private void handleRequest(final PlaceRequest request, final boolean updateBrowserUrl) {
         final PRESENTER thatPresenter = presenter.getLazyPresenter();
 
-        PlaceRequest originalRequest = placeManagerTODO.getCurrentPlaceRequest();
-		thatPresenter.prepareFromRequest(request);
-        if (originalRequest == placeManagerTODO.getCurrentPlaceRequest()) {
-            placeManagerTODO.updateHistory(request, updateBrowserUrl);
-        }
+
 
         if (!thatPresenter.useManualReveal()) {
             // Automatic reveal
