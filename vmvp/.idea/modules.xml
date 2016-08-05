@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/feature-directory/feature-directory.iml" filepath="$PROJECT_DIR$/feature-directory/feature-directory.iml" />
       <module fileurl="file://$PROJECT_DIR$/rise.iml" filepath="$PROJECT_DIR$/rise.iml" />
       <module fileurl="file://$PROJECT_DIR$/rise-application/rise-application.iml" filepath="$PROJECT_DIR$/rise-application/rise-application.iml" />
       <module fileurl="file://$PROJECT_DIR$/rise-compiler/rise-compiler.iml" filepath="$PROJECT_DIR$/rise-compiler/rise-compiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rise-compiler-light/rise-compiler-light.iml" filepath="$PROJECT_DIR$/rise-compiler-light/rise-compiler-light.iml" />
       <module fileurl="file://$PROJECT_DIR$/rise-core/rise-core.iml" filepath="$PROJECT_DIR$/rise-core/rise-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rise-idea/rise-idea.iml" filepath="$PROJECT_DIR$/rise-idea/rise-idea.iml" />
       <module fileurl="file://$PROJECT_DIR$/rise-compiler/vmvp-compiler.iml" filepath="$PROJECT_DIR$/rise-compiler/vmvp-compiler.iml" />
     </modules>
   </component>

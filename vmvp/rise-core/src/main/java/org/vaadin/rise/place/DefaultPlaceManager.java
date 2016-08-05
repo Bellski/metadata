@@ -1,6 +1,10 @@
 package org.vaadin.rise.place;
 
 import org.vaadin.rise.error.ErrorManager;
+import org.vaadin.rise.place.annotation.DefaultPlace;
+import org.vaadin.rise.place.annotation.ErrorPlace;
+import org.vaadin.rise.place.annotation.NameTokens;
+import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 import org.vaadin.rise.place.api.UriFragmentSource;
@@ -56,13 +60,13 @@ public class DefaultPlaceManager extends BasePlaceManager {
 		);
 	}
 
-	public DefaultPlaceManager(Map<String, Place> placeMap,
-							   Set<String> nameTokens,
+	public DefaultPlaceManager(@Places Map<String, Place> placeMap,
+							   @NameTokens Set<String> nameTokens,
 							   PlaceBus placeBus,
 							   UriFragmentSource uriFragmentSource,
 							   Gatekeeper gatekeeper,
-							   String defaultPlaceNameToken,
-							   String unauthorizedPlaceNameToken,
+							   @DefaultPlace String defaultPlaceNameToken,
+							   @ErrorPlace String unauthorizedPlaceNameToken,
 							   ErrorManager errorManager) {
 
 		super(placeMap, nameTokens, placeBus, uriFragmentSource, gatekeeper, errorManager);

@@ -15,6 +15,7 @@
         <module>rise-application</module>
         <module>rise-compiler</module>
         <module>feature-directory</module>
+        <module>rise-compiler-light</module>
     </modules>
 
 </project>

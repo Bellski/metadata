@@ -1,6 +1,5 @@
 package javasource;
 
-import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.place.api.Place;
 import org.vaadin.rise.place.api.PlaceBus;
 
