@@ -9,13 +9,16 @@ import org.vaadin.rise.core.PopupView;
 import org.vaadin.rise.core.RiseView;
 </#if>
 
-public interface ${name} {
-    interface View extends
-<#if isPopup()>
+<#assign view>
+    <#if isPopup()>
 PopupView<Presenter>
-<#else>
+    <#else>
 RiseView<Presenter>
-</#if> {}
+    </#if>
+</#assign>
+
+public interface ${name} {
+    interface View extends ${view} {}
 
     interface Presenter extends RisePresenter<View> {}
 }

@@ -1,6 +1,6 @@
 <idea-plugin version="2">
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
+  <id>org.vaadin.rise.plugin.idea</id>
+  <name>rise-idea</name>
   <version>1.0</version>
   <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
@@ -26,11 +26,20 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-
+    <annotator language="JAVA" implementationClass="org.vaadin.rise.plugin.idea.annotator.SlotAnnotator"/>
   </extensions>
 
   <actions>
-    <!-- Add your actions here -->
+    <action class="org.vaadin.rise.plugin.idea.CreatePresenterAction"
+            id="RISE.newPresenter"
+            text="Create a GWTP Presenter with View"
+            popup="true"
+            description="Create Presenter"
+          >
+
+          <add-to-group group-id="NewGroup" anchor="last" relative-to-action="NewFile"/>
+          <!--<keyboard-shortcut first-keystroke="alt p" keymap="$default"/>-->
+    </action>
   </actions>
 
 </idea-plugin>

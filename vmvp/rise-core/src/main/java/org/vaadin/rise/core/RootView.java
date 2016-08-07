@@ -12,12 +12,11 @@ import javax.inject.Singleton;
 
 @Singleton
 public class RootView extends RiseViewImpl<Root.Presenter> implements Root.View {
-	private final RootPresenter.RootSlot rootSlot;
+
 
 	@Inject
-	public RootView(UI ui, RootPresenter.RootSlot rootSlot) {
+	public RootView(UI ui) {
 		super(ui);
-		this.rootSlot = rootSlot;
 	}
 
 	@Override
@@ -27,7 +26,7 @@ public class RootView extends RiseViewImpl<Root.Presenter> implements Root.View 
 
 	@Override
 	public void setInSlot(Object slot, IsComponent content) {
-		assert slot == rootSlot : "Unknown slot used in the root proxy.";
+		assert slot == RootPresenter.ROOT_SLOT : "Unknown slot used in the root proxy.";
 
 		getUI().setContent(content.asComponent());
 	}

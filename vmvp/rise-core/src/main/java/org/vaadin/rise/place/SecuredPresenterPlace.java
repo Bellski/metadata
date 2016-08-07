@@ -1,5 +1,6 @@
 package org.vaadin.rise.place;
 
+import dagger.Lazy;
 import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.security.Gatekeeper;
 
@@ -10,7 +11,7 @@ public class SecuredPresenterPlace<Presenter_ extends RisePresenterImpl<?>> exte
 	private Gatekeeper gatekeeper;
 
 	public SecuredPresenterPlace(Gatekeeper gatekeeper,
-								 LazyPlacePresenter<Presenter_> lazyPresenter,
+								 Lazy<Presenter_> lazyPresenter,
 								 String nameToken,
 								 String nameTokenWithHiddenParams,
 								 String[] paramNames,

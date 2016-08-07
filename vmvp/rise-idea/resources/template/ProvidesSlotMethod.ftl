@@ -1,7 +1,12 @@
-<#-- @ftlvariable name="" type="org.vaadin.rise.plugin.idea.model.SlotImplementationModel" -->
+<#-- @ftlvariable name="" type="org.vaadin.rise.plugin.idea.model.LazyPresenterProviderMethodModel" -->
 
 @Provides
 @Singleton
-${implementsSlot.name} provides${name}(${name} slot) {
-    return slot;
+@IntoSet
+public static LazyPresenterProvider<?> lazyPresenterProvider(Lazy<${presenterImpl.name}> presenterLazy, SlotRevealBus slotRevealBus) {
+    final LazyPresenterProvider<?> lazyPresenterProvider = new LazyPresenterProvider<>(presenterLazy);
+
+    slotRevealBus.registerSlot(${slot.name}, lazyPresenterProvider);
+
+    return lazyPresenterProvider;
 }

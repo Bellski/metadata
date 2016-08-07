@@ -1,8 +1,5 @@
 package org.vaadin.rise.plugin.idea;
 
-import com.intellij.codeInsight.template.impl.ShortenFQNamesProcessor;
-import com.intellij.extapi.psi.PsiFileBase;
-import com.intellij.ide.util.FQNameCellRenderer;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
@@ -15,18 +12,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.*;
 import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.impl.java.stubs.index.JavaShortClassNameIndex;
-import com.intellij.psi.impl.source.PsiJavaFileBaseImpl;
-import com.intellij.psi.impl.source.tree.java.PsiArrayInitializerExpressionImpl;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.search.PsiShortNamesCache;
 import com.intellij.psi.search.searches.AnnotatedMembersSearch;
 import com.intellij.psi.search.searches.ClassInheritorsSearch;
-import com.intellij.psi.util.FindClassUtil;
-import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.Processor;
-import com.intellij.util.indexing.FileBasedIndex;
-import com.intellij.util.indexing.FileBasedIndexExtension;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +29,6 @@ import org.vaadin.rise.plugin.idea.model.SlotItem;
 import org.vaadin.rise.plugin.idea.model.SlotListModel;
 import org.vaadin.rise.plugin.idea.utils.PackageUtilExt;
 import org.vaadin.rise.slot.annotation.Slot;
-import org.vaadin.rise.slot.api.IsNested;
 
 import java.io.IOException;
 import java.util.ArrayList;

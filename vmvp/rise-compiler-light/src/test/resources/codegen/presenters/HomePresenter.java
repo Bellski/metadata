@@ -7,7 +7,7 @@ import org.vaadin.rise.core.annotation.Presenter;
 
 import javax.inject.Inject;
 
-@Presenter(placeName = "!/user")
+@Presenter(placeName = "!/home")
 public class HomePresenter extends RisePresenterImpl<RiseView<?>> implements RisePresenter<RiseView<?>> {
 
 	@Inject

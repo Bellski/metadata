@@ -5,7 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoMap;
 import dagger.multibindings.StringKey;
-import org.vaadin.rise.place.LazyPlacePresenter;
+import dagger.Lazy;
 import org.vaadin.rise.place.PresenterPlace;
 import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
@@ -25,7 +25,7 @@ public class PlacesModule {
     @IntoMap
     @Places
     @StringKey("${presenter.placeName}")
-    Place ${presenter.placeNameWithoutHashBang}PlaceValue(LazyPlacePresenter<${presenter.className}> lazyPlacePresenter) {
+    Place ${presenter.placeNameWithoutHashBang}PlaceValue(Lazy<${presenter.className}> lazyPlacePresenter) {
         return new ${presenter.placeImplementation.className}<>(
             lazyPlacePresenter,
             "${presenter.placeName}",

@@ -1,8 +1,7 @@
-package org.vaadin.rise2.test.dummy;
+package org.vaadin.rise2.test.dummy.place;
 
 import com.vaadin.ui.UI;
 import org.vaadin.rise.core.RiseViewImpl;
-import org.vaadin.rise2.test.place.PlaceTest;
 
 /**
  * Created by Aleksandr on 26.07.2016.

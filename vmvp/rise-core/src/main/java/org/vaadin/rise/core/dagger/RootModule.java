@@ -1,10 +1,15 @@
 package org.vaadin.rise.core.dagger;
 
+import dagger.Lazy;
 import dagger.Module;
 import dagger.Provides;
+import dagger.multibindings.IntoSet;
+import org.vaadin.rise.core.RisePresenterImpl;
 import org.vaadin.rise.core.Root;
 import org.vaadin.rise.core.RootPresenter;
 import org.vaadin.rise.core.RootView;
+import org.vaadin.rise.place.LazyPresenterProvider;
+import org.vaadin.rise.slot.SlotRevealBus;
 
 import javax.inject.Singleton;
 
@@ -13,11 +18,6 @@ import javax.inject.Singleton;
  */
 @Module
 public class RootModule {
-    @Provides
-    @Singleton
-    RootPresenter.RootSlot providesRootSlot(RootPresenter.RiseRootSlot rootSlot) {
-        return rootSlot;
-    }
 
     @Provides @Singleton
     Root.Presenter providesRootPresenter(RootPresenter rootPresenter) {
@@ -27,5 +27,16 @@ public class RootModule {
     @Provides @Singleton
     Root.View providesRootView(RootView rootView) {
         return rootView;
+    }
+
+    @Provides
+    @Singleton
+    @IntoSet
+    public static LazyPresenterProvider<?> lazyPresenterProvider(Lazy<RootPresenter> presenterLazy, SlotRevealBus slotRevealBus) {
+        final LazyPresenterProvider<?> lazyPresenterProvider = new LazyPresenterProvider<>(presenterLazy);
+
+        slotRevealBus.registerSlot(RootPresenter.ROOT_SLOT, lazyPresenterProvider);
+
+        return lazyPresenterProvider;
     }
 }

@@ -95,7 +95,7 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.vaadin.rise</groupId>
-                        <artifactId>rise-compiler</artifactId>
+                        <artifactId>rise-compiler-light</artifactId>
                         <version>1.0.0</version>
                     </dependency>
                     <!--<dependency>-->

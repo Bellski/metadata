@@ -6,19 +6,22 @@ import com.intellij.openapi.application.ModalityState;
 import com.intellij.openapi.application.Result;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.*;
-import com.intellij.psi.codeStyle.CodeStyleManager;
-import com.intellij.psi.codeStyle.JavaCodeStyleManager;
-import com.intellij.psi.impl.source.tree.TreeUtil;
-import com.intellij.psi.util.PsiTreeUtil;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
+import freemarker.template.TemplateException;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
+import org.vaadin.rise.place.LazyPresenterProvider;
 import org.vaadin.rise.plugin.idea.generator.SlotImplementationGenerator;
+import org.vaadin.rise.plugin.idea.model.LazyPresenterProviderMethodModel;
 import org.vaadin.rise.plugin.idea.model.PsiClassModel;
-import org.vaadin.rise.plugin.idea.model.SlotImplementationModel;
-import org.vaadin.rise.plugin.idea.model.SlotType;
+import org.vaadin.rise.slot.SlotRevealBus;
+
+import java.io.IOException;
 
 /**
  * Created by oem on 8/4/16.
@@ -26,11 +29,15 @@ import org.vaadin.rise.plugin.idea.model.SlotType;
 public class ImplementsSlotFix implements IntentionAction {
 
 
-    private PsiClass slotInterface;
+    private final PsiClass presenterClass;
+    private final PsiClass risModule;
+    private PsiField slot;
     private SlotImplementationGenerator slotImplementationGenerator;
 
-    public ImplementsSlotFix(PsiClass slotInterface, SlotImplementationGenerator slotImplementationGenerator) {
-        this.slotInterface = slotInterface;
+    public ImplementsSlotFix(PsiClass presenterClass, PsiClass risModule, PsiField slot, SlotImplementationGenerator slotImplementationGenerator) {
+        this.presenterClass = presenterClass;
+        this.risModule = risModule;
+        this.slot = slot;
         this.slotImplementationGenerator = slotImplementationGenerator;
     }
 
@@ -56,47 +63,39 @@ public class ImplementsSlotFix implements IntentionAction {
     @Override
     public void invoke(@NotNull Project project, Editor editor, PsiFile file) throws IncorrectOperationException {
         final PsiElementFactory elemFactory = JavaPsiFacade.getElementFactory(project);
+        final JavaPsiFacade psiFasade = JavaPsiFacade.getInstance(project);
         final PsiFileFactory psiFileFactory = PsiFileFactory.getInstance(project);
 
-        final PsiClass psiPresenter = PsiTreeUtil.getParentOfType(slotInterface, PsiClass.class);
+        if (risModule.findMethodsByName("lazyPresenterProvider", false).length == 0) {
+            LazyPresenterProviderMethodModel lazyPresenterProviderMethodModel = new LazyPresenterProviderMethodModel(
+                    new PsiClassModel(presenterClass.getName(), StringUtil.getPackageName(presenterClass.getQualifiedName())),
+                    new PsiClassModel(presenterClass.getName() + "." + slot.getName(), "")
+            );
 
-        final SlotImplementationModel slotImplementationModel = new SlotImplementationModel(
-                psiPresenter.getName() + slotInterface.getName(),
-                new PsiClassModel(
-                        psiPresenter.getName() + "." + slotInterface.getName(),
-                        getPackage(slotInterface.getQualifiedName())
-                ),
-                new PsiClassModel(
-                        psiPresenter.getName(),
-                        getPackage(psiPresenter.getQualifiedName())
-                ),
-                SlotType.NESTED_SLOT
-        );
+            ApplicationManager.getApplication().invokeAndWait(() -> new WriteCommandAction<Void>(project) {
+                @Override
+                protected void run(@NotNull Result<Void> result) throws Throwable {
+                    final PsiMethod lazyMethod = slotImplementationGenerator.generate(lazyPresenterProviderMethodModel, elemFactory);
+                    risModule.add(lazyMethod);
 
-        final PsiClass psiRiseModule = findRiseModule(psiPresenter.getName(), file.getParent());
+                    final GlobalSearchScope scope = GlobalSearchScope.moduleWithDependenciesAndLibrariesScope(ModuleUtil.findModuleForPsiElement(file));
 
-        ApplicationManager.getApplication().invokeAndWait(() -> new WriteCommandAction<Void>(project) {
+                    final PsiJavaFile psiJavaFile = (PsiJavaFile) risModule.getContainingFile();
 
-            @Override
-            protected void run(@NotNull Result<Void> result) throws Throwable {
-                final PsiJavaFile slotImplementation = (PsiJavaFile) slotImplementationGenerator.generate(slotImplementationModel, psiFileFactory);
+                    psiJavaFile.importClass(psiFasade.findClass("dagger.multibindings.IntoSet", scope));
+                    psiJavaFile.importClass(psiFasade.findClass("dagger.Lazy", scope));
+                    psiJavaFile.importClass(psiFasade.findClass(LazyPresenterProvider.class.getName(), scope));
+                    psiJavaFile.importClass(psiFasade.findClass(LazyPresenterProvider.class.getName(), scope));
+                    psiJavaFile.importClass(psiFasade.findClass(SlotRevealBus.class.getName(), scope));
+                }
+            }.execute() , ModalityState.NON_MODAL);
+        }
 
-                psiRiseModule.add(slotImplementation.getClasses()[0]);
-                psiRiseModule.add(slotImplementationGenerator.generate(slotImplementationModel, elemFactory));
-
-                CodeStyleManager.getInstance(project).reformat(psiRiseModule);
-                JavaCodeStyleManager.getInstance(project).optimizeImports(psiRiseModule.getContainingFile());
-            }
-        }.execute(), ModalityState.NON_MODAL);
     }
 
     @Override
     public boolean startInWriteAction() {
         return false;
-    }
-
-    private String getPackage(String fqn) {
-        return fqn.substring(0, fqn.lastIndexOf('.'));
     }
 
     private PsiClass findRiseModule(String psiPresenter, PsiDirectory psiDirectory) {

@@ -2,7 +2,8 @@ package org.vaadin.rise.core;
 
 
 import org.vaadin.rise.place.PlaceRequest;
-import org.vaadin.rise.slot.api.IsNested;
+import org.vaadin.rise.slot.SlotRevealBus;
+import org.vaadin.rise.slot.NestedSlot;
 import org.vaadin.rise.place.reveal.Supplier;
 
 /**
@@ -10,14 +11,17 @@ import org.vaadin.rise.place.reveal.Supplier;
  */
 public class RisePresenterImpl<VIEW extends RiseView> extends RisePresenterComponent<VIEW> {
 
-    private IsNested<?> slot;
+    private final SlotRevealBus slotRevealBus;
+    private final NestedSlot slot;
 
-    protected RisePresenterImpl(VIEW view) {
-        this(view, null);
+    public RisePresenterImpl(VIEW view) {
+        this(view, null, null);
     }
 
-    protected RisePresenterImpl(VIEW view, IsNested<?> nestedSlot) {
+
+    protected RisePresenterImpl(VIEW view, SlotRevealBus slotRevealBus, NestedSlot nestedSlot) {
         super(view);
+        this.slotRevealBus = slotRevealBus;
         this.slot = nestedSlot;
     }
 
@@ -25,7 +29,10 @@ public class RisePresenterImpl<VIEW extends RiseView> extends RisePresenterCompo
         if (isVisible()) {
             return;
         }
-        slot.setContent(this);
+
+        if (slotRevealBus != null && slot != null) {
+            slotRevealBus.fireReveal(slot, this);
+        }
     }
 
     public boolean useManualReveal() {

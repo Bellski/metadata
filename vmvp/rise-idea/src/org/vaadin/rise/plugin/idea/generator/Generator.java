@@ -1,6 +1,7 @@
 package org.vaadin.rise.plugin.idea.generator;
 
 import com.intellij.lang.java.JavaLanguage;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiFileFactory;
@@ -30,10 +31,14 @@ public abstract class Generator {
 		try(final Writer writer = new StringWriter()) {
 			template.process(psiClassModel, writer);
 
+			String stringTemplate = writer.toString();
+
+			stringTemplate = StringUtil.convertLineSeparators(stringTemplate, true);
+
 			return psiFileFactory.createFileFromText(
 					psiClassModel.getName().concat(".java"),
 					JavaLanguage.INSTANCE,
-					writer.toString()
+					stringTemplate
 			);
 		}
 	}

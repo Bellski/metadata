@@ -1,10 +1,9 @@
 <#-- @ftlvariable name="" type="org.vaadin.rise.plugin.idea.model.RisePresenterModel" -->
+package ${packageName};
 
 <#assign viewApi = "${apiName}.View">
 <#assign isRisePresenterImpl = isPresenterImpl()>
 <#assign hasSlot = slot??>
-
-package ${packageName};
 
 import org.vaadin.rise.core.annotation.Presenter;
 <#if isRisePresenterImpl>
@@ -19,13 +18,16 @@ import ${slot.psiClassModel.fqn};
 
 import javax.inject.Inject;
 
+<#assign presenter>
+    <#if isRisePresenterImpl>
+RisePresenterImpl<${viewApi}>
+    <#else>
+RisePresenterComponent<${viewApi}>
+    </#if>
+</#assign>
+
 @Presenter <#if nameToken??>(placeName = "${nameToken}")</#if>
-public class ${name} extends
-<#if isRisePresenterImpl>
-    RisePresenterImpl<${viewApi}>
-<#else>
-    RisePresenterComponent<${viewApi}>
-</#if> implements ${apiName}.Presenter {
+public class ${name} extends ${presenter} implements ${apiName}.Presenter {
 
 <#if hasSlot>
     @Inject

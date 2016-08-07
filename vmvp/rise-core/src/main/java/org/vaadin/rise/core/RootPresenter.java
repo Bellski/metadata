@@ -1,9 +1,7 @@
 package org.vaadin.rise.core;
 
 import com.vaadin.ui.Component;
-import dagger.Lazy;
 import org.vaadin.rise.core.annotation.Presenter;
-import org.vaadin.rise.slot.api.IsNested;
 import org.vaadin.rise.slot.NestedSlot;
 
 import javax.inject.Inject;
@@ -14,14 +12,7 @@ import javax.inject.Inject;
 @Presenter
 public class RootPresenter extends RisePresenterImpl<Root.View> implements Root.Presenter {
 
-	public interface RootSlot extends IsNested<RootPresenter> {}
-
-	public static class RiseRootSlot extends NestedSlot<RootPresenter> implements RootSlot {
-		@Inject
-		public RiseRootSlot(Lazy<RootPresenter> presenter) {
-			super(presenter);
-		}
-	}
+	public static final NestedSlot ROOT_SLOT = new NestedSlot();
 
 	@Inject
 	public RootPresenter(Root.View view) {
