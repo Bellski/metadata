@@ -2,21 +2,20 @@ package codegen.presenters;
 
 import dagger.Module;
 import dagger.Provides;
+import org.vaadin.rise.error.BaseErrorManager;
 import org.vaadin.rise.error.ErrorManager;
-import java.util.Map;
-import org.vaadin.rise.place.annotation.Places;
-import org.vaadin.rise.place.api.Place;
-import org.vaadin.rise.place.api.PlaceManager;
 import org.vaadin.rise.place.DefaultPlaceManager;
+import org.vaadin.rise.place.PageUriFragmentSource;
 import org.vaadin.rise.place.annotation.DefaultPlace;
 import org.vaadin.rise.place.annotation.ErrorPlace;
+import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.annotation.UnauthorizedPlace;
+import org.vaadin.rise.place.api.Place;
+import org.vaadin.rise.place.api.PlaceManager;
 import org.vaadin.rise.place.api.UriFragmentSource;
-import org.vaadin.rise.place.PageUriFragmentSource;
-
-import org.vaadin.rise.error.BaseErrorManager;
 
 import javax.inject.Singleton;
+import java.util.Map;
 
 
 @Module

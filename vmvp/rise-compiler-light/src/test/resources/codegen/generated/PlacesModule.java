@@ -10,9 +10,6 @@ import org.vaadin.rise.place.PresenterPlace;
 import org.vaadin.rise.place.annotation.Places;
 import org.vaadin.rise.place.api.Place;
 
-import codegen.presenters.HomePresenter;
-import codegen.presenters.UserPresenter;
-
 import javax.inject.Singleton;
 
 @Module
